@@ -1,0 +1,16 @@
+PODS:
+  - ShippedSuite (0.1.0)
+
+DEPENDENCIES:
+  - ShippedSuite (from `../`)
+
+EXTERNAL SOURCES:
+  ShippedSuite:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ShippedSuite: 2cf2ecb7431ae2c156164f3ff02894c484ed18cc
+
+PODFILE CHECKSUM: 868a8b380e83b7941448d09ab2f18bf3963be903
+
+COCOAPODS: 1.11.3

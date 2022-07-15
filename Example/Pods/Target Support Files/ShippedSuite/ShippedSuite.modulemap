@@ -1,0 +1,6 @@
+framework module ShippedSuite {
+  umbrella header "ShippedSuite-umbrella.h"
+
+  export *
+  module * { export * }
+}
