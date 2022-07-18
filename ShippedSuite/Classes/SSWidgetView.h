@@ -9,8 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT NSString *const SSWidgetViewIsShieldEnabledKey;
+FOUNDATION_EXPORT NSString *const SSWidgetViewIsEnabledKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewShieldFeeKey;
+FOUNDATION_EXPORT NSString *const SSWidgetViewGreenFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
 
 /**

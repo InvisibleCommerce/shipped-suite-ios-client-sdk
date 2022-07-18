@@ -12,7 +12,7 @@
 
 - (NSString *)path
 {
-    return @"/v1/shield_offers";
+    return @"/v1/offers";
 }
 
 - (SSHTTPMethod)method

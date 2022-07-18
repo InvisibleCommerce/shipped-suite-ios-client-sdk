@@ -39,12 +39,17 @@
 
 - (void)widgetView:(SSWidgetView *)widgetView onChange:(NSDictionary *)values
 {
-    BOOL isShieldEnabled = [values[SSWidgetViewIsShieldEnabledKey] boolValue];
-    NSLog(@"Shield Fee: %@", isShieldEnabled ? @"YES" : @"NO");
+    BOOL isEnabled = [values[SSWidgetViewIsEnabledKey] boolValue];
+    NSLog(@"Widget state: %@", isEnabled ? @"YES" : @"NO");
     
-    NSDecimalNumber *fee = values[SSWidgetViewShieldFeeKey];
-    if (fee) {
-        NSLog(@"Shield Fee: %@", fee.stringValue);
+    NSDecimalNumber *shieldFee = values[SSWidgetViewShieldFeeKey];
+    if (shieldFee) {
+        NSLog(@"Shield Fee: %@", shieldFee.stringValue);
+    }
+    
+    NSDecimalNumber *greenFee = values[SSWidgetViewGreenFeeKey];
+    if (greenFee) {
+        NSLog(@"Green Fee: %@", greenFee.stringValue);
     }
     
     NSError *error = values[SSWidgetViewErrorKey];
@@ -99,6 +104,7 @@
         }
         
         NSLog(@"Get shield fee: %@", offer.shieldFee.stringValue);
+        NSLog(@"Get green fee: %@", offer.greenFee.stringValue);
     }];
 }
 

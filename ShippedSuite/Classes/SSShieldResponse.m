@@ -18,6 +18,8 @@
     shieldOffer.orderValue = [NSDecimalNumber decimalNumberWithDecimal:orderValue.decimalValue];
     NSNumber *shieldFee = json[@"shield_fee"];
     shieldOffer.shieldFee = [NSDecimalNumber decimalNumberWithDecimal:shieldFee.decimalValue];
+    NSNumber *greenFee = json[@"green_fee"];
+    shieldOffer.greenFee = [NSDecimalNumber decimalNumberWithDecimal:greenFee.decimalValue];
     NSString *offeredAt = json[@"offered_at"];
     shieldOffer.offeredAt = [NSDate dateFromString:offeredAt];
     return shieldOffer;

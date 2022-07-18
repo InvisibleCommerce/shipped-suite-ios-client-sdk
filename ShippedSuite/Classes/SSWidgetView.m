@@ -11,8 +11,9 @@
 #import "SSLearnMoreViewController.h"
 
 // Callback Keys
-NSString * const SSWidgetViewIsShieldEnabledKey = @"isShieldEnabled";
+NSString * const SSWidgetViewIsEnabledKey = @"isEnabled";
 NSString * const SSWidgetViewShieldFeeKey = @"shieldFee";
+NSString * const SSWidgetViewGreenFeeKey = @"greenFee";
 NSString * const SSWidgetViewErrorKey = @"error";
 
 // UserDefaults Keys
@@ -27,6 +28,7 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
 @property (nonatomic, strong) UILabel *feeLabel;
 @property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong, nullable) NSDecimalNumber *shieldFee;
+@property (nonatomic, strong, nullable) NSDecimalNumber *greenFee;
 
 @end
 
@@ -68,7 +70,13 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
     [self addSubview:_containerView];
     
     _titleLabel = [UILabel new];
-    _titleLabel.text = NSLocalizedString(@"Shipped Shield", nil);
+    if ([ShippedSuite isShieldEnabled] && [ShippedSuite isGreenEnabled]) {
+        _titleLabel.text = NSLocalizedString(@"Shipped Green + Shield", nil);
+    } else if ([ShippedSuite isShieldEnabled]) {
+        _titleLabel.text = NSLocalizedString(@"Shipped Shield", nil);
+    } else if ([ShippedSuite isGreenEnabled]) {
+        _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
+    }
     _titleLabel.textColor = [UIColor colorWithHex:0x1A1A1A];
     _titleLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightSemibold];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -92,7 +100,13 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
     [_containerView addSubview:_feeLabel];
     
     _descLabel = [UILabel new];
-    _descLabel.text = NSLocalizedString(@"Package Assurance for unexpected issues", nil);
+    if ([ShippedSuite isShieldEnabled] && [ShippedSuite isGreenEnabled]) {
+        _descLabel.text = NSLocalizedString(@"Carbon Offset + Package Assurance", nil);
+    } else if ([ShippedSuite isShieldEnabled]) {
+        _descLabel.text = NSLocalizedString(@"Package Assurance for unexpected issues", nil);
+    } else if ([ShippedSuite isGreenEnabled]) {
+        _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment", nil);
+    }
     _descLabel.textColor = [UIColor colorWithHex:0x4D4D4D];
     _descLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
     _descLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -141,8 +155,16 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
             return;
         }
         
-        strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offer.shieldFee.stringValue];
+        if ([ShippedSuite isShieldEnabled] && [ShippedSuite isGreenEnabled]) {
+            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", [offer.shieldFee decimalNumberByAdding:offer.greenFee].stringValue];
+        } else if ([ShippedSuite isShieldEnabled]) {
+            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offer.shieldFee.stringValue];
+        } else if ([ShippedSuite isGreenEnabled]) {
+            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offer.greenFee.stringValue];
+        }
+        
         strongSelf.shieldFee = offer.shieldFee;
+        strongSelf.greenFee = offer.greenFee;
         [strongSelf triggerShieldChangeWithError:nil];
     }];
 }
@@ -150,10 +172,14 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
 - (void)triggerShieldChangeWithError:(nullable NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
-        NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_shieldSwitch.isOn) forKey:SSWidgetViewIsShieldEnabledKey];
-        if (_shieldFee) {
+        NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_shieldSwitch.isOn) forKey:SSWidgetViewIsEnabledKey];
+        if ([ShippedSuite isShieldEnabled] && _shieldFee) {
             values[SSWidgetViewShieldFeeKey] = _shieldFee;
-        } else if (error) {
+        }
+        if ([ShippedSuite isGreenEnabled] && _greenFee) {
+            values[SSWidgetViewGreenFeeKey] = _greenFee;
+        }
+        if (error) {
             values[SSWidgetViewErrorKey] = error;
         }
         [self.delegate widgetView:self onChange:values];
