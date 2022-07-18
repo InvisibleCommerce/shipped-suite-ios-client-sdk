@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<coverage version="1">
+  <file path="Example/ShippedSuite/SSAppDelegate.m">
+    <lineToCover lineNumber="15" covered="true"/>
+    <lineToCover lineNumber="17" covered="true"/>
+    <lineToCover lineNumber="20" covered="true"/>
+    <lineToCover lineNumber="23" covered="true"/>
+    <lineToCover lineNumber="26" covered="true"/>
+    <lineToCover lineNumber="28" covered="true"/>
+    <lineToCover lineNumber="29" covered="true"/>
+  </file>
+  <file path="Example/ShippedSuite/SSViewController.m">
+    <lineToCover lineNumber="22" covered="true"/>
+    <lineToCover lineNumber="23" covered="true"/>
+    <lineToCover lineNumber="24" covered="true"/>
+    <lineToCover lineNumber="25" covered="true"/>
+    <lineToCover lineNumber="28" covered="true"/>
+    <lineToCover lineNumber="29" covered="true"/>
+    <lineToCover lineNumber="30" covered="true"/>
+    <lineToCover lineNumber="31" covered="true"/>
+    <lineToCover lineNumber="34" covered="false"/>
+    <lineToCover lineNumber="35" covered="false"/>
+    <lineToCover lineNumber="36" covered="false"/>
+    <lineToCover lineNumber="41" covered="true"/>
+    <lineToCover lineNumber="42" covered="true"/>
+    <lineToCover lineNumber="43" covered="true"/>
+    <lineToCover lineNumber="45" covered="true"/>
+    <lineToCover lineNumber="46" covered="true"/>
+    <lineToCover lineNumber="47" covered="true"/>
+    <lineToCover lineNumber="48" covered="true"/>
+    <lineToCover lineNumber="50" covered="true"/>
+    <lineToCover lineNumber="51" covered="true"/>
+    <lineToCover lineNumber="52" covered="true"/>
+    <lineToCover lineNumber="53" covered="true"/>
+    <lineToCover lineNumber="55" covered="true"/>
+    <lineToCover lineNumber="56" covered="true"/>
+    <lineToCover lineNumber="57" covered="false"/>
+    <lineToCover lineNumber="58" covered="false"/>
+    <lineToCover lineNumber="59" covered="true"/>
+    <lineToCover lineNumber="64" covered="false"/>
+    <lineToCover lineNumber="65" covered="false"/>
+    <lineToCover lineNumber="66" covered="false"/>
+    <lineToCover lineNumber="67" covered="false"/>
+    <lineToCover lineNumber="68" covered="false"/>
+    <lineToCover lineNumber="69" covered="false"/>
+    <lineToCover lineNumber="70" covered="false"/>
+    <lineToCover lineNumber="71" covered="false"/>
+    <lineToCover lineNumber="72" covered="false"/>
+    <lineToCover lineNumber="74" covered="false"/>
+    <lineToCover lineNumber="75" covered="false"/>
+    <lineToCover lineNumber="76" covered="false"/>
+    <lineToCover lineNumber="77" covered="false"/>
+    <lineToCover lineNumber="78" covered="false"/>
+    <lineToCover lineNumber="79" covered="false"/>
+    <lineToCover lineNumber="80" covered="false"/>
+    <lineToCover lineNumber="81" covered="false"/>
+    <lineToCover lineNumber="82" covered="false"/>
+    <lineToCover lineNumber="87" covered="true"/>
+    <lineToCover lineNumber="88" covered="true"/>
+    <lineToCover lineNumber="89" covered="true"/>
+    <lineToCover lineNumber="90" covered="true"/>
+    <lineToCover lineNumber="91" covered="false"/>
+    <lineToCover lineNumber="92" covered="false"/>
+    <lineToCover lineNumber="93" covered="false"/>
+    <lineToCover lineNumber="95" covered="true"/>
+    <lineToCover lineNumber="96" covered="true"/>
+    <lineToCover lineNumber="99" covered="true"/>
+    <lineToCover lineNumber="100" covered="true"/>
+    <lineToCover lineNumber="101" covered="false"/>
+    <lineToCover lineNumber="102" covered="false"/>
+    <lineToCover lineNumber="103" covered="false"/>
+    <lineToCover lineNumber="104" covered="false"/>
+    <lineToCover lineNumber="106" covered="false"/>
+    <lineToCover lineNumber="107" covered="false"/>
+    <lineToCover lineNumber="108" covered="false"/>
+    <lineToCover lineNumber="109" covered="true"/>
+  </file>
+  <file path="Example/ShippedSuite/main.m">
+    <lineToCover lineNumber="13" covered="true"/>
+    <lineToCover lineNumber="14" covered="true"/>
+    <lineToCover lineNumber="15" covered="true"/>
+    <lineToCover lineNumber="16" covered="true"/>
+    <lineToCover lineNumber="17" covered="true"/>
+  </file>
+</coverage>
