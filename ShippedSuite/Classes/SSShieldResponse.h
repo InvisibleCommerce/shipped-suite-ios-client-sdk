@@ -30,6 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSDecimalNumber *shieldFee;
 
 /**
+ Green fee.
+ */
+@property (nonatomic, copy) NSDecimalNumber *greenFee;
+
+/**
  The date offered at.
  */
 @property (nonatomic, copy) NSDate *offeredAt;
