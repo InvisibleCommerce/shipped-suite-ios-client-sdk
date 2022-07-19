@@ -1,5 +1,5 @@
 //
-//  SSShieldRequest.h
+//  SSOffersRequest.h
 //  ShippedSuite
 //
 //  Created by Victor Zhu on 2022/4/11.
@@ -10,9 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- `SSShieldRequest` includes the request of getting shield fee.
+ `SSOffersRequest` includes the request of getting shield and green fee.
  */
-@interface SSShieldRequest : SSRequest
+@interface SSOffersRequest : SSRequest
 
 /**
  An order value.

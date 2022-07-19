@@ -57,10 +57,10 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"track test"];
     NSDecimalNumber *orderValue = [NSDecimalNumber decimalNumberWithString:@"129.99"];
-    [ShippedSuite getShieldFee:orderValue completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
+    [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         XCTAssertNil(error);
-        XCTAssertEqualObjects(offer.orderValue, orderValue);
-        XCTAssertEqualObjects(offer.shieldFee.stringValue, @"2.27");
+        XCTAssertEqualObjects(offers.orderValue, orderValue);
+        XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
@@ -98,7 +98,7 @@
     [ShippedSuite setMode:ShippedSuiteProductionMode];
     XCTestExpectation *expectation = [self expectationWithDescription:@"track test"];
     NSDecimalNumber *orderValue = [NSDecimalNumber decimalNumberWithString:@"129.99"];
-    [ShippedSuite getShieldFee:orderValue completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
+    [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         XCTAssertNotNil(error);
         [expectation fulfill];
     }];

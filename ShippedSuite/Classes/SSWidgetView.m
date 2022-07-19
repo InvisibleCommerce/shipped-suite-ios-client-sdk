@@ -146,7 +146,7 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
 - (void)updateOrderValue:(NSDecimalNumber *)orderValue
 {
     __weak __typeof(self)weakSelf = self;
-    [ShippedSuite getShieldFee:orderValue completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
+    [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error) {
             strongSelf.feeLabel.text = NSLocalizedString(@"N/A", nil);
@@ -156,15 +156,15 @@ NSString * const SSUserDefaultsIsShieldEnabledKey = @"SSUserDefaultsIsShieldEnab
         }
         
         if ([ShippedSuite isShieldEnabled] && [ShippedSuite isGreenEnabled]) {
-            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", [offer.shieldFee decimalNumberByAdding:offer.greenFee].stringValue];
+            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
         } else if ([ShippedSuite isShieldEnabled]) {
-            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offer.shieldFee.stringValue];
+            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.shieldFee.stringValue];
         } else if ([ShippedSuite isGreenEnabled]) {
-            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offer.greenFee.stringValue];
+            strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
         }
         
-        strongSelf.shieldFee = offer.shieldFee;
-        strongSelf.greenFee = offer.greenFee;
+        strongSelf.shieldFee = offers.shieldFee;
+        strongSelf.greenFee = offers.greenFee;
         [strongSelf triggerShieldChangeWithError:nil];
     }];
 }

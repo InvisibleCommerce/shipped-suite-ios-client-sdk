@@ -95,16 +95,17 @@
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-- (IBAction)sendShieldFeeRequest:(id)sender
+- (IBAction)sendOffersFeeRequest:(id)sender
 {
-    [ShippedSuite getShieldFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
+    NSLog(@"Request offers fee");
+    [ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Failed to get shield fee: %@", error.localizedDescription);
             return;
         }
         
-        NSLog(@"Get shield fee: %@", offer.shieldFee.stringValue);
-        NSLog(@"Get green fee: %@", offer.greenFee.stringValue);
+        NSLog(@"Get shield fee: %@", offers.shieldFee.stringValue);
+        NSLog(@"Get green fee: %@", offers.greenFee.stringValue);
     }];
 }
 

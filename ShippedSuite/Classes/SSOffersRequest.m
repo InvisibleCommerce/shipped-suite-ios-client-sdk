@@ -1,14 +1,14 @@
 //
-//  SSShieldRequest.m
+//  SSOffersRequest.m
 //  ShippedSuite
 //
 //  Created by Victor Zhu on 2022/4/11.
 //
 
-#import "SSShieldRequest.h"
-#import "SSShieldResponse.h"
+#import "SSOffersRequest.h"
+#import "SSOffersResponse.h"
 
-@implementation SSShieldRequest
+@implementation SSOffersRequest
 
 - (NSString *)path
 {
@@ -27,7 +27,7 @@
 
 - (Class)responseClass
 {
-    return SSShieldResponse.class;
+    return SSOffersResponse.class;
 }
 
 @end

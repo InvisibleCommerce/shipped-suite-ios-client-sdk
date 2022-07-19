@@ -9,8 +9,8 @@
 #define ShippedSuite_h
 
 #import "SSNetworking.h"
-#import "SSShieldRequest.h"
-#import "SSShieldResponse.h"
+#import "SSOffersRequest.h"
+#import "SSOffersResponse.h"
 #import "ShippedSuite+API.h"
 #import "SSWidgetView.h"
 #import "SSLearnMoreViewController.h"

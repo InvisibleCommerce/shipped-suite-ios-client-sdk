@@ -6,7 +6,7 @@
  [![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-green.svg?style=flat)](https://cocoapods.org)
  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-green.svg?style=flat)](https://github.com/Carthage/Carthage)
  [![SPM compatible](https://img.shields.io/badge/SPM-compatible-green.svg?style=flat)](https://www.swift.org/package-manager)
- [![codecov](https://codecov.io/gh/InvisibleCommerce/shipped-shield-ios-sdk/branch/main/graph/badge.svg?token=DUeMBvpJjO)](https://codecov.io/gh/InvisibleCommerce/shipped-shield-ios-sdk)
+ [![codecov](https://codecov.io/gh/InvisibleCommerce/shipped-suite-ios-client-sdk/branch/main/graph/badge.svg?token=DUeMBvpJjO)](https://codecov.io/gh/InvisibleCommerce/shipped-suite-ios-client-sdk)
 
 Shipped Shield offers premium package assurance for shipments that are lost, damaged or stolen. Instantly track and resolve shipment issues hassle-free with the app.
 
@@ -48,7 +48,7 @@ pod update ShippedSuite
 If you haven't already, install the latest version of [Carthage](https://github.com/Carthage/Carthage).
 To use it, you need create a `Cartfile` and add this line to your Cartfile:
 ```ogdl
-github "InvisibleCommerce/shipped-shield-ios-sdk"
+github "InvisibleCommerce/shipped-suite-ios-client-sdk"
 ```
 Run the following command
 ```ruby
@@ -74,13 +74,27 @@ Configure the SDK with your ShippedSuite publishable API key.
 [ShippedSuite configurePublicKey:@"Public key"];
 ```
 
+Enable shield
+
+```objective-c
+// Enable shield
+[ShippedSuite setIsShieldEnabled:YES];
+```
+
+Enable green
+
+```objective-c
+// Enable green
+[ShippedSuite setIsGreenEnabled:YES];
+```
+
 If you want to test on different endpoint, you can customize mode. The default is Development mode, so make sure to switch to Production mode for your production build. 
 
 ```objective-c
 [ShippedSuite setMode:ShippedSuiteProductionMode];
 ```
 
-### Create a Shield Widget view
+### Create a Shield and Green Widget view
 
 You can initialize it with a default value, then put it where you want, and it will request shipped fee automatically.
 
@@ -104,12 +118,17 @@ To get the callback from widget, you need implement the `SSWidgetViewDelegate` d
 
 - (void)widgetView:(SSWidgetView *)widgetView onChange:(NSDictionary *)values
 {
-    BOOL isShieldEnabled = [values[SSWidgetViewIsShieldEnabledKey] boolValue];
-    NSLog(@"Shield Fee: %@", isShieldEnabled ? @"YES" : @"NO");
+    BOOL isEnabled = [values[SSWidgetViewIsEnabledKey] boolValue];
+    NSLog(@"Widget state: %@", isEnabled ? @"YES" : @"NO");
     
-    NSDecimalNumber *fee = values[SSWidgetViewShieldFeeKey];
-    if (fee) {
-        NSLog(@"Shield Fee: %@", fee.stringValue);
+    NSDecimalNumber *shieldFee = values[SSWidgetViewShieldFeeKey];
+    if (shieldFee) {
+        NSLog(@"Shield Fee: %@", shieldFee.stringValue);
+    }
+    
+    NSDecimalNumber *greenFee = values[SSWidgetViewGreenFeeKey];
+    if (greenFee) {
+        NSLog(@"Green Fee: %@", greenFee.stringValue);
     }
     
     NSError *error = values[SSWidgetViewErrorKey];
@@ -120,8 +139,9 @@ To get the callback from widget, you need implement the `SSWidgetViewDelegate` d
 ```
 
 ```
-Shield Fee: NO
+Widget state: YES
 Shield Fee: 2.27
+Green Fee: 0.39
 ```
 
 Within the callback, implement any logic necessary to add or remove Shield from the cart, based on whether `isShieldEnabled` is true or false. 
@@ -133,13 +153,14 @@ If you plan to implement the widget yourself to fit the app style, you can still
 - Send the Shield Fee request
 
 ```objective-c
-[ShippedSuite getShieldFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
+[ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        NSLog(@"Failed to get shield fee: %@", error.localizedDescription);
         return;
     }
-
-    NSLog(@"Get shield fee: %@", offer.shieldFee.stringValue);
+        
+    NSLog(@"Get shield fee: %@", offers.shieldFee.stringValue);
+    NSLog(@"Get green fee: %@", offers.greenFee.stringValue);
 }];
 ```
 

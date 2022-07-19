@@ -12,14 +12,14 @@
 		1278C891830D1560AF4BBC131CD13564 /* SSWidgetView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4BA7D4D13153EDE3DA25F2B9CF9F0D /* SSWidgetView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4056022289809546C54D2367385FC5EC /* ShippedSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 23C58C83856C521895C8D34BEFC676AF /* ShippedSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4E84BD6D8C962EE491191C101EA4B982 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245E0514AAC1A2B9A6D5EA2F383E90F /* UIKit.framework */; };
-		534D1C7AD2F22951186B67245BEC845A /* SSShieldRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A2980E4D38E62DB30E9B57772D0A844F /* SSShieldRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		563455468C5F2D6253AE20E0126A0E52 /* SSShieldRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C701EEC823BED57BAEC69E7D2764EB47 /* SSShieldRequest.m */; };
+		534D1C7AD2F22951186B67245BEC845A /* SSOffersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A2980E4D38E62DB30E9B57772D0A844F /* SSOffersRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		563455468C5F2D6253AE20E0126A0E52 /* SSOffersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C701EEC823BED57BAEC69E7D2764EB47 /* SSOffersRequest.m */; };
 		57A056254A0230BFFDB56565C6D9FF2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */; };
 		5ED857D7E18DABC7519E1D1DD28B2B60 /* Pods-ShippedSuite_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F8B95A72BC54294CDA61F314E0B438 /* Pods-ShippedSuite_Tests-dummy.m */; };
 		5EE703D33880DC5D7517A9BD7151A00C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */; };
 		6752FE5D1EF6AC0BA4B3A129C7435C03 /* ShippedSuite-ShippedSuite_ShippedSuite in Resources */ = {isa = PBXBuildFile; fileRef = CF4AB64721A527AE23BCCCDBEC636477 /* ShippedSuite-ShippedSuite_ShippedSuite */; };
 		6AAEFD4BF9968CD509D157228627F481 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */; };
-		6AEEEE37D8F2F31264BC633567DF4909 /* SSShieldResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = A0F6BC76AD32DB78E9FA960690CFAF67 /* SSShieldResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6AEEEE37D8F2F31264BC633567DF4909 /* SSOffersResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = A0F6BC76AD32DB78E9FA960690CFAF67 /* SSOffersResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EFF472730610DEA8FA8BEDE9F1BB69D /* SSUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B66CA80CB728FBBA3F81868439250C72 /* SSUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F881286990DACC64C81EB5538C4E2F3 /* SSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B055DDAB6A7F859836F9A8351A6A10FC /* SSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC6BFBC027CBAAAC3B7DB81E0ADB638 /* ShippedSuite+API.h in Headers */ = {isa = PBXBuildFile; fileRef = 28CF127640A095AE10F2E2AA0676D6A2 /* ShippedSuite+API.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,7 +27,7 @@
 		8EBE417AA9BAB30239B7658749514B26 /* Pods-ShippedSuite_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 80E84C4F5901838605ECCC819A416213 /* Pods-ShippedSuite_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6820ECCB0510ED2C5CEE843904E6F41 /* SSLearnMoreViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = EBD57062F0FD2A385795DB1158A55E92 /* SSLearnMoreViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BBA37E3374F00353FBD1635C965A4E2B /* ShippedSuite+API.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1AD0FBFF14622D0898FAE64CCEB109 /* ShippedSuite+API.m */; };
-		C19AE163F8DD3A83805242ED3776A3E4 /* SSShieldResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B037B72769350751615DF71924B0EF /* SSShieldResponse.m */; };
+		C19AE163F8DD3A83805242ED3776A3E4 /* SSOffersResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B037B72769350751615DF71924B0EF /* SSOffersResponse.m */; };
 		C3CEDE7B9F9E892E3A4025BB8D95E816 /* SSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C03E67A8DAC24406180724E10C0CEA24 /* SSUtils.m */; };
 		CC7DF684E3117A98BC1D66442A389074 /* ShippedSuite-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB13323DE5C42614A63F8CF024073DA /* ShippedSuite-dummy.m */; };
 		CC99C1DEFD6632BD4FFCA19F52A56180 /* SSNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C2D71BF0988B59CB61FC1809BC4C6A /* SSNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,7 +66,7 @@
 		064AAFF713F2F2D928CD64B4BCF50FC1 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ShippedSuite/Assets/Assets.xcassets; sourceTree = "<group>"; };
 		1EEB8431E0384624AD61348C31D99249 /* Pods-ShippedSuite_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ShippedSuite_Example-Info.plist"; sourceTree = "<group>"; };
 		23C58C83856C521895C8D34BEFC676AF /* ShippedSuite.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ShippedSuite.h; path = ShippedSuite/Classes/ShippedSuite.h; sourceTree = "<group>"; };
-		26B037B72769350751615DF71924B0EF /* SSShieldResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSShieldResponse.m; path = ShippedSuite/Classes/SSShieldResponse.m; sourceTree = "<group>"; };
+		26B037B72769350751615DF71924B0EF /* SSOffersResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSOffersResponse.m; path = ShippedSuite/Classes/SSOffersResponse.m; sourceTree = "<group>"; };
 		28CF127640A095AE10F2E2AA0676D6A2 /* ShippedSuite+API.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ShippedSuite+API.h"; path = "ShippedSuite/Classes/ShippedSuite+API.h"; sourceTree = "<group>"; };
 		28E958A7E41EF0991FF6936E1A7D885E /* ResourceBundle-ShippedSuite_ShippedSuite-ShippedSuite-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-ShippedSuite_ShippedSuite-ShippedSuite-Info.plist"; sourceTree = "<group>"; };
 		2BD7952EFEEA49C88F757AD61E9417A9 /* SSWidgetView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSWidgetView.m; path = ShippedSuite/Classes/SSWidgetView.m; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 		9DCB4DFD5AA8CA4BCC4B33D8F53421CB /* ShippedSuite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ShippedSuite.release.xcconfig; sourceTree = "<group>"; };
 		9E1AD0FBFF14622D0898FAE64CCEB109 /* ShippedSuite+API.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ShippedSuite+API.m"; path = "ShippedSuite/Classes/ShippedSuite+API.m"; sourceTree = "<group>"; };
 		9E434F07D5A0F807F9AE28B09B6FAE85 /* ShippedSuite-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ShippedSuite-prefix.pch"; sourceTree = "<group>"; };
-		A0F6BC76AD32DB78E9FA960690CFAF67 /* SSShieldResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSShieldResponse.h; path = ShippedSuite/Classes/SSShieldResponse.h; sourceTree = "<group>"; };
-		A2980E4D38E62DB30E9B57772D0A844F /* SSShieldRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSShieldRequest.h; path = ShippedSuite/Classes/SSShieldRequest.h; sourceTree = "<group>"; };
+		A0F6BC76AD32DB78E9FA960690CFAF67 /* SSOffersResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSOffersResponse.h; path = ShippedSuite/Classes/SSOffersResponse.h; sourceTree = "<group>"; };
+		A2980E4D38E62DB30E9B57772D0A844F /* SSOffersRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSOffersRequest.h; path = ShippedSuite/Classes/SSOffersRequest.h; sourceTree = "<group>"; };
 		A9DE0AB2A5A17A18D13285E489458ED5 /* Pods-ShippedSuite_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ShippedSuite_Example.release.xcconfig"; sourceTree = "<group>"; };
 		AAD6C6F12D23D5564A1BB9DC9F9ECD2B /* Pods-ShippedSuite_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-ShippedSuite_Example.modulemap"; sourceTree = "<group>"; };
 		AC8800B600A059B6A0113EE489DAC104 /* Pods-ShippedSuite_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-ShippedSuite_Example"; path = Pods_ShippedSuite_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,7 +107,7 @@
 		BAE5C161A35E69EA1233E84B4686D816 /* Pods-ShippedSuite_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ShippedSuite_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		C03E67A8DAC24406180724E10C0CEA24 /* SSUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSUtils.m; path = ShippedSuite/Classes/SSUtils.m; sourceTree = "<group>"; };
 		C2E8877581F3ECD7CAB4C2E98322E9C2 /* Pods-ShippedSuite_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ShippedSuite_Example-umbrella.h"; sourceTree = "<group>"; };
-		C701EEC823BED57BAEC69E7D2764EB47 /* SSShieldRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSShieldRequest.m; path = ShippedSuite/Classes/SSShieldRequest.m; sourceTree = "<group>"; };
+		C701EEC823BED57BAEC69E7D2764EB47 /* SSOffersRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSOffersRequest.m; path = ShippedSuite/Classes/SSOffersRequest.m; sourceTree = "<group>"; };
 		CF4AB64721A527AE23BCCCDBEC636477 /* ShippedSuite-ShippedSuite_ShippedSuite */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "ShippedSuite-ShippedSuite_ShippedSuite"; path = ShippedSuite_ShippedSuite.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245E0514AAC1A2B9A6D5EA2F383E90F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		DDB13323DE5C42614A63F8CF024073DA /* ShippedSuite-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ShippedSuite-dummy.m"; sourceTree = "<group>"; };
@@ -235,10 +235,10 @@
 				5CE6F29EFB0F0D178D21C0E8DB3A03B8 /* SSLogger.m */,
 				87C2D71BF0988B59CB61FC1809BC4C6A /* SSNetworking.h */,
 				373CF5D642048ADA2D083142CF1D0A41 /* SSNetworking.m */,
-				A2980E4D38E62DB30E9B57772D0A844F /* SSShieldRequest.h */,
-				C701EEC823BED57BAEC69E7D2764EB47 /* SSShieldRequest.m */,
-				A0F6BC76AD32DB78E9FA960690CFAF67 /* SSShieldResponse.h */,
-				26B037B72769350751615DF71924B0EF /* SSShieldResponse.m */,
+				A2980E4D38E62DB30E9B57772D0A844F /* SSOffersRequest.h */,
+				C701EEC823BED57BAEC69E7D2764EB47 /* SSOffersRequest.m */,
+				A0F6BC76AD32DB78E9FA960690CFAF67 /* SSOffersResponse.h */,
+				26B037B72769350751615DF71924B0EF /* SSOffersResponse.m */,
 				B66CA80CB728FBBA3F81868439250C72 /* SSUtils.h */,
 				C03E67A8DAC24406180724E10C0CEA24 /* SSUtils.m */,
 				2E4BA7D4D13153EDE3DA25F2B9CF9F0D /* SSWidgetView.h */,
@@ -326,8 +326,8 @@
 				A6820ECCB0510ED2C5CEE843904E6F41 /* SSLearnMoreViewController.h in Headers */,
 				6F881286990DACC64C81EB5538C4E2F3 /* SSLogger.h in Headers */,
 				CC99C1DEFD6632BD4FFCA19F52A56180 /* SSNetworking.h in Headers */,
-				534D1C7AD2F22951186B67245BEC845A /* SSShieldRequest.h in Headers */,
-				6AEEEE37D8F2F31264BC633567DF4909 /* SSShieldResponse.h in Headers */,
+				534D1C7AD2F22951186B67245BEC845A /* SSOffersRequest.h in Headers */,
+				6AEEEE37D8F2F31264BC633567DF4909 /* SSOffersResponse.h in Headers */,
 				6EFF472730610DEA8FA8BEDE9F1BB69D /* SSUtils.h in Headers */,
 				1278C891830D1560AF4BBC131CD13564 /* SSWidgetView.h in Headers */,
 			);
@@ -498,8 +498,8 @@
 				8C7502DDBBC5A55008539184B5AFF87E /* SSLearnMoreViewController.m in Sources */,
 				CF913597EFC4951C26703F06B6C2EB91 /* SSLogger.m in Sources */,
 				FAF6A76E3466300472F49AA46F1A1DAD /* SSNetworking.m in Sources */,
-				563455468C5F2D6253AE20E0126A0E52 /* SSShieldRequest.m in Sources */,
-				C19AE163F8DD3A83805242ED3776A3E4 /* SSShieldResponse.m in Sources */,
+				563455468C5F2D6253AE20E0126A0E52 /* SSOffersRequest.m in Sources */,
+				C19AE163F8DD3A83805242ED3776A3E4 /* SSOffersResponse.m in Sources */,
 				C3CEDE7B9F9E892E3A4025BB8D95E816 /* SSUtils.m in Sources */,
 				D1047E1AC77120BFCB9B04FD125967DB /* SSWidgetView.m in Sources */,
 			);
