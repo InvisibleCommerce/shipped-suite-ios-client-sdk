@@ -48,30 +48,6 @@ typedef NS_ENUM(NSInteger, ShippedSuiteMode) {
 + (ShippedSuiteMode)mode;
 
 /**
- Enable shield or not.
- 
- @param isShieldEnabled isShieldEnabled required.
- */
-+ (void)setIsShieldEnabled:(BOOL)isShieldEnabled;
-
-/**
- Get whether shield is enabled. True as default.
- */
-+ (BOOL)isShieldEnabled;
-
-/**
- Enable green or not.
- 
- @param isGreenEnabled isGreenEnabled required.
- */
-+ (void)setIsGreenEnabled:(BOOL)isGreenEnabled;
-
-/**
- Get whether green is enabled. True as default.
- */
-+ (BOOL)isGreenEnabled;
-
-/**
  Configure public key.
  */
 + (void)configurePublicKey:(NSString *)publicKey;

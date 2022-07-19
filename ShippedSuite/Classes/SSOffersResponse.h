@@ -1,5 +1,5 @@
 //
-//  SSShieldResponse.h
+//  SSOffersResponse.h
 //  ShippedSuite
 //
 //  Created by Victor Zhu on 2022/4/11.
@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  `SSShieldOffer` includes the details of shield fee.
  */
-@interface SSShieldOffer : NSObject <SSJSONDecodable>
+@interface SSOffers : NSObject <SSJSONDecodable>
 
 /**
  Storefront id.
@@ -44,12 +44,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  `SSShieldResponse` includes the response of shield fee.
  */
-@interface SSShieldResponse : SSResponse
+@interface SSOffersResponse : SSResponse
 
 /**
- The shieldOffer object.
+ The offers object.
  */
-@property (nonatomic, readonly) SSShieldOffer *shieldOffer;
+@property (nonatomic, readonly) SSOffers *offers;
 
 @end
 

@@ -25,7 +25,7 @@
 }
 
 - (void)testExample {
-    XCUIElement *switchElement = self.app.switches[@"Shield switch"];
+    XCUIElement *switchElement = self.app.switches[@"Switch"];
     XCTAssertTrue(switchElement.exists);
     [switchElement tap];
     

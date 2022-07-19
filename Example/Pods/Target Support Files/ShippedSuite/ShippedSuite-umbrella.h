@@ -15,8 +15,8 @@
 #import "SSLearnMoreViewController.h"
 #import "SSLogger.h"
 #import "SSNetworking.h"
-#import "SSShieldRequest.h"
-#import "SSShieldResponse.h"
+#import "SSOffersRequest.h"
+#import "SSOffersResponse.h"
 #import "SSUtils.h"
 #import "SSWidgetView.h"
 

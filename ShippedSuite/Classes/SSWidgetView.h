@@ -14,6 +14,12 @@ FOUNDATION_EXPORT NSString *const SSWidgetViewShieldFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewGreenFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
 
+typedef enum : NSUInteger {
+    SSWidgetViewGreenOffers,
+    SSWidgetViewShieldOffers,
+    SSWidgetViewGreenAndShieldOffers
+} SSWidgetViewOffers;
+
 /**
  A delegate which handles the widget callback.
  */
@@ -31,10 +37,15 @@ FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
 @end
 
 /**
- A widget view which shows the shield fee.
+ A widget view which shows the fee.
  */
 IB_DESIGNABLE
 @interface SSWidgetView : UIView
+
+/**
+ Support green | shield offers. Default is SSWidgetViewGreenOffers.
+ */
+@property (nonatomic) SSWidgetViewOffers offers;
 
 /**
  A delegate which handles the widget callback.
@@ -42,7 +53,7 @@ IB_DESIGNABLE
 @property (weak, nonatomic) IBOutlet id <SSWidgetViewDelegate> delegate;
 
 /**
- This method is called to get the latest shield fee.
+ This method is called to get the latest fee.
  
  @param orderValue The order value.
  */
