@@ -18,8 +18,8 @@
     request.orderValue = orderValue;
     [[SSAPIClient sharedClient] send:request handler:^(SSResponse * _Nullable response, NSError * _Nullable error) {
         if (!error && response && [response isKindOfClass:[SSOffersResponse class]]) {
-            SSOffersResponse *shieldResponse = (SSOffersResponse *)response;
-            completion(shieldResponse.offers, error);
+            SSOffersResponse *offersResponse = (SSOffersResponse *)response;
+            completion(offersResponse.offers, error);
         } else {
             completion(nil, error);
         }

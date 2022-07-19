@@ -37,7 +37,7 @@ typedef enum : NSUInteger {
 @end
 
 /**
- A widget view which shows the shield fee.
+ A widget view which shows the fee.
  */
 IB_DESIGNABLE
 @interface SSWidgetView : UIView
@@ -53,7 +53,7 @@ IB_DESIGNABLE
 @property (weak, nonatomic) IBOutlet id <SSWidgetViewDelegate> delegate;
 
 /**
- This method is called to get the latest shield fee.
+ This method is called to get the latest fee.
  
  @param orderValue The order value.
  */

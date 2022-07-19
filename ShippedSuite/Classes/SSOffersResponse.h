@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SSOffersResponse : SSResponse
 
 /**
- The shieldOffer object.
+ The offers object.
  */
 @property (nonatomic, readonly) SSOffers *offers;
 

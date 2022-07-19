@@ -17,7 +17,7 @@ typedef void (^ShippedSuiteFeeHandler)(SSOffers * _Nullable offers, NSError * _N
  Get shield and green fee.
  
  @param orderValue An order value.
- @param completion A handler which includes shield fee.
+ @param completion A handler which includes shield and green fee.
  */
 + (void)getOffersFee:(NSDecimalNumber *)orderValue completion:(ShippedSuiteFeeHandler)completion;
 

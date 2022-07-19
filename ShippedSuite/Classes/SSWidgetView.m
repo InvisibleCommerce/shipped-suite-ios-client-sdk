@@ -21,7 +21,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 
 @interface SSWidgetView ()
 
-@property (nonatomic, strong) UISwitch *shieldSwitch;
+@property (nonatomic, strong) UISwitch *switchButton;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *learnMoreButton;
@@ -55,15 +55,15 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 
 - (void)loadViews
 {
-    _shieldSwitch = [UISwitch new];
-    _shieldSwitch.accessibilityLabel = NSLocalizedString(@"Shield switch", nil);
-    _shieldSwitch.on = YES;
+    _switchButton = [UISwitch new];
+    _switchButton.accessibilityLabel = NSLocalizedString(@"Switch", nil);
+    _switchButton.on = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:SSUserDefaultsIsWidgetEnabledKey]) {
-        _shieldSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:SSUserDefaultsIsWidgetEnabledKey];
+        _switchButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:SSUserDefaultsIsWidgetEnabledKey];
     }
-    [_shieldSwitch addTarget:self action:@selector(shieldStateChanged:) forControlEvents:UIControlEventValueChanged];
-    _shieldSwitch.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_shieldSwitch];
+    [_switchButton addTarget:self action:@selector(widgetStateChanged:) forControlEvents:UIControlEventValueChanged];
+    _switchButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_switchButton];
     
     _containerView = [UIView new];
     _containerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -101,7 +101,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 
 - (void)loadLayoutConstraints
 {
-    NSDictionary *views = @{@"shieldSwitch": _shieldSwitch,
+    NSDictionary *views = @{@"switchButton": _switchButton,
                             @"containerView": _containerView,
                             @"titleLabel": _titleLabel,
                             @"learnMoreButton": _learnMoreButton,
@@ -112,8 +112,8 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
                               @"hSpace": @8,
                               @"vSpace": @2};
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[shieldSwitch(51)]-margin-[containerView]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:metrics views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[shieldSwitch]|" options:0 metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[switchButton(51)]-margin-[containerView]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[switchButton]|" options:0 metrics:metrics views:views]];
     
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]-hSpace-[learnMoreButton]->=hSpace-[feeLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views]];
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
@@ -143,11 +143,11 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
     }
 }
 
-- (void)shieldStateChanged:(id)sender
+- (void)widgetStateChanged:(id)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:_shieldSwitch.isOn forKey:SSUserDefaultsIsWidgetEnabledKey];
+    [[NSUserDefaults standardUserDefaults] setBool:_switchButton.isOn forKey:SSUserDefaultsIsWidgetEnabledKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [self triggerShieldChangeWithError:nil];
+    [self triggerWidgetChangeWithError:nil];
 }
 
 - (void)updateOrderValue:(NSDecimalNumber *)orderValue
@@ -158,7 +158,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
         if (error) {
             strongSelf.feeLabel.text = NSLocalizedString(@"N/A", nil);
             strongSelf.shieldFee = nil;
-            [strongSelf triggerShieldChangeWithError:error];
+            [strongSelf triggerWidgetChangeWithError:error];
             return;
         }
         
@@ -178,14 +178,14 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
         
         strongSelf.shieldFee = offers.shieldFee;
         strongSelf.greenFee = offers.greenFee;
-        [strongSelf triggerShieldChangeWithError:nil];
+        [strongSelf triggerWidgetChangeWithError:nil];
     }];
 }
 
-- (void)triggerShieldChangeWithError:(nullable NSError *)error
+- (void)triggerWidgetChangeWithError:(nullable NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
-        NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_shieldSwitch.isOn) forKey:SSWidgetViewIsEnabledKey];
+        NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsEnabledKey];
         if ((self.offers == SSWidgetViewShieldOffers || self.offers == SSWidgetViewGreenAndShieldOffers) && _shieldFee) {
             values[SSWidgetViewShieldFeeKey] = _shieldFee;
         }

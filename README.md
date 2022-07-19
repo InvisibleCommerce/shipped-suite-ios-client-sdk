@@ -131,21 +131,21 @@ Shield Fee: 2.27
 Green Fee: 0.39
 ```
 
-Within the callback, implement any logic necessary to add or remove Shield from the cart, based on whether `SSWidgetViewIsEnabledKey` is true or false. 
+Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `SSWidgetViewIsEnabledKey` is true or false. 
 
 ### Customization
 
 If you plan to implement the widget yourself to fit the app style, you can still use the functionality provided by the SDK.
 
-- Send the Shield Fee request
+- Request the Offers Fee
 
 ```objective-c
-[ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSShieldOffer * _Nullable offer, NSError * _Nullable error) {
+[ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
     if (error) {
-        NSLog(@"Failed to get shield fee: %@", error.localizedDescription);
+        NSLog(@"Failed to get offers fee: %@", error.localizedDescription);
         return;
     }
-        
+
     NSLog(@"Get shield fee: %@", offers.shieldFee.stringValue);
     NSLog(@"Get green fee: %@", offers.greenFee.stringValue);
 }];

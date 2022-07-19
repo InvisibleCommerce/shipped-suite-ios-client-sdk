@@ -73,7 +73,7 @@
                                                                                     raiseOnDivideByZero:NO];
         
         NSDecimalNumber *roundedNumber = [decimalNumber decimalNumberByRoundingAccordingToBehavior:behavior];
-        NSLog(@"Request shield fee for order value %@", roundedNumber.stringValue);
+        NSLog(@"Request offers fee for order value %@", roundedNumber.stringValue);
         textField.text = [NSString stringWithFormat:@"%.2f", roundedNumber.doubleValue];
         [_widgetView updateOrderValue:roundedNumber];
     } else {
@@ -101,7 +101,7 @@
     NSLog(@"Request offers fee");
     [ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Failed to get shield fee: %@", error.localizedDescription);
+            NSLog(@"Failed to get offers fee: %@", error.localizedDescription);
             return;
         }
         

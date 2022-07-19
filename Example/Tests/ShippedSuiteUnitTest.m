@@ -53,7 +53,7 @@
     XCTAssertNil([SSResponse parseError:data code:-1]);
 }
 
-- (void)testShieldFee
+- (void)testOffersFee
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"track test"];
     NSDecimalNumber *orderValue = [NSDecimalNumber decimalNumberWithString:@"129.99"];
@@ -61,6 +61,7 @@
         XCTAssertNil(error);
         XCTAssertEqualObjects(offers.orderValue, orderValue);
         XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
+        XCTAssertEqualObjects(offers.greenFee.stringValue, @"0.39");
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
