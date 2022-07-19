@@ -74,32 +74,19 @@ Configure the SDK with your ShippedSuite publishable API key.
 [ShippedSuite configurePublicKey:@"Public key"];
 ```
 
-Enable shield
-
-```objective-c
-// Enable shield
-[ShippedSuite setIsShieldEnabled:YES];
-```
-
-Enable green
-
-```objective-c
-// Enable green
-[ShippedSuite setIsGreenEnabled:YES];
-```
-
 If you want to test on different endpoint, you can customize mode. The default is Development mode, so make sure to switch to Production mode for your production build. 
 
 ```objective-c
 [ShippedSuite setMode:ShippedSuiteProductionMode];
 ```
 
-### Create a Shield and Green Widget view
+### Create a Widget view with offers
 
 You can initialize it with a default value, then put it where you want, and it will request shipped fee automatically.
 
 ```objective-c
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+widgetView.offers = SSWidgetViewGreenAndShieldOffers;
 widgetView.delegate = self;
 ```
 
@@ -144,7 +131,7 @@ Shield Fee: 2.27
 Green Fee: 0.39
 ```
 
-Within the callback, implement any logic necessary to add or remove Shield from the cart, based on whether `isShieldEnabled` is true or false. 
+Within the callback, implement any logic necessary to add or remove Shield from the cart, based on whether `SSWidgetViewIsEnabledKey` is true or false. 
 
 ### Customization
 

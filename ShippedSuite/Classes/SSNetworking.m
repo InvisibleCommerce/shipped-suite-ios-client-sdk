@@ -27,8 +27,6 @@ NSString *const SSSDKErrorDomain = @"com.invisiblecommerce.ShippedSuite.error";
 static NSURL *_defaultBaseURL;
 
 static ShippedSuiteMode _mode = ShippedSuiteDevelopmentMode;
-static BOOL _isShieldEnabled = YES;
-static BOOL _isGreenEnabled = YES;
 
 static NSString *_publicKey = nil;
 
@@ -59,26 +57,6 @@ static NSString *_publicKey = nil;
 + (ShippedSuiteMode)mode
 {
     return _mode;
-}
-
-+ (void)setIsShieldEnabled:(BOOL)isShieldEnabled
-{
-    _isShieldEnabled = isShieldEnabled;
-}
-
-+ (BOOL)isShieldEnabled
-{
-    return _isShieldEnabled;
-}
-
-+ (void)setIsGreenEnabled:(BOOL)isGreenEnabled
-{
-    _isGreenEnabled = isGreenEnabled;
-}
-
-+ (BOOL)isGreenEnabled
-{
-    return _isGreenEnabled;
 }
 
 + (void)configurePublicKey:(NSString *)publicKey

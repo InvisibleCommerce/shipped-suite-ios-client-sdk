@@ -21,6 +21,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _widgetView.offers = SSWidgetViewGreenAndShieldOffers;
     _widgetView.delegate = self;
 }
 

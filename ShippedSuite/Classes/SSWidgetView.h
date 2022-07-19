@@ -14,6 +14,12 @@ FOUNDATION_EXPORT NSString *const SSWidgetViewShieldFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewGreenFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
 
+typedef enum : NSUInteger {
+    SSWidgetViewGreenOffers,
+    SSWidgetViewShieldOffers,
+    SSWidgetViewGreenAndShieldOffers
+} SSWidgetViewOffers;
+
 /**
  A delegate which handles the widget callback.
  */
@@ -35,6 +41,11 @@ FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
  */
 IB_DESIGNABLE
 @interface SSWidgetView : UIView
+
+/**
+ Support green | shield offers. Default is SSWidgetViewGreenOffers.
+ */
+@property (nonatomic) SSWidgetViewOffers offers;
 
 /**
  A delegate which handles the widget callback.
