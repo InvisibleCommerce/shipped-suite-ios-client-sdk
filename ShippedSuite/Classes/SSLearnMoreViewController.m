@@ -177,7 +177,7 @@
     [actionView addSubview:containerView];
     
     UILabel *descLabel = [UILabel new];
-    descLabel.text = NSLocalizedString(@"Shipped offers shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.", nil);
+    descLabel.text = NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.", nil);
     descLabel.textColor = [UIColor colorWithHex:0x993c3c43];
     descLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightRegular];
     descLabel.textAlignment = NSTextAlignmentCenter;
