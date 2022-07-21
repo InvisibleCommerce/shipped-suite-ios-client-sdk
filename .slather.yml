@@ -1,0 +1,11 @@
+# .slather.yml
+
+coverage_service: cobertura_xml
+workspace: ./Example/ShippedSuite.xcworkspace
+xcodeproj: ./Example/ShippedSuite.xcodeproj
+scheme: ShippedSuite-Example
+source_directory: ShippedSuite/Classes
+binary_basename: ShippedSuite
+ignore:
+  - Carthage/*
+  - Example/*

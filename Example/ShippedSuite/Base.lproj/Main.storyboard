@@ -34,11 +34,11 @@
                                     <outlet property="delegate" destination="whP-gf-Uak" id="8IE-pr-9Fh"/>
                                 </connections>
                             </textField>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fs7-Db-GWE" customClass="SSWidgetView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fs7-Db-GWE" customClass="SSWidgetView">
                                 <rect key="frame" x="16" y="77" width="343" height="31"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dal-4u-06L">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dal-4u-06L">
                                 <rect key="frame" x="16" y="124" width="343" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="HFI-Rm-7Qr"/>
@@ -55,13 +55,13 @@
                                     <action selector="displayLearnMoreModal:" destination="whP-gf-Uak" eventType="touchUpInside" id="LwT-i2-TvY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ora-a9-H8Q">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ora-a9-H8Q">
                                 <rect key="frame" x="16" y="190" width="343" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Dft-9d-GXX"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Send Shield Fee Request">
+                                <buttonConfiguration key="configuration" style="plain" title="Send Offers Fee Request">
                                     <backgroundConfiguration key="background" cornerRadius="10">
                                         <color key="backgroundColor" red="1" green="0.78823529410000004" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </backgroundConfiguration>
