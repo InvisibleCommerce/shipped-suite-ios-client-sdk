@@ -47,7 +47,7 @@
     XCTAssertTrue(doneElement.exists);
     [doneElement tap];
     
-    XCUIElement *sendRequestElement = self.app.buttons[@"Send Shield Fee Request"];
+    XCUIElement *sendRequestElement = self.app.buttons[@"Send Offers Fee Request"];
     XCTAssertTrue(sendRequestElement.exists);
     [sendRequestElement tap];
 }

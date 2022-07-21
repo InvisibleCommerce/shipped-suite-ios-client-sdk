@@ -105,17 +105,17 @@ To get the callback from widget, you need implement the `SSWidgetViewDelegate` d
 
 - (void)widgetView:(SSWidgetView *)widgetView onChange:(NSDictionary *)values
 {
-    BOOL isEnabled = [values[SSWidgetViewIsEnabledKey] boolValue];
-    NSLog(@"Widget state: %@", isEnabled ? @"YES" : @"NO");
+    BOOL isSelected = [values[SSWidgetViewIsSelectedKey] boolValue];
+    NSLog(@"Widget state: %@", isSelected ? @"YES" : @"NO");
     
     NSDecimalNumber *shieldFee = values[SSWidgetViewShieldFeeKey];
     if (shieldFee) {
-        NSLog(@"Shield Fee: %@", shieldFee.stringValue);
+        NSLog(@"Shield fee: %@", shieldFee.stringValue);
     }
     
     NSDecimalNumber *greenFee = values[SSWidgetViewGreenFeeKey];
     if (greenFee) {
-        NSLog(@"Green Fee: %@", greenFee.stringValue);
+        NSLog(@"Green fee: %@", greenFee.stringValue);
     }
     
     NSError *error = values[SSWidgetViewErrorKey];
@@ -127,11 +127,11 @@ To get the callback from widget, you need implement the `SSWidgetViewDelegate` d
 
 ```
 Widget state: YES
-Shield Fee: 2.27
-Green Fee: 0.39
+Shield fee: 2.27
+Green fee: 0.39
 ```
 
-Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `SSWidgetViewIsEnabledKey` is true or false. 
+Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `SSWidgetViewIsSelectedKey` is true or false. 
 
 ### Customization
 

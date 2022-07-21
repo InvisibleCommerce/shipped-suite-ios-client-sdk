@@ -40,17 +40,17 @@
 
 - (void)widgetView:(SSWidgetView *)widgetView onChange:(NSDictionary *)values
 {
-    BOOL isEnabled = [values[SSWidgetViewIsEnabledKey] boolValue];
-    NSLog(@"Widget state: %@", isEnabled ? @"YES" : @"NO");
+    BOOL isSelected = [values[SSWidgetViewIsSelectedKey] boolValue];
+    NSLog(@"Widget state: %@", isSelected ? @"YES" : @"NO");
     
     NSDecimalNumber *shieldFee = values[SSWidgetViewShieldFeeKey];
     if (shieldFee) {
-        NSLog(@"Shield Fee: %@", shieldFee.stringValue);
+        NSLog(@"Shield fee: %@", shieldFee.stringValue);
     }
     
     NSDecimalNumber *greenFee = values[SSWidgetViewGreenFeeKey];
     if (greenFee) {
-        NSLog(@"Green Fee: %@", greenFee.stringValue);
+        NSLog(@"Green fee: %@", greenFee.stringValue);
     }
     
     NSError *error = values[SSWidgetViewErrorKey];

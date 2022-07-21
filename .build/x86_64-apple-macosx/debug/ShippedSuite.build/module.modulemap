@@ -1,0 +1,4 @@
+module ShippedSuite {
+    umbrella "/Users/Victor/Documents/Projects/Shipped-suite-sdk-ios/ShippedSuite"
+    export *
+}

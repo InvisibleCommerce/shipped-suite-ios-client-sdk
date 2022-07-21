@@ -11,7 +11,7 @@
 #import "SSLearnMoreViewController.h"
 
 // Callback Keys
-NSString * const SSWidgetViewIsEnabledKey = @"isEnabled";
+NSString * const SSWidgetViewIsSelectedKey = @"isSelected";
 NSString * const SSWidgetViewShieldFeeKey = @"shieldFee";
 NSString * const SSWidgetViewGreenFeeKey = @"greenFee";
 NSString * const SSWidgetViewErrorKey = @"error";
@@ -185,7 +185,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 - (void)triggerWidgetChangeWithError:(nullable NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
-        NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsEnabledKey];
+        NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
         if ((self.offers == SSWidgetViewShieldOffers || self.offers == SSWidgetViewGreenAndShieldOffers) && _shieldFee) {
             values[SSWidgetViewShieldFeeKey] = _shieldFee;
         }
