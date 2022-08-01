@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- `SSShieldOffer` includes the details of offers fee.
+ `SSOffers` includes the details of offers fee.
  */
 @interface SSOffers : NSObject <SSJSONDecodable>
 
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- `SSShieldResponse` includes the response of offers fee.
+ `SSOffersResponse` includes the response of offers fee.
  */
 @interface SSOffersResponse : SSResponse
 

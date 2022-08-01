@@ -86,7 +86,7 @@
 
 - (IBAction)displayLearnMoreModal:(id)sender
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithNibName:nil bundle:nil];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithOffers:SSWidgetViewShieldOffers];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;
