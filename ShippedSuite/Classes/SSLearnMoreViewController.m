@@ -8,7 +8,7 @@
 #import "SSLearnMoreViewController.h"
 #import "SSUtils.h"
 
-@interface SSLearnMoreViewController ()
+@interface SSLearnMoreViewController () <UITextViewDelegate>
 
 @property (nonatomic) SSWidgetViewOffers offers;
 
@@ -298,22 +298,22 @@
     UIStackView *hStackView = [UIStackView new];
     hStackView.distribution = UIStackViewDistributionEqualSpacing;
     hStackView.translatesAutoresizingMaskIntoConstraints = NO;
-
+    
     UIButton *reportAnIssue = [self linkButtonWithText:NSLocalizedString(@"Report an Issue", nil) selector:@selector(reportAnIssuePressed:)];
     [hStackView addArrangedSubview:reportAnIssue];
     
     UIView *separator0 = [self separator];
     [hStackView addArrangedSubview:separator0];
-
+    
     UIButton *termsOfService = [self linkButtonWithText:NSLocalizedString(@"Terms of Service", nil) selector:@selector(termsOfServicePressed:)];
     [hStackView addArrangedSubview:termsOfService];
     
     UIView *separator1 = [self separator];
     [hStackView addArrangedSubview:separator1];
-
+    
     UIButton *privacyPolicy = [self linkButtonWithText:NSLocalizedString(@"Privacy Policy", nil) selector:@selector(privacyPolicyPressed:)];
     [hStackView addArrangedSubview:privacyPolicy];
-        
+    
     UIStackView *vStackView = [UIStackView new];
     vStackView.axis = UILayoutConstraintAxisVertical;
     vStackView.distribution = UIStackViewDistributionFillEqually;
@@ -323,7 +323,7 @@
     
     UIButton *copyRight = [self linkButtonWithText:NSLocalizedString(@"Invisible Commerce Limited 2021", nil) selector:nil];
     [vStackView addArrangedSubview:copyRight];
-
+    
     return vStackView;
 }
 
@@ -338,14 +338,36 @@
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [actionView addSubview:containerView];
     
-    UILabel *descLabel = [UILabel new];
-    descLabel.text = NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment. Learn more", nil);
-    descLabel.textColor = [UIColor colorWithHex:0x8A8A8D];
-    descLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightRegular];
-    descLabel.textAlignment = NSTextAlignmentCenter;
-    descLabel.numberOfLines = 0;
-    descLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [containerView addSubview:descLabel];
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.minimumLineHeight = 16;
+    paragraphStyle.maximumLineHeight = 16;
+    
+    NSMutableDictionary *attributes = [@{
+        NSFontAttributeName: [UIFont systemFontOfSize:12 weight:UIFontWeightRegular],
+        NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
+        NSParagraphStyleAttributeName: paragraphStyle
+    } mutableCopy];
+    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment. ", nil) attributes:attributes];
+    
+    [attributes addEntriesFromDictionary:@{
+        NSUnderlineColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
+        NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+        NSLinkAttributeName: @"learnMore://"
+    }];
+    NSAttributedString *link = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Learn more", nil) attributes:attributes];
+    [desc appendAttributedString:link];
+    
+    UITextView *descView = [UITextView new];
+    descView.delegate = self;
+    descView.linkTextAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D]};
+    descView.backgroundColor = [UIColor clearColor];
+    descView.contentInset = UIEdgeInsetsZero;
+    descView.attributedText = desc;
+    descView.editable = NO;
+    descView.scrollEnabled = NO;
+    descView.translatesAutoresizingMaskIntoConstraints = NO;
+    [containerView addSubview:descView];
     
     UIView *line = [UIView new];
     line.backgroundColor = [UIColor colorWithHex:0xC1C1C1];
@@ -366,7 +388,7 @@
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:closeButton];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descLabel, line, termsView, closeButton);
+    NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descView, line, termsView, closeButton);
     
     NSDictionary *metrics = @{@"hSpace": UIDevice.isIpad ? @120 : @24,
                               @"vSpace": @24,
@@ -377,28 +399,28 @@
     [actionView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hSpace-[containerView]-hSpace-|" options:0 metrics:metrics views:views]];
     [actionView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vSpace-[containerView]-bottomPadding-|" options:0 metrics:metrics views:views]];
     
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descView]|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[line]|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-45-[termsView]-45-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftPadding-[closeButton]-leftPadding-|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descLabel]-vSpace-[line(0.5)]-vSpace-[termsView(28)]-vSpace-[closeButton(50)]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-vSpace-[line(0.5)]-vSpace-[termsView(28)]-vSpace-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     
     return actionView;
 }
 
 - (void)reportAnIssuePressed:(id)sender
 {
-    
+    NSLog(@"Report an issue");
 }
 
 - (void)termsOfServicePressed:(id)sender
 {
-    
+    NSLog(@"Terms of service");
 }
 
 - (void)privacyPolicyPressed:(id)sender
 {
-    
+    NSLog(@"Privacy policy");
 }
 
 - (void)dismiss
@@ -409,6 +431,22 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
     [super traitCollectionDidChange:previousTraitCollection];
+}
+
+- (void)showLearnMore
+{
+    NSLog(@"Learn More");
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction
+{
+    if ([URL.scheme hasPrefix:@"learnMore"]) {
+        [self showLearnMore];
+        return NO;
+    }
+    return YES;
 }
 
 @end
