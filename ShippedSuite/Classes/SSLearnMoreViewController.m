@@ -6,6 +6,7 @@
 //
 
 #import "SSLearnMoreViewController.h"
+#import <SafariServices/SafariServices.h>
 #import "SSUtils.h"
 
 @interface SSLearnMoreViewController () <UITextViewDelegate>
@@ -408,19 +409,26 @@
     return actionView;
 }
 
+- (void)presentSafariModal:(NSURL *)URL
+{
+    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:URL];
+    controller.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 - (void)reportAnIssuePressed:(id)sender
 {
-    NSLog(@"Report an issue");
+    [self presentSafariModal:[NSURL URLWithString:@"http://app.shippedapp.co/claim"]];
 }
 
 - (void)termsOfServicePressed:(id)sender
 {
-    NSLog(@"Terms of service");
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/terms"]];
 }
 
 - (void)privacyPolicyPressed:(id)sender
 {
-    NSLog(@"Privacy policy");
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/privacy"]];
 }
 
 - (void)dismiss
