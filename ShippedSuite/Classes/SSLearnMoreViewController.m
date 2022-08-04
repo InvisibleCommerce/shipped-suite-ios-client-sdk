@@ -139,7 +139,7 @@
         case SSWidgetViewGreenOffers:
             return NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
         case SSWidgetViewShieldOffers:
-            return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free.", nil);
+            return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
         case SSWidgetViewGreenAndShieldOffers:
             return NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
         default:
@@ -151,9 +151,9 @@
 {
     switch (self.offers) {
         case SSWidgetViewGreenOffers:
-            return NSLocalizedString(@"Neutralize the carbon emissions from delivering this order", nil);
+            return NSLocalizedString(@"Neutralize the carbon emissions from delivering this order.", nil);
         default:
-            return NSLocalizedString(@"Instant premium package assurance for damage, loss, or theft", nil);
+            return NSLocalizedString(@"Instant premium package assurance for damage, loss, or theft.", nil);
     }
 }
 
@@ -161,9 +161,9 @@
 {
     switch (self.offers) {
         case SSWidgetViewGreenOffers:
-            return NSLocalizedString(@"Get certified carbon credits recorded at the project carbon registry", nil);
+            return NSLocalizedString(@"Get certified carbon credits recorded at the project carbon registry.", nil);
         default:
-            return NSLocalizedString(@"Save time and headache reporting unexpected shipment issues", nil);
+            return NSLocalizedString(@"Save time and headache reporting unexpected shipment issues.", nil);
     }
 }
 
@@ -171,9 +171,9 @@
 {
     switch (self.offers) {
         case SSWidgetViewGreenOffers:
-            return NSLocalizedString(@"Track your certificates and see your personal climate impact", nil);
+            return NSLocalizedString(@"Track your certificates and see your personal climate impact.", nil);
         default:
-            return NSLocalizedString(@"Easily resolve issues and get a replacement or refund, hassle-free", nil);
+            return NSLocalizedString(@"Easily resolve issues and get a replacement or refund, hassle-free.", nil);
     }
 }
 
@@ -242,6 +242,13 @@
     NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
     bannerView.image = [UIImage imageNamed:[self bannerName] inBundle:resourceBundle compatibleWithTraitCollection:nil];
+    
+    if (self.offers == SSWidgetViewGreenOffers) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewFullProjectStory:)];
+        [bannerView addGestureRecognizer:tap];
+        bannerView.userInteractionEnabled = YES;
+    }
+    
     return bannerView;
 }
 
@@ -349,21 +356,14 @@
         NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
         NSParagraphStyleAttributeName: paragraphStyle
     } mutableCopy];
-    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment. ", nil) attributes:attributes];
-    
-    [attributes addEntriesFromDictionary:@{
-        NSUnderlineColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
-        NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
-        NSLinkAttributeName: @"learnMore://"
-    }];
-    NSAttributedString *link = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Learn more", nil) attributes:attributes];
-    [desc appendAttributedString:link];
+    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.", nil) attributes:attributes];
     
     UITextView *descView = [UITextView new];
     descView.delegate = self;
     descView.linkTextAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D]};
     descView.backgroundColor = [UIColor clearColor];
     descView.contentInset = UIEdgeInsetsZero;
+    descView.textContainerInset = UIEdgeInsetsZero;
     descView.attributedText = desc;
     descView.editable = NO;
     descView.scrollEnabled = NO;
@@ -404,7 +404,7 @@
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[line]|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-45-[termsView]-45-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftPadding-[closeButton]-leftPadding-|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-vSpace-[line(0.5)]-vSpace-[termsView(28)]-vSpace-[closeButton(50)]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(28)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     
     return actionView;
 }
@@ -431,6 +431,11 @@
     [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/privacy"]];
 }
 
+- (void)viewFullProjectStory:(UITapGestureRecognizer *)gesture
+{
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.shippedapp.co"]];
+}
+
 - (void)dismiss
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -439,22 +444,6 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
     [super traitCollectionDidChange:previousTraitCollection];
-}
-
-- (void)showLearnMore
-{
-    NSLog(@"Learn More");
-}
-
-#pragma mark - UITextViewDelegate
-
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction
-{
-    if ([URL.scheme hasPrefix:@"learnMore"]) {
-        [self showLearnMore];
-        return NO;
-    }
-    return YES;
 }
 
 @end
