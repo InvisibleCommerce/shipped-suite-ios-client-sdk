@@ -201,7 +201,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 
 - (void)displayLearnMoreModal
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithNibName:nil bundle:nil];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithOffers:self.offers];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

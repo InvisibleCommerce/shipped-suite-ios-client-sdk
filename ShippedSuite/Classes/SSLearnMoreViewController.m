@@ -6,13 +6,24 @@
 //
 
 #import "SSLearnMoreViewController.h"
+#import <SafariServices/SafariServices.h>
 #import "SSUtils.h"
 
-@interface SSLearnMoreViewController ()
+@interface SSLearnMoreViewController () <UITextViewDelegate>
+
+@property (nonatomic) SSWidgetViewOffers offers;
 
 @end
 
 @implementation SSLearnMoreViewController
+
+- (instancetype)initWithOffers:(SSWidgetViewOffers)offers
+{
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        self.offers = offers;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -37,7 +48,7 @@
     [contentView addSubview:headerView];
     
     UILabel *titleLabel = [UILabel new];
-    titleLabel.text = NSLocalizedString(@"Shipped Shield Premium Package Assurance", nil);
+    titleLabel.text = self.titleText;
     titleLabel.textColor = [UIColor colorWithHex:0x000000];
     titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightBold];
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -46,7 +57,7 @@
     [contentView addSubview:titleLabel];
     
     UILabel *subtitleLabel = [UILabel new];
-    subtitleLabel.text = NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free.", nil);
+    subtitleLabel.text = self.subtitleText;
     subtitleLabel.textColor = [UIColor colorWithHex:0x000000];
     subtitleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     subtitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -58,12 +69,15 @@
     tipsView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:tipsView];
     
+    UIView *bannerView = [self bannerView];
+    bannerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [contentView addSubview:bannerView];
+    
     UIView *actionView = [self actionView];
-    actionView.backgroundColor = [UIColor colorWithHex:0x13747480];
     actionView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:actionView];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(scrollView, contentView, headerView, titleLabel, subtitleLabel, tipsView, actionView);
+    NSDictionary *views = NSDictionaryOfVariableBindings(scrollView, contentView, headerView, titleLabel, subtitleLabel, tipsView, bannerView, actionView);
     
     NSDictionary *metrics = @{@"topPadding": UIDevice.isIpad ? @56: @50,
                               @"margin": @16,
@@ -81,15 +95,98 @@
     heightConstraint.priority = UILayoutPriorityDefaultLow;
     heightConstraint.active = YES;
     
-    [tipsView.widthAnchor constraintEqualToAnchor:contentView.widthAnchor multiplier:311.0 / 375.0].active = YES;
+    [tipsView.widthAnchor constraintEqualToAnchor:contentView.widthAnchor multiplier:327.0 / 375.0].active = YES;
     [tipsView.centerXAnchor constraintEqualToAnchor:contentView.centerXAnchor].active = YES;
     
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[headerView]|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView(88)]-vSpace-[titleLabel]" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[titleLabel]-margin-|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-vSpace-[subtitleLabel]" options:NSLayoutFormatAlignAllLeft | NSLayoutFormatAlignAllRight metrics:metrics views:views]];
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bannerView]|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[actionView]|" options:0 metrics:metrics views:views]];
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[tipsView]->=vSectionSpace-[actionView]|" options:0 metrics:metrics views:views]];
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[tipsView]-vSectionSpace-[bannerView]->=0-[actionView]|" options:0 metrics:metrics views:views]];
+}
+
+- (NSString *)logoName
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return @"green_logo";
+        case SSWidgetViewShieldOffers:
+            return @"shield_logo";
+        case SSWidgetViewGreenAndShieldOffers:
+            return @"green+shield_logo";
+    }
+}
+
+- (NSString *)titleText
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return NSLocalizedString(@"Shipped Green Carbon Neutral Shipment", nil);
+        case SSWidgetViewShieldOffers:
+            return NSLocalizedString(@"Shipped Shield Premium Package Assurance", nil);
+        case SSWidgetViewGreenAndShieldOffers:
+            return NSLocalizedString(@"Sustainable Package Assurance", nil);
+        default:
+            break;
+    }
+}
+
+- (NSString *)subtitleText
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
+        case SSWidgetViewShieldOffers:
+            return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
+        case SSWidgetViewGreenAndShieldOffers:
+            return NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
+        default:
+            break;
+    }
+}
+
+- (NSString *)tip0Text
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return NSLocalizedString(@"Neutralize the carbon emissions from delivering this order.", nil);
+        default:
+            return NSLocalizedString(@"Instant premium package assurance for damage, loss, or theft.", nil);
+    }
+}
+
+- (NSString *)tip1Text
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return NSLocalizedString(@"Get certified carbon credits recorded at the project carbon registry.", nil);
+        default:
+            return NSLocalizedString(@"Save time and headache reporting unexpected shipment issues.", nil);
+    }
+}
+
+- (NSString *)tip2Text
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return NSLocalizedString(@"Track your certificates and see your personal climate impact.", nil);
+        default:
+            return NSLocalizedString(@"Easily resolve issues and get a replacement or refund, hassle-free.", nil);
+    }
+}
+
+- (nullable NSString *)bannerName
+{
+    switch (self.offers) {
+        case SSWidgetViewGreenOffers:
+            return @"green_banner";
+        case SSWidgetViewGreenAndShieldOffers:
+            return @"green+shield_banner";
+        default:
+            return nil;
+    }
 }
 
 - (UIView *)headerView
@@ -99,7 +196,7 @@
     UIImageView *logoImageView = [UIImageView new];
     NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
-    logoImageView.image = [UIImage imageNamed:@"header" inBundle:resourceBundle compatibleWithTraitCollection:nil];
+    logoImageView.image = [UIImage imageNamed:[self logoName] inBundle:resourceBundle compatibleWithTraitCollection:nil];
     logoImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [headerView addSubview:logoImageView];
     
@@ -113,12 +210,13 @@
 {
     UIView *contentView = [UIView new];
     
-    UIImageView *protectedImageView = [UIImageView new];
-    NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
-    protectedImageView.image = [UIImage imageNamed:@"protected" inBundle:resourceBundle compatibleWithTraitCollection:nil];
-    protectedImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [contentView addSubview:protectedImageView];
+    UILabel *tickLabel = [UILabel new];
+    tickLabel.text = @"✓";
+    tickLabel.textColor = [UIColor colorWithHex:0x32BA7C];
+    tickLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightBold];
+    tickLabel.numberOfLines = 0;
+    tickLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [contentView addSubview:tickLabel];
     
     UILabel *titleLabel = [UILabel new];
     titleLabel.text = text;
@@ -128,32 +226,45 @@
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:titleLabel];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(protectedImageView, titleLabel);
+    NSDictionary *views = NSDictionaryOfVariableBindings(tickLabel, titleLabel);
     
-    CGFloat imageSize = 32.0;
-    NSDictionary *metrics = @{@"imageSize": @(imageSize),
-                              @"hSpace": @12};
+    NSDictionary *metrics = @{@"hSpace": @8};
     
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[protectedImageView(imageSize)]-hSpace-[titleLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views]];
-    [protectedImageView.heightAnchor constraintEqualToConstant:imageSize].active = YES;
-    [protectedImageView.centerYAnchor constraintEqualToAnchor:contentView.centerYAnchor].active = YES;
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tickLabel(15)]-hSpace-[titleLabel]|" options:NSLayoutFormatAlignAllTop metrics:metrics views:views]];
     
     return contentView;
+}
+
+- (UIView *)bannerView
+{
+    UIImageView *bannerView = [UIImageView new];
+    bannerView.contentMode = UIViewContentModeScaleToFill;
+    NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
+    bannerView.image = [UIImage imageNamed:[self bannerName] inBundle:resourceBundle compatibleWithTraitCollection:nil];
+    
+    if (self.offers == SSWidgetViewGreenOffers) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewFullProjectStory:)];
+        [bannerView addGestureRecognizer:tap];
+        bannerView.userInteractionEnabled = YES;
+    }
+    
+    return bannerView;
 }
 
 - (UIView *)tipsView
 {
     UIView *tipsView = [UIView new];
     
-    UIView *protectedFirstTipView = [self protectedViewWithText:NSLocalizedString(@"Instant premium package assurance for damage, loss, or theft.", nil)];
+    UIView *protectedFirstTipView = [self protectedViewWithText:self.tip0Text];
     protectedFirstTipView.translatesAutoresizingMaskIntoConstraints = NO;
     [tipsView addSubview:protectedFirstTipView];
     
-    UIView *protectedSecondTipView = [self protectedViewWithText:NSLocalizedString(@"Save time and headache reporting unexpected shipment issues.", nil)];
+    UIView *protectedSecondTipView = [self protectedViewWithText:self.tip1Text];
     protectedSecondTipView.translatesAutoresizingMaskIntoConstraints = NO;
     [tipsView addSubview:protectedSecondTipView];
     
-    UIView *protectedThirdTipView = [self protectedViewWithText:NSLocalizedString(@"Easily resolve issues and get a replacement or refund, hassle-free.", nil)];
+    UIView *protectedThirdTipView = [self protectedViewWithText:self.tip2Text];
     protectedThirdTipView.translatesAutoresizingMaskIntoConstraints = NO;
     [tipsView addSubview:protectedThirdTipView];
     
@@ -168,22 +279,104 @@
     return tipsView;
 }
 
+- (UIButton *)linkButtonWithText:(NSString *)text selector:(nullable SEL)selector
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:text forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:10 weight:UIFontWeightRegular];
+    [button setTitleColor:[UIColor colorWithHex:0x888888] forState:UIControlStateNormal];
+    if (selector) {
+        [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+    }
+    return button;
+}
+
+- (UIView *)separator
+{
+    UIView *separator = [UIView new];
+    separator.translatesAutoresizingMaskIntoConstraints = NO;
+    [separator.widthAnchor constraintEqualToConstant:0.5].active = YES;
+    [separator.heightAnchor constraintEqualToConstant:14].active = YES;
+    separator.backgroundColor = [UIColor colorWithHex:0x888888];
+    return separator;
+}
+
+- (UIStackView *)termsView
+{
+    UIStackView *hStackView = [UIStackView new];
+    hStackView.distribution = UIStackViewDistributionEqualSpacing;
+    hStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    UIButton *reportAnIssue = [self linkButtonWithText:NSLocalizedString(@"Report an Issue", nil) selector:@selector(reportAnIssuePressed:)];
+    [hStackView addArrangedSubview:reportAnIssue];
+    
+    UIView *separator0 = [self separator];
+    [hStackView addArrangedSubview:separator0];
+    
+    UIButton *termsOfService = [self linkButtonWithText:NSLocalizedString(@"Terms of Service", nil) selector:@selector(termsOfServicePressed:)];
+    [hStackView addArrangedSubview:termsOfService];
+    
+    UIView *separator1 = [self separator];
+    [hStackView addArrangedSubview:separator1];
+    
+    UIButton *privacyPolicy = [self linkButtonWithText:NSLocalizedString(@"Privacy Policy", nil) selector:@selector(privacyPolicyPressed:)];
+    [hStackView addArrangedSubview:privacyPolicy];
+    
+    UIStackView *vStackView = [UIStackView new];
+    vStackView.axis = UILayoutConstraintAxisVertical;
+    vStackView.distribution = UIStackViewDistributionFillEqually;
+    vStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [vStackView addArrangedSubview:hStackView];
+    
+    UIButton *copyRight = [self linkButtonWithText:NSLocalizedString(@"Invisible Commerce Limited 2021", nil) selector:nil];
+    [vStackView addArrangedSubview:copyRight];
+    
+    return vStackView;
+}
+
 - (UIView *)actionView
 {
     UIView *actionView = [UIView new];
+    if (self.offers == SSWidgetViewShieldOffers) {
+        actionView.backgroundColor = [UIColor colorWithHex:0xF4F4F5];
+    }
     
     UIView *containerView = [UIView new];
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [actionView addSubview:containerView];
     
-    UILabel *descLabel = [UILabel new];
-    descLabel.text = NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.", nil);
-    descLabel.textColor = [UIColor colorWithHex:0x993c3c43];
-    descLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightRegular];
-    descLabel.textAlignment = NSTextAlignmentCenter;
-    descLabel.numberOfLines = 0;
-    descLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [containerView addSubview:descLabel];
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.minimumLineHeight = 16;
+    paragraphStyle.maximumLineHeight = 16;
+    
+    NSMutableDictionary *attributes = [@{
+        NSFontAttributeName: [UIFont systemFontOfSize:12 weight:UIFontWeightRegular],
+        NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
+        NSParagraphStyleAttributeName: paragraphStyle
+    } mutableCopy];
+    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.", nil) attributes:attributes];
+    
+    UITextView *descView = [UITextView new];
+    descView.delegate = self;
+    descView.linkTextAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D]};
+    descView.backgroundColor = [UIColor clearColor];
+    descView.contentInset = UIEdgeInsetsZero;
+    descView.textContainerInset = UIEdgeInsetsZero;
+    descView.attributedText = desc;
+    descView.editable = NO;
+    descView.scrollEnabled = NO;
+    descView.translatesAutoresizingMaskIntoConstraints = NO;
+    [containerView addSubview:descView];
+    
+    UIView *line = [UIView new];
+    line.backgroundColor = [UIColor colorWithHex:0xC1C1C1];
+    line.translatesAutoresizingMaskIntoConstraints = NO;
+    [containerView addSubview:line];
+    
+    UIView *termsView = [self termsView];
+    [containerView addSubview:termsView];
     
     UIButton *closeButton = [UIButton new];
     closeButton.layer.cornerRadius = 10;
@@ -196,7 +389,7 @@
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:closeButton];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descLabel, closeButton);
+    NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descView, line, termsView, closeButton);
     
     NSDictionary *metrics = @{@"hSpace": UIDevice.isIpad ? @120 : @24,
                               @"vSpace": @24,
@@ -204,15 +397,43 @@
                               @"bottomPadding": @(24 + (UIDevice.isIpad ? 0 : UIWindow.safeAreaInsets.bottom))
     };
     
-    [containerView.widthAnchor constraintEqualToAnchor:actionView.widthAnchor multiplier:578.0 / 812.0].active = YES;
-    [containerView.centerXAnchor constraintEqualToAnchor:actionView.centerXAnchor].active = YES;
+    [actionView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hSpace-[containerView]-hSpace-|" options:0 metrics:metrics views:views]];
     [actionView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vSpace-[containerView]-bottomPadding-|" options:0 metrics:metrics views:views]];
     
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descView]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[line]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-45-[termsView]-45-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftPadding-[closeButton]-leftPadding-|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descLabel]-vSpace-[closeButton(50)]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(28)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     
     return actionView;
+}
+
+- (void)presentSafariModal:(NSURL *)URL
+{
+    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:URL];
+    controller.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)reportAnIssuePressed:(id)sender
+{
+    [self presentSafariModal:[NSURL URLWithString:@"http://app.shippedapp.co/claim"]];
+}
+
+- (void)termsOfServicePressed:(id)sender
+{
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/terms"]];
+}
+
+- (void)privacyPolicyPressed:(id)sender
+{
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/privacy"]];
+}
+
+- (void)viewFullProjectStory:(UITapGestureRecognizer *)gesture
+{
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.shippedapp.co"]];
 }
 
 - (void)dismiss
