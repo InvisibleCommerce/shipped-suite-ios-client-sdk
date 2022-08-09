@@ -122,19 +122,19 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
 }
 
-- (void)setOffers:(SSWidgetViewOffers)offers
+- (void)setType:(ShippedSuiteType)type
 {
-    _offers = offers;
-    switch (offers) {
-        case SSWidgetViewGreenOffers:
+    _type = type;
+    switch (type) {
+        case ShippedSuiteTypeGreen:
             _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment", nil);
             break;
-        case SSWidgetViewShieldOffers:
+        case ShippedSuiteTypeShield:
             _titleLabel.text = NSLocalizedString(@"Shipped Shield", nil);
             _descLabel.text = NSLocalizedString(@"Package Assurance for unexpected issues", nil);
             break;
-        case SSWidgetViewGreenAndShieldOffers:
+        case ShippedSuiteTypeGreenAndShield:
             _titleLabel.text = NSLocalizedString(@"Shipped Green + Shield", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Offset + Package Assurance", nil);
             break;
@@ -162,14 +162,14 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
             return;
         }
         
-        switch (self.offers) {
-            case SSWidgetViewGreenOffers:
+        switch (self.type) {
+            case ShippedSuiteTypeGreen:
                 strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
                 break;
-            case SSWidgetViewShieldOffers:
+            case ShippedSuiteTypeShield:
                 strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.shieldFee.stringValue];
                 break;
-            case SSWidgetViewGreenAndShieldOffers:
+            case ShippedSuiteTypeGreenAndShield:
                 strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
                 break;
             default:
@@ -186,10 +186,10 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
         NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
-        if ((self.offers == SSWidgetViewShieldOffers || self.offers == SSWidgetViewGreenAndShieldOffers) && _shieldFee) {
+        if ((self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield) && _shieldFee) {
             values[SSWidgetViewShieldFeeKey] = _shieldFee;
         }
-        if ((self.offers == SSWidgetViewGreenOffers || self.offers == SSWidgetViewGreenAndShieldOffers) && _greenFee) {
+        if ((self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield) && _greenFee) {
             values[SSWidgetViewGreenFeeKey] = _greenFee;
         }
         if (error) {
@@ -201,7 +201,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
 
 - (void)displayLearnMoreModal
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithOffers:self.offers];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:self.type];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

@@ -86,7 +86,7 @@ You can initialize it with a default value, then put it where you want, and it w
 
 ```objective-c
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
-widgetView.offers = SSWidgetViewGreenAndShieldOffers;
+widgetView.offers = ShippedSuiteTypeGreenAndShield;
 widgetView.delegate = self;
 ```
 

@@ -66,7 +66,7 @@ static NSString *_publicKey = nil;
 
 @end
 
-@implementation SSRequest
+@implementation SSHTTPRequest
 
 - (NSString *)path
 {
@@ -102,9 +102,9 @@ static NSString *_publicKey = nil;
 
 @end
 
-@implementation SSResponse
+@implementation SSHTTPResponse
 
-+ (SSResponse *)parse:(NSData *)data
++ (SSHTTPResponse *)parse:(NSData *)data
 {
     [[SSLogger sharedLogger] logException:NSLocalizedString(@"parse method require override", nil)];
     return nil;
@@ -156,7 +156,7 @@ static NSString *_publicKey = nil;
     return sharedClient;
 }
 
-- (void)send:(SSRequest *)request handler:(SSRequestHandler)handler
+- (void)send:(SSHTTPRequest *)request handler:(SSHTTPRequestHandler)handler
 {
     NSString *method = @"POST";
     NSURL *url = [NSURL URLWithString:request.path relativeToURL:[ShippedSuite defaultBaseURL]];

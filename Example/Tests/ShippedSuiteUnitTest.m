@@ -37,7 +37,7 @@
 
 - (void)testRequest
 {
-    SSRequest *request = [SSRequest new];
+    SSHTTPRequest *request = [SSHTTPRequest new];
     XCTAssertThrows(request.path);
     XCTAssertTrue(request.method == SSHTTPMethodGET);
     XCTAssertNotNil(request.headers);
@@ -49,8 +49,8 @@
 - (void)testResponse
 {
     NSData *data = [NSData new];
-    XCTAssertThrows([SSResponse parse:data]);
-    XCTAssertNil([SSResponse parseError:data code:-1]);
+    XCTAssertThrows([SSHTTPResponse parse:data]);
+    XCTAssertNil([SSHTTPResponse parseError:data code:-1]);
 }
 
 - (void)testOffersFee

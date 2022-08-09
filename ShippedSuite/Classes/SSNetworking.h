@@ -9,10 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, ShippedSuiteMode) {
+typedef enum : NSUInteger {
+    ShippedSuiteTypeGreen,
+    ShippedSuiteTypeShield,
+    ShippedSuiteTypeGreenAndShield
+} ShippedSuiteType;
+
+typedef enum : NSUInteger {
     ShippedSuiteDevelopmentMode,
     ShippedSuiteProductionMode
-};
+} ShippedSuiteMode;
 
 /**
  `ShippedSuite` contains the base configuration the SDK needs.
@@ -62,7 +68,7 @@ typedef NS_ENUM(NSInteger, SSHTTPMethod) {
 /**
  Http request
  */
-@interface SSRequest : NSObject
+@interface SSHTTPRequest : NSObject
 
 - (NSString *)path;
 - (SSHTTPMethod)method;
@@ -77,9 +83,9 @@ typedef NS_ENUM(NSInteger, SSHTTPMethod) {
  Http response
  */
 @class SSErrorResponse;
-@interface SSResponse : NSObject
+@interface SSHTTPResponse : NSObject
 
-+ (SSResponse *)parse:(NSData *)data;
++ (SSHTTPResponse *)parse:(NSData *)data;
 + (nullable SSErrorResponse *)parseError:(NSData *)data
                                     code:(NSInteger)code;
 
@@ -88,7 +94,7 @@ typedef NS_ENUM(NSInteger, SSHTTPMethod) {
 /**
  An `SSErrorResponse` includes error details.
  */
-@interface SSErrorResponse : SSResponse
+@interface SSErrorResponse : SSHTTPResponse
 
 /**
  Error message.
@@ -119,7 +125,7 @@ typedef NS_ENUM(NSInteger, SSHTTPMethod) {
 
 @end
 
-typedef void (^SSRequestHandler)(SSResponse * _Nullable response, NSError * _Nullable error);
+typedef void (^SSHTTPRequestHandler)(SSHTTPResponse * _Nullable response, NSError * _Nullable error);
 
 /**
  `SSAPIClient` is a http request client.
@@ -139,7 +145,7 @@ typedef void (^SSRequestHandler)(SSResponse * _Nullable response, NSError * _Nul
  @param request A request object.
  @param handler A handler which includes response.
  */
-- (void)send:(SSRequest *)request handler:(SSRequestHandler)handler;
+- (void)send:(SSHTTPRequest *)request handler:(SSHTTPRequestHandler)handler;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  `SSOffersRequest` includes the request of getting shield and green fee.
  */
-@interface SSOffersRequest : SSRequest
+@interface SSOffersRequest : SSHTTPRequest
 
 /**
  An order value.

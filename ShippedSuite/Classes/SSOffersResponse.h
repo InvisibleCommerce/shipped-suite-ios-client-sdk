@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  `SSOffersResponse` includes the response of offers fee.
  */
-@interface SSOffersResponse : SSResponse
+@interface SSOffersResponse : SSHTTPResponse
 
 /**
  The offers object.

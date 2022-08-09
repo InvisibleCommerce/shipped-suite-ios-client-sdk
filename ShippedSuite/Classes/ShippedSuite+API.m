@@ -16,7 +16,7 @@
 {
     SSOffersRequest *request = [SSOffersRequest new];
     request.orderValue = orderValue;
-    [[SSAPIClient sharedClient] send:request handler:^(SSResponse * _Nullable response, NSError * _Nullable error) {
+    [[SSAPIClient sharedClient] send:request handler:^(SSHTTPResponse * _Nullable response, NSError * _Nullable error) {
         if (!error && response && [response isKindOfClass:[SSOffersResponse class]]) {
             SSOffersResponse *offersResponse = (SSOffersResponse *)response;
             completion(offersResponse.offers, error);

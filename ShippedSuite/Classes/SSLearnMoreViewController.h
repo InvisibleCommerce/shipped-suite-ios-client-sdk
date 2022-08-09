@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SSWidgetView.h"
+#import "SSNetworking.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SSLearnMoreViewController : UIViewController
 
-- (instancetype)initWithOffers:(SSWidgetViewOffers)offers;
+- (instancetype)initWithType:(ShippedSuiteType)type;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
