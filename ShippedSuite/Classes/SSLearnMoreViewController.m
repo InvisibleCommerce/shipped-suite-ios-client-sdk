@@ -11,16 +11,16 @@
 
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
-@property (nonatomic) SSWidgetViewOffers offers;
+@property (nonatomic) ShippedSuiteType type;
 
 @end
 
 @implementation SSLearnMoreViewController
 
-- (instancetype)initWithOffers:(SSWidgetViewOffers)offers
+- (instancetype)initWithType:(ShippedSuiteType)type
 {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        self.offers = offers;
+        self.type = type;
     }
     return self;
 }
@@ -109,24 +109,24 @@
 
 - (NSString *)logoName
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return @"green_logo";
-        case SSWidgetViewShieldOffers:
+        case ShippedSuiteTypeShield:
             return @"shield_logo";
-        case SSWidgetViewGreenAndShieldOffers:
+        case ShippedSuiteTypeGreenAndShield:
             return @"green+shield_logo";
     }
 }
 
 - (NSString *)titleText
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Shipped Green Carbon Neutral Shipment", nil);
-        case SSWidgetViewShieldOffers:
+        case ShippedSuiteTypeShield:
             return NSLocalizedString(@"Shipped Shield Premium Package Assurance", nil);
-        case SSWidgetViewGreenAndShieldOffers:
+        case ShippedSuiteTypeGreenAndShield:
             return NSLocalizedString(@"Sustainable Package Assurance", nil);
         default:
             break;
@@ -135,12 +135,12 @@
 
 - (NSString *)subtitleText
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
-        case SSWidgetViewShieldOffers:
+        case ShippedSuiteTypeShield:
             return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
-        case SSWidgetViewGreenAndShieldOffers:
+        case ShippedSuiteTypeGreenAndShield:
             return NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
         default:
             break;
@@ -149,8 +149,8 @@
 
 - (NSString *)tip0Text
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Neutralize the carbon emissions from delivering this order.", nil);
         default:
             return NSLocalizedString(@"Instant premium package assurance for damage, loss, or theft.", nil);
@@ -159,8 +159,8 @@
 
 - (NSString *)tip1Text
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Get certified carbon credits recorded at the project carbon registry.", nil);
         default:
             return NSLocalizedString(@"Save time and headache reporting unexpected shipment issues.", nil);
@@ -169,8 +169,8 @@
 
 - (NSString *)tip2Text
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Track your certificates and see your personal climate impact.", nil);
         default:
             return NSLocalizedString(@"Easily resolve issues and get a replacement or refund, hassle-free.", nil);
@@ -179,10 +179,10 @@
 
 - (nullable NSString *)bannerName
 {
-    switch (self.offers) {
-        case SSWidgetViewGreenOffers:
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
             return @"green_banner";
-        case SSWidgetViewGreenAndShieldOffers:
+        case ShippedSuiteTypeGreenAndShield:
             return @"green+shield_banner";
         default:
             return nil;
@@ -243,7 +243,7 @@
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
     bannerView.image = [UIImage imageNamed:[self bannerName] inBundle:resourceBundle compatibleWithTraitCollection:nil];
     
-    if (self.offers == SSWidgetViewGreenOffers) {
+    if (self.type == ShippedSuiteTypeGreen) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewFullProjectStory:)];
         [bannerView addGestureRecognizer:tap];
         bannerView.userInteractionEnabled = YES;
@@ -307,8 +307,13 @@
     hStackView.distribution = UIStackViewDistributionEqualSpacing;
     hStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    UIButton *reportAnIssue = [self linkButtonWithText:NSLocalizedString(@"Report an Issue", nil) selector:@selector(reportAnIssuePressed:)];
-    [hStackView addArrangedSubview:reportAnIssue];
+    if (self.type == ShippedSuiteTypeGreen) {
+        UIButton *download = [self linkButtonWithText:NSLocalizedString(@"Download Shipped", nil) selector:@selector(downloadPressed:)];
+        [hStackView addArrangedSubview:download];
+    } else {
+        UIButton *reportAnIssue = [self linkButtonWithText:NSLocalizedString(@"Report an Issue", nil) selector:@selector(reportAnIssuePressed:)];
+        [hStackView addArrangedSubview:reportAnIssue];
+    }
     
     UIView *separator0 = [self separator];
     [hStackView addArrangedSubview:separator0];
@@ -338,7 +343,7 @@
 - (UIView *)actionView
 {
     UIView *actionView = [UIView new];
-    if (self.offers == SSWidgetViewShieldOffers) {
+    if (self.type == ShippedSuiteTypeShield) {
         actionView.backgroundColor = [UIColor colorWithHex:0xF4F4F5];
     }
     
@@ -414,6 +419,11 @@
     SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:URL];
     controller.modalPresentationStyle = UIModalPresentationOverFullScreen;
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)downloadPressed:(id)sender
+{
+    [self presentSafariModal:[NSURL URLWithString:@"https://www.shippedapp.co"]];
 }
 
 - (void)reportAnIssuePressed:(id)sender

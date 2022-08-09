@@ -26,7 +26,7 @@ NSString *const SSSDKErrorDomain = @"com.invisiblecommerce.ShippedSuite.error";
 
 static NSURL *_defaultBaseURL;
 
-static ShippedSuiteMode _mode = ShippedSuiteDevelopmentMode;
+static ShippedSuiteMode _mode = ShippedSuiteModeDevelopment;
 
 static NSString *_publicKey = nil;
 
@@ -42,9 +42,9 @@ static NSString *_publicKey = nil;
     }
     
     switch (_mode) {
-        case ShippedSuiteDevelopmentMode:
+        case ShippedSuiteModeDevelopment:
             return [NSURL URLWithString:SSAPIStagingBaseURL];
-        case ShippedSuiteProductionMode:
+        case ShippedSuiteModeProduction:
             return [NSURL URLWithString:SSAPIProductionBaseURL];
     }
 }
@@ -66,7 +66,7 @@ static NSString *_publicKey = nil;
 
 @end
 
-@implementation SSRequest
+@implementation SSHTTPRequest
 
 - (NSString *)path
 {
@@ -102,9 +102,9 @@ static NSString *_publicKey = nil;
 
 @end
 
-@implementation SSResponse
+@implementation SSHTTPResponse
 
-+ (SSResponse *)parse:(NSData *)data
++ (SSHTTPResponse *)parse:(NSData *)data
 {
     [[SSLogger sharedLogger] logException:NSLocalizedString(@"parse method require override", nil)];
     return nil;
@@ -156,7 +156,7 @@ static NSString *_publicKey = nil;
     return sharedClient;
 }
 
-- (void)send:(SSRequest *)request handler:(SSRequestHandler)handler
+- (void)send:(SSHTTPRequest *)request handler:(SSHTTPRequestHandler)handler
 {
     NSString *method = @"POST";
     NSURL *url = [NSURL URLWithString:request.path relativeToURL:[ShippedSuite defaultBaseURL]];

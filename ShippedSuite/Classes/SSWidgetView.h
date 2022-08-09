@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SSNetworking.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,12 +14,6 @@ FOUNDATION_EXPORT NSString *const SSWidgetViewIsSelectedKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewShieldFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewGreenFeeKey;
 FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
-
-typedef enum : NSUInteger {
-    SSWidgetViewGreenOffers,
-    SSWidgetViewShieldOffers,
-    SSWidgetViewGreenAndShieldOffers
-} SSWidgetViewOffers;
 
 /**
  A delegate which handles the widget callback.
@@ -43,9 +38,9 @@ IB_DESIGNABLE
 @interface SSWidgetView : UIView
 
 /**
- Support green | shield offers. Default is SSWidgetViewGreenOffers.
+ Support green | shield offers. Default is ShippedSuiteTypeGreen.
  */
-@property (nonatomic) SSWidgetViewOffers offers;
+@property (nonatomic) ShippedSuiteType type;
 
 /**
  A delegate which handles the widget callback.
