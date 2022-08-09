@@ -9,6 +9,12 @@
 #import <SafariServices/SafariServices.h>
 #import "SSUtils.h"
 
+static NSString * const SSDownloadShippedURL = @"https://www.shippedapp.co";
+static NSString * const SSReportAnIssueURL = @"https://app.shippedapp.co/claim";
+static NSString * const SSTermsOfServiceURL = @"https://www.invisiblecommerce.com/terms";
+static NSString * const SSPrivacyPolicyURL = @"https://www.invisiblecommerce.com/privacy";
+static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
+
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
 @property (nonatomic) ShippedSuiteType type;
@@ -423,27 +429,27 @@
 
 - (void)downloadPressed:(id)sender
 {
-    [self presentSafariModal:[NSURL URLWithString:@"https://www.shippedapp.co"]];
+    [self presentSafariModal:[NSURL URLWithString:SSDownloadShippedURL]];
 }
 
 - (void)reportAnIssuePressed:(id)sender
 {
-    [self presentSafariModal:[NSURL URLWithString:@"http://app.shippedapp.co/claim"]];
+    [self presentSafariModal:[NSURL URLWithString:SSReportAnIssueURL]];
 }
 
 - (void)termsOfServicePressed:(id)sender
 {
-    [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/terms"]];
+    [self presentSafariModal:[NSURL URLWithString:SSTermsOfServiceURL]];
 }
 
 - (void)privacyPolicyPressed:(id)sender
 {
-    [self presentSafariModal:[NSURL URLWithString:@"https://www.invisiblecommerce.com/privacy"]];
+    [self presentSafariModal:[NSURL URLWithString:SSPrivacyPolicyURL]];
 }
 
 - (void)viewFullProjectStory:(UITapGestureRecognizer *)gesture
 {
-    [self presentSafariModal:[NSURL URLWithString:@"https://www.shippedapp.co"]];
+    [self presentSafariModal:[NSURL URLWithString:SSShippedGreenURL]];
 }
 
 - (void)dismiss
