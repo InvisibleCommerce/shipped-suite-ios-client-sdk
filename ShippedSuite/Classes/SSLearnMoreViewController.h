@@ -15,6 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SSLearnMoreViewController : UIViewController
 
+/**
+ Initialization method.
+ 
+ @param type The type of widget view.
+ */
 - (instancetype)initWithType:(ShippedSuiteType)type;
 
 - (instancetype)init NS_UNAVAILABLE;

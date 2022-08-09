@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    [super viewDidLoad];    
     _widgetView.type = ShippedSuiteTypeGreenAndShield;
     _widgetView.delegate = self;
 }

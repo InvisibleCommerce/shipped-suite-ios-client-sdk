@@ -16,8 +16,8 @@ typedef enum : NSUInteger {
 } ShippedSuiteType;
 
 typedef enum : NSUInteger {
-    ShippedSuiteDevelopmentMode,
-    ShippedSuiteProductionMode
+    ShippedSuiteModeDevelopment,
+    ShippedSuiteModeProduction
 } ShippedSuiteMode;
 
 /**

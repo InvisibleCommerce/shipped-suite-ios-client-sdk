@@ -26,7 +26,7 @@ NSString *const SSSDKErrorDomain = @"com.invisiblecommerce.ShippedSuite.error";
 
 static NSURL *_defaultBaseURL;
 
-static ShippedSuiteMode _mode = ShippedSuiteDevelopmentMode;
+static ShippedSuiteMode _mode = ShippedSuiteModeDevelopment;
 
 static NSString *_publicKey = nil;
 
@@ -42,9 +42,9 @@ static NSString *_publicKey = nil;
     }
     
     switch (_mode) {
-        case ShippedSuiteDevelopmentMode:
+        case ShippedSuiteModeDevelopment:
             return [NSURL URLWithString:SSAPIStagingBaseURL];
-        case ShippedSuiteProductionMode:
+        case ShippedSuiteModeProduction:
             return [NSURL URLWithString:SSAPIProductionBaseURL];
     }
 }
