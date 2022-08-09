@@ -23,8 +23,8 @@
 
 - (void)testMode
 {
-    [ShippedSuite setMode:ShippedSuiteDevelopmentMode];
-    XCTAssertEqual([ShippedSuite mode], ShippedSuiteDevelopmentMode);
+    [ShippedSuite setMode:ShippedSuiteModeDevelopment];
+    XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeDevelopment);
     XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
     [ShippedSuite setDefaultBaseURL:[NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]];
 }
@@ -96,7 +96,7 @@
 
 - (void)testFailure
 {
-    [ShippedSuite setMode:ShippedSuiteProductionMode];
+    [ShippedSuite setMode:ShippedSuiteModeProduction];
     XCTestExpectation *expectation = [self expectationWithDescription:@"track test"];
     NSDecimalNumber *orderValue = [NSDecimalNumber decimalNumberWithString:@"129.99"];
     [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
