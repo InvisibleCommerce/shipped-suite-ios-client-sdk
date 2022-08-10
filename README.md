@@ -2,11 +2,11 @@
 
  [![Platform](https://img.shields.io/cocoapods/p/ShippedSuite.svg?style=flat)](https://cocoapods.org/pods/ShippedSuite)
  [![Version](https://img.shields.io/cocoapods/v/ShippedSuite.svg?style=flat)](https://cocoapods.org/pods/ShippedSuite)
- [![License](https://img.shields.io/cocoapods/l/ShippedSuite.svg?style=flat)](https://cocoapods.org/pods/ShippedSuite)
+ [![License](https://img.shields.io/cocoapods/l/ShippedSuite.svg?style=flat)](https://github.com/InvisibleCommerce/shipped-suite-ios-client-sdk/blob/main/LICENSE)
  [![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-green.svg?style=flat)](https://cocoapods.org)
  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-green.svg?style=flat)](https://github.com/Carthage/Carthage)
  [![SPM compatible](https://img.shields.io/badge/SPM-compatible-green.svg?style=flat)](https://www.swift.org/package-manager)
- [![codecov](https://codecov.io/gh/InvisibleCommerce/shipped-suite-ios-client-sdk/branch/main/graph/badge.svg?token=DUeMBvpJjO)](https://codecov.io/gh/InvisibleCommerce/shipped-suite-ios-client-sdk)
+ [![codecov](https://codecov.io/gh/InvisibleCommerce/shipped-suite-ios-client-sdk/branch/main/graph/badge.svg?token=kTni92JQ0P)](https://codecov.io/gh/InvisibleCommerce/shipped-suite-ios-client-sdk)
 
 Shipped Shield offers premium package assurance for shipments that are lost, damaged or stolen. Instantly track and resolve shipment issues hassle-free with the app.
 
@@ -162,6 +162,19 @@ if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
 }
 [self presentViewController:nav animated:YES completion:nil];
 ```
+
+## TroubleShoting
+
+### Q: Missing assets
+
+Please follow these steps to check:
+1. Go to the root folder of your project, and run `gem install cocoapods` to upgrade CocoaPods
+2. Run `pod install`
+3. Make sure the `Copy Pods Resources` script is generated for the correct target (as the screenshot below)
+![Missing assets](./Screenshots/missing_assets.png)
+    - If the script is not automatically generated, you can check `Podfile` to see if it's configured correctly for your target.
+    - You can also configure it manually, click on ➕ in the top left corner, choose `New Run Script Phase`, fill in the script, `Input File Lists` and `Output File Lists`, please remember to replace the file name in your `Pods` folder.
+4. Run it
 
 ## License
 

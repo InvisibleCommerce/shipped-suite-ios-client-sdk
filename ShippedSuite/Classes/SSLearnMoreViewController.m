@@ -310,7 +310,8 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
 - (UIStackView *)termsView
 {
     UIStackView *hStackView = [UIStackView new];
-    hStackView.distribution = UIStackViewDistributionEqualSpacing;
+    hStackView.distribution = UIStackViewDistributionFillProportionally;
+    hStackView.spacing = 5;
     hStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
     if (self.type == ShippedSuiteTypeGreen) {
@@ -335,7 +336,7 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
     
     UIStackView *vStackView = [UIStackView new];
     vStackView.axis = UILayoutConstraintAxisVertical;
-    vStackView.distribution = UIStackViewDistributionFillEqually;
+    vStackView.distribution = UIStackViewDistributionFill;
     vStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [vStackView addArrangedSubview:hStackView];
@@ -413,7 +414,7 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
     
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descView]|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[line]|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-45-[termsView]-45-|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[termsView]-40-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftPadding-[closeButton]-leftPadding-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(28)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     
