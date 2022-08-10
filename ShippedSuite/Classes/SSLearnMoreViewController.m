@@ -13,7 +13,7 @@ static NSString * const SSDownloadShippedURL = @"https://www.shippedapp.co";
 static NSString * const SSReportAnIssueURL = @"https://app.shippedapp.co/claim";
 static NSString * const SSTermsOfServiceURL = @"https://www.invisiblecommerce.com/terms";
 static NSString * const SSPrivacyPolicyURL = @"https://www.invisiblecommerce.com/privacy";
-static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
+static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
