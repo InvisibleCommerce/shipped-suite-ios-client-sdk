@@ -163,7 +163,7 @@ if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
 [self presentViewController:nav animated:YES completion:nil];
 ```
 
-## TroubleShoting
+## Troubleshooting
 
 ### Q: Missing assets
 
