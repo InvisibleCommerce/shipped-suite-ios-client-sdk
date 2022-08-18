@@ -19,6 +19,7 @@
 {
     [super setUp];
     [ShippedSuite configurePublicKey:@"pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"];
+    [ShippedSuite setMode:ShippedSuiteModeDevelopment];
 }
 
 - (void)testDevelopmentMode
@@ -26,15 +27,6 @@
     [ShippedSuite setMode:ShippedSuiteModeDevelopment];
     XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeDevelopment);
     XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
-    [ShippedSuite setDefaultBaseURL:[NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]];
-}
-
-- (void)testProductionMode
-{
-    [ShippedSuite setMode:ShippedSuiteModeProduction];
-    XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeProduction);
-    XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api.shippedsuite.com/"]);
-    [ShippedSuite setDefaultBaseURL:[NSURL URLWithString:@"https://api.shippedsuite.com/"]];
 }
 
 - (void)testWidgetView
@@ -70,7 +62,7 @@
         XCTAssertNil(error);
         XCTAssertEqualObjects(offers.orderValue, orderValue);
         XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
-        XCTAssertEqualObjects(offers.greenFee.stringValue, @"0.39");
+        XCTAssertEqualObjects(offers.greenFee.stringValue, nil);
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
@@ -113,6 +105,13 @@
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
+}
+
+- (void)testProductionMode
+{
+    [ShippedSuite setMode:ShippedSuiteModeProduction];
+    XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeProduction);
+    XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api.shippedsuite.com/"]);
 }
 
 @end
