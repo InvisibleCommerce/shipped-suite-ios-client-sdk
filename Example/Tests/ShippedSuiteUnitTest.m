@@ -21,7 +21,7 @@
     [ShippedSuite configurePublicKey:@"pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"];
 }
 
-- (void)testMode
+- (void)testDevelopmentMode
 {
     [ShippedSuite setMode:ShippedSuiteModeDevelopment];
     XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeDevelopment);
@@ -29,9 +29,18 @@
     [ShippedSuite setDefaultBaseURL:[NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]];
 }
 
+- (void)testProductionMode
+{
+    [ShippedSuite setMode:ShippedSuiteModeProduction];
+    XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeProduction);
+    XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api.shippedsuite.com/"]);
+    [ShippedSuite setDefaultBaseURL:[NSURL URLWithString:@"https://api.shippedsuite.com/"]];
+}
+
 - (void)testWidgetView
 {
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreen;
     XCTAssertNotNil(widgetView);
 }
 

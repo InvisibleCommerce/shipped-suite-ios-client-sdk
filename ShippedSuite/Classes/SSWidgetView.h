@@ -38,9 +38,15 @@ IB_DESIGNABLE
 @interface SSWidgetView : UIView
 
 /**
- Support green | shield offers. Default is ShippedSuiteTypeGreen.
+ Support green | shield offers. Default is ShippedSuiteTypeShield.
  */
 @property (nonatomic) ShippedSuiteType type;
+
+/**
+ When it’s false it means that the widget will have to show green/shield/green+shield variants based on client configuration.
+ When it's true, it means that widget ignores client config, and only respects the config that comes from the server.
+ */
+@property (nonatomic) BOOL isRespectServer;
 
 /**
  A delegate which handles the widget callback.

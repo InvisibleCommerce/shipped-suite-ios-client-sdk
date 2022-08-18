@@ -21,7 +21,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];    
-    _widgetView.type = ShippedSuiteTypeShield;
+    _widgetView.type = ShippedSuiteTypeGreenAndShield;
+    _widgetView.isRespectServer = NO;
     _widgetView.delegate = self;
 }
 
@@ -86,7 +87,7 @@
 
 - (IBAction)displayLearnMoreModal:(id)sender
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:ShippedSuiteTypeShield];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:ShippedSuiteTypeGreen];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

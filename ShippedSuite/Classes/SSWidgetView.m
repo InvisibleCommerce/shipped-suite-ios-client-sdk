@@ -19,6 +19,9 @@ NSString * const SSWidgetViewErrorKey = @"error";
 // UserDefaults Keys
 NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnabledKey";
 
+// Constants
+static NSString * const NA = @"N/A";
+
 @interface SSWidgetView ()
 
 @property (nonatomic, strong) UISwitch *switchButton;
@@ -86,7 +89,7 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
     [_containerView addSubview:_learnMoreButton];
     
     _feeLabel = [UILabel new];
-    _feeLabel.text = NSLocalizedString(@"N/A", nil);
+    _feeLabel.text = NA;
     _feeLabel.textColor = [UIColor colorWithHex:0x1A1A1A];
     _feeLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
     _feeLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -97,6 +100,8 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
     _descLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
     _descLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_containerView addSubview:_descLabel];
+    
+    self.type = ShippedSuiteTypeShield;
 }
 
 - (void)loadLayoutConstraints
@@ -150,35 +155,93 @@ NSString * const SSUserDefaultsIsWidgetEnabledKey = @"SSUserDefaultsIsWidgetEnab
     [self triggerWidgetChangeWithError:nil];
 }
 
+- (void)updateWidgetIfConfigsMismatch:(SSOffers *)offers
+{
+    BOOL shouldUpdate = NO;
+    BOOL isShield = self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield;
+    BOOL isGreen = self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield;
+    
+    if (isShield && !offers.isShieldAvailable) {
+        isShield = NO;
+        shouldUpdate = YES;
+    } else if (!isShield && offers.isShieldAvailable && self.isRespectServer) {
+        isShield = YES;
+        shouldUpdate = YES;
+    }
+    
+    if (isGreen && !offers.isGreenAvailable) {
+        isGreen = NO;
+        shouldUpdate = YES;
+    } else if (!isGreen && offers.isGreenAvailable && self.isRespectServer) {
+        isGreen = YES;
+        shouldUpdate = YES;
+    }
+    
+    if ((!offers.isShieldAvailable && offers.isGreenAvailable) || (offers.isShieldAvailable && !offers.isGreenAvailable)) {
+        if (offers.isShieldAvailable && !isShield) {
+            isShield = YES;
+            isGreen = NO;
+            shouldUpdate = YES;
+        } else if (offers.isGreenAvailable && !isGreen) {
+            isShield = NO;
+            isGreen = YES;
+            shouldUpdate = YES;
+        }
+    }
+    
+    if (shouldUpdate) {
+        if (isShield && !isGreen) {
+            self.type = ShippedSuiteTypeShield;
+        } else if (!isShield && isGreen) {
+            self.type = ShippedSuiteTypeGreen;
+        } else if (isShield && isGreen) {
+            self.type = ShippedSuiteTypeGreenAndShield;
+        } else {
+            self.type = ShippedSuiteTypeShield;
+        }
+    }
+    
+    self.feeLabel.text = NA;
+    
+    switch (self.type) {
+        case ShippedSuiteTypeGreen:
+            if (offers.greenFee) {
+                self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
+            }
+            break;
+        case ShippedSuiteTypeShield:
+            if (offers.shieldFee) {
+                self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.shieldFee.stringValue];
+            }
+            break;
+        case ShippedSuiteTypeGreenAndShield:
+            if (offers.greenFee && offers.shieldFee) {
+                self.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
+            }
+            break;
+        default:
+            break;
+    }
+    
+    self.shieldFee = offers.shieldFee;
+    self.greenFee = offers.greenFee;
+    [self triggerWidgetChangeWithError:nil];
+}
+
 - (void)updateOrderValue:(NSDecimalNumber *)orderValue
 {
     __weak __typeof(self)weakSelf = self;
     [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error) {
-            strongSelf.feeLabel.text = NSLocalizedString(@"N/A", nil);
+            strongSelf.feeLabel.text = NA;
             strongSelf.shieldFee = nil;
+            strongSelf.greenFee = nil;
             [strongSelf triggerWidgetChangeWithError:error];
             return;
         }
         
-        switch (self.type) {
-            case ShippedSuiteTypeGreen:
-                strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
-                break;
-            case ShippedSuiteTypeShield:
-                strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.shieldFee.stringValue];
-                break;
-            case ShippedSuiteTypeGreenAndShield:
-                strongSelf.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
-                break;
-            default:
-                break;
-        }
-        
-        strongSelf.shieldFee = offers.shieldFee;
-        strongSelf.greenFee = offers.greenFee;
-        [strongSelf triggerWidgetChangeWithError:nil];
+        [strongSelf updateWidgetIfConfigsMismatch:offers];
     }];
 }
 
