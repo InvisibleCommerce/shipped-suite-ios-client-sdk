@@ -35,7 +35,9 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
+    doneItem.accessibilityLabel = @"Close Learn More Modal";
+    self.navigationItem.rightBarButtonItem = doneItem;
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -134,8 +136,6 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
             return NSLocalizedString(@"Shipped Shield Premium Package Assurance", nil);
         case ShippedSuiteTypeGreenAndShield:
             return NSLocalizedString(@"Sustainable Package Assurance", nil);
-        default:
-            break;
     }
 }
 
@@ -148,8 +148,6 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
             return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
         case ShippedSuiteTypeGreenAndShield:
             return NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
-        default:
-            break;
     }
 }
 

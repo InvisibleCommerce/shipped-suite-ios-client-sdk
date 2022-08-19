@@ -143,8 +143,6 @@ static NSString * const NA = @"N/A";
             _titleLabel.text = NSLocalizedString(@"Shipped Green + Shield", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Offset + Package Assurance", nil);
             break;
-        default:
-            break;
     }
 }
 
@@ -218,8 +216,6 @@ static NSString * const NA = @"N/A";
             if (offers.greenFee && offers.shieldFee) {
                 self.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
             }
-            break;
-        default:
             break;
     }
     

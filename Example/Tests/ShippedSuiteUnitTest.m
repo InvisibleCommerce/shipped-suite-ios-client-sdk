@@ -20,12 +20,26 @@
     [super setUp];
     [ShippedSuite configurePublicKey:@"pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"];
     [ShippedSuite setMode:ShippedSuiteModeDevelopment];
+    [ShippedSuite setDefaultBaseURL:nil];
+}
+
+- (void)testProductionMode
+{
+    [ShippedSuite setMode:ShippedSuiteModeProduction];
+    XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeProduction);
+    XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api.shippedsuite.com/"]);
 }
 
 - (void)testDevelopmentMode
 {
     [ShippedSuite setMode:ShippedSuiteModeDevelopment];
     XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeDevelopment);
+    XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
+}
+
+- (void)testDefaultURL
+{
+    [ShippedSuite setDefaultBaseURL:[NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]];
     XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
 }
 
@@ -52,6 +66,9 @@
     NSData *data = [NSData new];
     XCTAssertThrows([SSHTTPResponse parse:data]);
     XCTAssertNil([SSHTTPResponse parseError:data code:-1]);
+    
+    NSDictionary *correctJson = @{@"green_fee": @"0.29", @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
+    XCTAssertNotNil([SSOffers decodeFromJSON:correctJson]);
 }
 
 - (void)testOffersFee
@@ -105,13 +122,6 @@
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
-}
-
-- (void)testProductionMode
-{
-    [ShippedSuite setMode:ShippedSuiteModeProduction];
-    XCTAssertEqual([ShippedSuite mode], ShippedSuiteModeProduction);
-    XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api.shippedsuite.com/"]);
 }
 
 @end

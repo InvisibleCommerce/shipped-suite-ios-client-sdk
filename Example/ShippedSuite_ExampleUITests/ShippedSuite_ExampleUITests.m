@@ -33,7 +33,7 @@
     XCTAssertTrue(learnMoreElement.exists);
     [learnMoreElement tap];
     
-    XCUIElement *doneElement = self.app.buttons[@"Done"];
+    XCUIElement *doneElement = self.app.buttons[@"Close Learn More Modal"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);
     [doneElement tap];
@@ -42,7 +42,17 @@
     XCTAssertTrue(displayModalElement.exists);
     [displayModalElement tap];
     
+    XCUIElement *viewFullElement = self.app.images[@"green_banner"];
+    [self waitForElement:viewFullElement duration:10];
+    XCTAssertTrue(viewFullElement.exists);
+    [viewFullElement tap];
+
     doneElement = self.app.buttons[@"Done"];
+    [self waitForElement:doneElement duration:10];
+    XCTAssertTrue(doneElement.exists);
+    [doneElement tap];
+    
+    doneElement = self.app.buttons[@"Close Learn More Modal"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);
     [doneElement tap];
@@ -50,6 +60,8 @@
     XCUIElement *sendRequestElement = self.app.buttons[@"Send Offers Fee Request"];
     XCTAssertTrue(sendRequestElement.exists);
     [sendRequestElement tap];
+    
+    XCTAssertTrue([sendRequestElement waitForExistenceWithTimeout:5]);
 }
 
 @end
