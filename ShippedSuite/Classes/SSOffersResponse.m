@@ -14,15 +14,33 @@
 {
     SSOffers *offers = [SSOffers new];
     offers.storefrontId = json[@"storefront_id"];
-    NSNumber *orderValue = json[@"order_value"];
-    offers.orderValue = [NSDecimalNumber decimalNumberWithDecimal:orderValue.decimalValue];
-    NSNumber *shieldFee = json[@"shield_fee"];
-    offers.shieldFee = [NSDecimalNumber decimalNumberWithDecimal:shieldFee.decimalValue];
-    NSNumber *greenFee = json[@"green_fee"];
-    offers.greenFee = [NSDecimalNumber decimalNumberWithDecimal:greenFee.decimalValue];
+    NSString *orderValue = json[@"order_value"];
+    if (orderValue && [orderValue isKindOfClass:[NSString class]]) {
+        offers.orderValue = [NSDecimalNumber decimalNumberWithString:orderValue];
+    }
+    NSString *shieldFee = json[@"shield_fee"];
+    if (shieldFee && [shieldFee isKindOfClass:[NSString class]]) {
+        offers.shieldFee = [NSDecimalNumber decimalNumberWithString:shieldFee];
+    }
+    NSString *greenFee = json[@"green_fee"];
+    if (greenFee && [greenFee isKindOfClass:[NSString class]]) {
+        offers.greenFee = [NSDecimalNumber decimalNumberWithString:greenFee];
+    }
     NSString *offeredAt = json[@"offered_at"];
-    offers.offeredAt = [NSDate dateFromString:offeredAt];
+    if (offeredAt && [offeredAt isKindOfClass:[NSString class]]) {
+        offers.offeredAt = [NSDate dateFromString:offeredAt];
+    }
     return offers;
+}
+
+- (BOOL)isShieldAvailable
+{
+    return self.shieldFee != nil;
+}
+
+- (BOOL)isGreenAvailable
+{
+    return self.greenFee != nil;
 }
 
 @end

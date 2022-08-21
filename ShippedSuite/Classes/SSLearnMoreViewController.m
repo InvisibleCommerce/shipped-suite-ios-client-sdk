@@ -13,7 +13,7 @@ static NSString * const SSDownloadShippedURL = @"https://www.shippedapp.co";
 static NSString * const SSReportAnIssueURL = @"https://app.shippedapp.co/claim";
 static NSString * const SSTermsOfServiceURL = @"https://www.invisiblecommerce.com/terms";
 static NSString * const SSPrivacyPolicyURL = @"https://www.invisiblecommerce.com/privacy";
-static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
+static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
@@ -35,7 +35,9 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
+    doneItem.accessibilityLabel = @"Close Learn More Modal";
+    self.navigationItem.rightBarButtonItem = doneItem;
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -134,8 +136,6 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
             return NSLocalizedString(@"Shipped Shield Premium Package Assurance", nil);
         case ShippedSuiteTypeGreenAndShield:
             return NSLocalizedString(@"Sustainable Package Assurance", nil);
-        default:
-            break;
     }
 }
 
@@ -148,8 +148,6 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
             return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
         case ShippedSuiteTypeGreenAndShield:
             return NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
-        default:
-            break;
     }
 }
 
@@ -310,7 +308,8 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
 - (UIStackView *)termsView
 {
     UIStackView *hStackView = [UIStackView new];
-    hStackView.distribution = UIStackViewDistributionEqualSpacing;
+    hStackView.distribution = UIStackViewDistributionFillProportionally;
+    hStackView.spacing = 5;
     hStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
     if (self.type == ShippedSuiteTypeGreen) {
@@ -335,7 +334,7 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
     
     UIStackView *vStackView = [UIStackView new];
     vStackView.axis = UILayoutConstraintAxisVertical;
-    vStackView.distribution = UIStackViewDistributionFillEqually;
+    vStackView.distribution = UIStackViewDistributionFill;
     vStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [vStackView addArrangedSubview:hStackView];
@@ -413,7 +412,7 @@ static NSString * const SSShippedGreenURL = @"https://app.shippedapp.co/green";
     
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descView]|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[line]|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-45-[termsView]-45-|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[termsView]-40-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftPadding-[closeButton]-leftPadding-|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(28)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     

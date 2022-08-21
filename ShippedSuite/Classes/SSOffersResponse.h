@@ -39,6 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSDate *offeredAt;
 
+- (BOOL)isShieldAvailable;
+- (BOOL)isGreenAvailable;
+
 @end
 
 /**
