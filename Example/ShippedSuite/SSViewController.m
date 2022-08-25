@@ -21,8 +21,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];    
-    _widgetView.type = ShippedSuiteTypeGreenAndShield;
-    _widgetView.isRespectServer = NO;
+    _widgetView.type = ShippedSuiteTypeGreen;
+    _widgetView.isRespectServer = YES;
     _widgetView.delegate = self;
 }
 

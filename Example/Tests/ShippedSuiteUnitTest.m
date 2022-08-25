@@ -43,11 +43,82 @@
     XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
 }
 
-- (void)testWidgetView
+- (void)testGreen
 {
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.type = ShippedSuiteTypeGreen;
-    XCTAssertNotNil(widgetView);
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testShield
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeShield;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testGreenAndShield
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testIsRespectServer
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isRespectServer = YES;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testFailureOnWidgetView
+{
+    [ShippedSuite setMode:ShippedSuiteModeProduction];
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isRespectServer = YES;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
 }
 
 - (void)testRequest
