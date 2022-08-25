@@ -71,6 +71,14 @@
     XCTAssertNotNil([SSOffers decodeFromJSON:correctJson]);
 }
 
+- (void)testResponseWithNull
+{
+    NSDictionary *correctJson = @{@"green_fee": [NSNull null], @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
+    SSOffers *offers = [SSOffers decodeFromJSON:correctJson];
+    XCTAssertNotNil(offers);
+    XCTAssertNil(offers.greenFee);
+}
+
 - (void)testOffersFee
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"track test"];
