@@ -43,11 +43,82 @@
     XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
 }
 
-- (void)testWidgetView
+- (void)testGreen
 {
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.type = ShippedSuiteTypeGreen;
-    XCTAssertNotNil(widgetView);
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testShield
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeShield;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testGreenAndShield
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testIsRespectServer
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isRespectServer = YES;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
+- (void)testFailureOnWidgetView
+{
+    [ShippedSuite setMode:ShippedSuiteModeProduction];
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isRespectServer = YES;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
 }
 
 - (void)testRequest
@@ -71,6 +142,14 @@
     XCTAssertNotNil([SSOffers decodeFromJSON:correctJson]);
 }
 
+- (void)testResponseWithNull
+{
+    NSDictionary *correctJson = @{@"green_fee": [NSNull null], @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
+    SSOffers *offers = [SSOffers decodeFromJSON:correctJson];
+    XCTAssertNotNil(offers);
+    XCTAssertNil(offers.greenFee);
+}
+
 - (void)testOffersFee
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"track test"];
@@ -79,7 +158,7 @@
         XCTAssertNil(error);
         XCTAssertEqualObjects(offers.orderValue, orderValue);
         XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
-        XCTAssertEqualObjects(offers.greenFee.stringValue, nil);
+        XCTAssertEqualObjects(offers.greenFee.stringValue, @"0.39");
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
