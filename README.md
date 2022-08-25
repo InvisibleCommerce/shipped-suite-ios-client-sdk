@@ -87,6 +87,7 @@ You can initialize it with a default value, then put it where you want, and it w
 ```objective-c
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
 widgetView.type = ShippedSuiteTypeGreenAndShield;
+widgetView.isRespectServer = YES;
 widgetView.delegate = self;
 ```
 
