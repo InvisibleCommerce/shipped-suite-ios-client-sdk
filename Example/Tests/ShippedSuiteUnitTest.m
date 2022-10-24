@@ -158,6 +158,7 @@
         XCTAssertNil(error);
         XCTAssertEqualObjects(offers.orderValue, orderValue);
         XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
+        XCTAssertNil(offers.greenFee);
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
@@ -167,6 +168,7 @@
 {
     [SSLogger sharedLogger].enableLogPrinted = YES;
     [[SSLogger sharedLogger] logEvent:@"test"];
+    [[SSLogger sharedLogger] logEvent:@"test" parameters:@{@"param": @"value"}];
     XCTAssertThrows([[SSLogger sharedLogger] logException:@"exception"]);
 }
 
@@ -197,6 +199,7 @@
     NSDecimalNumber *orderValue = [NSDecimalNumber decimalNumberWithString:@"129.99"];
     [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         XCTAssertNotNil(error);
+        XCTAssertNil(offers);
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
