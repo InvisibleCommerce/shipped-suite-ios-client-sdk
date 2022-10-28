@@ -1,5 +1,5 @@
 PODS:
-  - ShippedSuite (0.1.0)
+  - ShippedSuite (0.1.1)
 
 DEPENDENCIES:
   - ShippedSuite (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ShippedSuite: 2cf2ecb7431ae2c156164f3ff02894c484ed18cc
+  ShippedSuite: 887be38d44f9c778fd004281da13ebb37fc24c3f
 
 PODFILE CHECKSUM: 868a8b380e83b7941448d09ab2f18bf3963be903
 

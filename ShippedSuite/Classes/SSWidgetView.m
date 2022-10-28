@@ -153,6 +153,20 @@ static NSString * const NA = @"N/A";
     [self triggerWidgetChangeWithError:nil];
 }
 
+- (void)updateOrderValue:(NSDecimalNumber *)orderValue
+{
+    __weak __typeof(self)weakSelf = self;
+    [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (error) {
+            [strongSelf updateWidgetIfError:error];
+            return;
+        }
+        
+        [strongSelf updateWidgetIfConfigsMismatch:offers];
+    }];
+}
+
 - (void)updateWidgetIfConfigsMismatch:(SSOffers *)offers
 {
     BOOL shouldUpdate = NO;
@@ -224,21 +238,12 @@ static NSString * const NA = @"N/A";
     [self triggerWidgetChangeWithError:nil];
 }
 
-- (void)updateOrderValue:(NSDecimalNumber *)orderValue
+- (void)updateWidgetIfError:(NSError *)error
 {
-    __weak __typeof(self)weakSelf = self;
-    [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        if (error) {
-            strongSelf.feeLabel.text = NA;
-            strongSelf.shieldFee = nil;
-            strongSelf.greenFee = nil;
-            [strongSelf triggerWidgetChangeWithError:error];
-            return;
-        }
-        
-        [strongSelf updateWidgetIfConfigsMismatch:offers];
-    }];
+    self.feeLabel.text = NA;
+    self.shieldFee = nil;
+    self.greenFee = nil;
+    [self triggerWidgetChangeWithError:error];
 }
 
 - (void)triggerWidgetChangeWithError:(nullable NSError *)error
