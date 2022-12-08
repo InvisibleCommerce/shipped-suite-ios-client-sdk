@@ -158,7 +158,7 @@
         XCTAssertNil(error);
         XCTAssertEqualObjects(offers.orderValue, orderValue);
         XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
-        XCTAssertNil(offers.greenFee);
+        XCTAssertEqualObjects(offers.greenFee.stringValue, @"0.39");
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
