@@ -308,8 +308,8 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 - (UIStackView *)termsView
 {
     UIStackView *hStackView = [UIStackView new];
-    hStackView.distribution = UIStackViewDistributionFillProportionally;
     hStackView.spacing = 5;
+    hStackView.distribution = UIStackViewDistributionEqualSpacing;
     hStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
     if (self.type == ShippedSuiteTypeGreen) {
@@ -332,17 +332,26 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     UIButton *privacyPolicy = [self linkButtonWithText:NSLocalizedString(@"Privacy Policy", nil) selector:@selector(privacyPolicyPressed:)];
     [hStackView addArrangedSubview:privacyPolicy];
     
-    UIStackView *vStackView = [UIStackView new];
-    vStackView.axis = UILayoutConstraintAxisVertical;
-    vStackView.distribution = UIStackViewDistributionFill;
-    vStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    return hStackView;
+}
+
+- (UIView *)copyrightView
+{
+    UIStackView *hStackView = [UIStackView new];
+    hStackView.spacing = 5;
+    hStackView.distribution = UIStackViewDistributionEqualSpacing;
+    hStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [vStackView addArrangedSubview:hStackView];
+    UIButton *copyRight0 = [self linkButtonWithText:NSLocalizedString(@"Shipped Insurance Services LLC", nil) selector:nil];
+    [hStackView addArrangedSubview:copyRight0];
     
-    UIButton *copyRight = [self linkButtonWithText:NSLocalizedString(@"Invisible Commerce Limited 2021", nil) selector:nil];
-    [vStackView addArrangedSubview:copyRight];
+    UIView *separator2 = [self separator];
+    [hStackView addArrangedSubview:separator2];
     
-    return vStackView;
+    UIButton *copyRight1 = [self linkButtonWithText:NSLocalizedString(@"Invisible Commerce Limited 2021", nil) selector:nil];
+    [hStackView addArrangedSubview:copyRight1];
+    
+    return hStackView;
 }
 
 - (UIView *)actionView
@@ -366,7 +375,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
         NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
         NSParagraphStyleAttributeName: paragraphStyle
     } mutableCopy];
-    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.", nil) attributes:attributes];
+    NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment. Invisible Commerce Limited, or it’s licensed producer entity Shipped Insurance Services LLC, may receive compensation for its services and for your usage of Shipped Shield.", nil) attributes:attributes];
     
     UITextView *descView = [UITextView new];
     descView.delegate = self;
@@ -388,6 +397,9 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     UIView *termsView = [self termsView];
     [containerView addSubview:termsView];
     
+    UIView *copyrightView = [self copyrightView];
+    [containerView addSubview:copyrightView];
+    
     UIButton *closeButton = [UIButton new];
     closeButton.layer.cornerRadius = 10;
     closeButton.layer.masksToBounds = YES;
@@ -399,7 +411,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:closeButton];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descView, line, termsView, closeButton);
+    NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descView, line, termsView, copyrightView, closeButton);
     
     NSDictionary *metrics = @{@"hSpace": UIDevice.isIpad ? @120 : @24,
                               @"vSpace": @24,
@@ -412,9 +424,10 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descView]|" options:0 metrics:metrics views:views]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[line]|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[termsView]-40-|" options:0 metrics:metrics views:views]];
+    [termsView.centerXAnchor constraintEqualToAnchor:containerView.centerXAnchor].active = YES;
+    [copyrightView.centerXAnchor constraintEqualToAnchor:containerView.centerXAnchor].active = YES;
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftPadding-[closeButton]-leftPadding-|" options:0 metrics:metrics views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(28)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(14)][copyrightView(14)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     
     return actionView;
 }
