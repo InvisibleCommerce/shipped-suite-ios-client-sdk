@@ -3,9 +3,9 @@
 This document will take you through the process of creating/updating Shipped Suite iOS SDK pod and publishing it to the Cocoapods library.
 
 ## Requirements
-[MacOS](https://www.apple.com/mac/)
-[Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
-[Cocoapods](http://cocoapods.org/)
+### [MacOS](https://www.apple.com/mac/)
+### [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+### [Cocoapods](http://cocoapods.org/)
 
 ## Getting started
 1. Open `Terminal` app from your mac.
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
     s.frameworks       = 'Foundation', 'UIKit'
 end
 ```
-6. Run the command in your `Terminal`
+6. Run the command in your `Terminal`.
 ```ruby
 pod trunk push ShippedSuite.podspec --allow-warnings --verbose
 ```
