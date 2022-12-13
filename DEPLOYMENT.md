@@ -8,14 +8,19 @@ This document will take you through the process of creating/updating Shipped Sui
 ### [Cocoapods](http://cocoapods.org/)
 
 ## Getting started
-1. Open `Terminal` app from your mac.
-2. Begin a session on your current mac device.
+1. Create tag
+```ruby
+git tag '0.1.1'
+git push --tags
+```
+2. Open `Terminal` app from your mac.
+3. Begin a session on your current mac device.
 ```ruby
 pod trunk register xxx@xxx.com 'ShippedSuite' --description='Integrate ShippedSuite into your iOS app.'
 ```
-3. You must click a link in an email Trunk sends you to verify the connection between your Trunk account and the current computer. You can list your sessions by running `pod trunk me`.
-4. Git clone Shipped Suite iOS SDK project and navigate to the root folder.
-5. Open `ShippedSuite.podspec` and make it updated.
+4. You must click a link in an email Trunk sends you to verify the connection between your Trunk account and the current computer. You can list your sessions by running `pod trunk me`.
+5. Git clone Shipped Suite iOS SDK project and navigate to the root folder.
+6. Open `ShippedSuite.podspec` and make it updated.
 ```ruby
 Pod::Spec.new do |s|
     s.name             = 'ShippedSuite'
@@ -35,7 +40,7 @@ Pod::Spec.new do |s|
     s.frameworks       = 'Foundation', 'UIKit'
 end
 ```
-6. Run the command in your `Terminal`.
+7. Run the command in your `Terminal`.
 ```ruby
 pod trunk push ShippedSuite.podspec --allow-warnings --verbose
 ```
