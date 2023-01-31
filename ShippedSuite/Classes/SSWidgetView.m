@@ -192,6 +192,7 @@ static NSString * const NA = @"N/A";
 {
     if (isMandatory) {
         self.switchButton.hidden = YES;
+        self.switchButton.on = YES;
         self.imageView.hidden = NO;
         self.containerLeftConstraint.constant = 43;
     } else {
