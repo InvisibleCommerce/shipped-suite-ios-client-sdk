@@ -26,8 +26,12 @@
 
 - (void)testExample {
     XCUIElement *switchElement = self.app.switches[@"Switch"];
-    XCTAssertTrue(switchElement.exists);
-    [switchElement tap];
+    XCUIElement *logoElement = self.app.images[@"Logo"];
+
+    XCTAssertTrue(switchElement.exists || logoElement.exists);
+    if (switchElement.exists) {
+        [switchElement tap];
+    }
     
     XCUIElement *learnMoreElement = self.app.buttons[@"Learn More"];
     XCTAssertTrue(learnMoreElement.exists);

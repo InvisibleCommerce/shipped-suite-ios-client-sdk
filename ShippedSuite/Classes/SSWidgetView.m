@@ -72,6 +72,7 @@ static NSString * const NA = @"N/A";
     [self addSubview:_switchButton];
     
     _imageView = [UIImageView new];
+    _imageView.accessibilityLabel = NSLocalizedString(@"Logo", nil);
     _imageView.contentMode = UIViewContentModeScaleToFill;
     _imageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_imageView];
