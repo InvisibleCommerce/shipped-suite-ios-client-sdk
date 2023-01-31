@@ -35,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSDecimalNumber *greenFee;
 
 /**
+ Is mandatory.
+ */
+@property (nonatomic) BOOL isMandatory;
+
+/**
  The date offered at.
  */
 @property (nonatomic, copy) NSDate *offeredAt;

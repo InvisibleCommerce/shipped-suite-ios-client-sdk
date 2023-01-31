@@ -26,6 +26,10 @@
     if (greenFee && [greenFee isKindOfClass:[NSString class]]) {
         offers.greenFee = [NSDecimalNumber decimalNumberWithString:greenFee];
     }
+    NSNumber *mandatory = json[@"mandatory"];
+    if (mandatory) {
+        offers.isMandatory = [mandatory boolValue];
+    }
     NSString *offeredAt = json[@"offered_at"];
     if (offeredAt && [offeredAt isKindOfClass:[NSString class]]) {
         offers.offeredAt = [NSDate dateFromString:offeredAt];

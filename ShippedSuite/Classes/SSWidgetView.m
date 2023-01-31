@@ -25,6 +25,7 @@ static NSString * const NA = @"N/A";
 @interface SSWidgetView ()
 
 @property (nonatomic, strong) UISwitch *switchButton;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *learnMoreButton;
@@ -32,6 +33,7 @@ static NSString * const NA = @"N/A";
 @property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong, nullable) NSDecimalNumber *shieldFee;
 @property (nonatomic, strong, nullable) NSDecimalNumber *greenFee;
+@property (nonatomic, strong) NSLayoutConstraint *containerLeftConstraint;
 
 @end
 
@@ -61,12 +63,18 @@ static NSString * const NA = @"N/A";
     _switchButton = [UISwitch new];
     _switchButton.accessibilityLabel = NSLocalizedString(@"Switch", nil);
     _switchButton.on = YES;
+    _switchButton.hidden = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:SSUserDefaultsIsWidgetEnabledKey]) {
         _switchButton.on = [[NSUserDefaults standardUserDefaults] boolForKey:SSUserDefaultsIsWidgetEnabledKey];
     }
     [_switchButton addTarget:self action:@selector(widgetStateChanged:) forControlEvents:UIControlEventValueChanged];
     _switchButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_switchButton];
+    
+    _imageView = [UIImageView new];
+    _imageView.contentMode = UIViewContentModeScaleToFill;
+    _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_imageView];
     
     _containerView = [UIView new];
     _containerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -107,6 +115,7 @@ static NSString * const NA = @"N/A";
 - (void)loadLayoutConstraints
 {
     NSDictionary *views = @{@"switchButton": _switchButton,
+                            @"imageView": _imageView,
                             @"containerView": _containerView,
                             @"titleLabel": _titleLabel,
                             @"learnMoreButton": _learnMoreButton,
@@ -117,8 +126,15 @@ static NSString * const NA = @"N/A";
                               @"hSpace": @8,
                               @"vSpace": @2};
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[switchButton(51)]-margin-[containerView]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:metrics views:views]];
+    self.containerLeftConstraint = [_containerView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:43];
+    [_containerView.rightAnchor constraintEqualToAnchor:self.rightAnchor].active = YES;
+    self.containerLeftConstraint.active = YES;
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[switchButton(51)]" options:0 metrics:metrics views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[switchButton]|" options:0 metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[imageView(31)]" options:0 metrics:metrics views:views]];
+    [_imageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+    [_imageView.heightAnchor constraintEqualToConstant:31].active = YES;
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[containerView]|" options:0 metrics:metrics views:views]];
     
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]-hSpace-[learnMoreButton]->=hSpace-[feeLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views]];
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
@@ -127,23 +143,61 @@ static NSString * const NA = @"N/A";
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
 }
 
+- (void)updateToggleLayoutConstraints:(SSOffers *)offers
+{
+    if (self.isMandatory) {
+        [self hideToggleIfMandatory:self.isMandatory];
+        return;
+    }
+    
+    if (offers) {
+        [self hideToggleIfMandatory:offers.isMandatory];
+    }
+}
+
 - (void)setType:(ShippedSuiteType)type
 {
     _type = type;
+    NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
     switch (type) {
         case ShippedSuiteTypeGreen:
             _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment", nil);
+            _imageView.image = [UIImage imageNamed:@"green_logo" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             break;
         case ShippedSuiteTypeShield:
             _titleLabel.text = NSLocalizedString(@"Shipped Shield", nil);
             _descLabel.text = NSLocalizedString(@"Package Assurance for unexpected issues", nil);
+            _imageView.image = [UIImage imageNamed:@"shield_logo" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             break;
         case ShippedSuiteTypeGreenAndShield:
             _titleLabel.text = NSLocalizedString(@"Shipped Green + Shield", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Offset + Package Assurance", nil);
+            _imageView.image = [UIImage imageNamed:@"green+shield_logo" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             break;
     }
+}
+
+- (void)setIsMandatory:(BOOL)isMandatory
+{
+    _isMandatory = isMandatory;
+    [self hideToggleIfMandatory:isMandatory];
+}
+
+- (void)hideToggleIfMandatory:(BOOL)isMandatory
+{
+    if (isMandatory) {
+        self.switchButton.hidden = YES;
+        self.imageView.hidden = NO;
+        self.containerLeftConstraint.constant = 43;
+    } else {
+        self.switchButton.hidden = NO;
+        self.imageView.hidden = YES;
+        self.containerLeftConstraint.constant = 63;
+    }
+    [self setNeedsUpdateConstraints];
+    [self layoutIfNeeded];
 }
 
 - (void)widgetStateChanged:(id)sender
@@ -164,6 +218,7 @@ static NSString * const NA = @"N/A";
         }
         
         [strongSelf updateWidgetIfConfigsMismatch:offers];
+        [strongSelf updateToggleLayoutConstraints:offers];
     }];
 }
 
