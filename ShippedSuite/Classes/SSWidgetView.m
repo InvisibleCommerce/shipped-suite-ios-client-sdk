@@ -146,7 +146,7 @@ static NSString * const NA = @"N/A";
 - (void)updateToggleLayoutConstraints:(SSOffers *)offers
 {
     if (self.isMandatory) {
-        [self hideToggleIfMandatory:self.isMandatory];
+        [self hideToggleIfMandatory:YES];
         return;
     }
     
@@ -182,7 +182,9 @@ static NSString * const NA = @"N/A";
 - (void)setIsMandatory:(BOOL)isMandatory
 {
     _isMandatory = isMandatory;
-    [self hideToggleIfMandatory:isMandatory];
+    if (isMandatory) {
+        [self hideToggleIfMandatory:YES];
+    }
 }
 
 - (void)hideToggleIfMandatory:(BOOL)isMandatory
