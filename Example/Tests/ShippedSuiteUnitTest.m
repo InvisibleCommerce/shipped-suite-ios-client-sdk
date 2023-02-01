@@ -49,6 +49,8 @@
 
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.type = ShippedSuiteTypeGreen;
+    widgetView.isMandatory = YES;
+    widgetView.isRespectServer = YES;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
 
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
@@ -104,6 +106,22 @@
     [self waitForExpectations:@[waitExpectation] timeout:8];
 }
 
+- (void)testIsMandatory
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isMandatory = YES;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
 - (void)testFailureOnWidgetView
 {
     [ShippedSuite setMode:ShippedSuiteModeProduction];
@@ -111,6 +129,7 @@
 
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isMandatory = YES;
     widgetView.isRespectServer = YES;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
 
@@ -138,13 +157,13 @@
     XCTAssertThrows([SSHTTPResponse parse:data]);
     XCTAssertNil([SSHTTPResponse parseError:data code:-1]);
     
-    NSDictionary *correctJson = @{@"green_fee": @"0.29", @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
+    NSDictionary *correctJson = @{@"green_fee": @"0.29", @"mandatory": @YES, @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
     XCTAssertNotNil([SSOffers decodeFromJSON:correctJson]);
 }
 
 - (void)testResponseWithNull
 {
-    NSDictionary *correctJson = @{@"green_fee": [NSNull null], @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
+    NSDictionary *correctJson = @{@"green_fee": [NSNull null], @"mandatory": @YES, @"offered_at": @"2022-08-19T05:59:18.891-07:00", @"order_value": @"129.99", @"shield_fee": @"2.27", @"storefront_id": @"test-paws.myshopify.com"};
     SSOffers *offers = [SSOffers decodeFromJSON:correctJson];
     XCTAssertNotNil(offers);
     XCTAssertNil(offers.greenFee);

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ShippedSuite'
-    s.version          = '0.1.1'
+    s.version          = '0.1.2'
     s.summary          = 'Integrate ShippedSuite into your iOS app.'
     s.homepage         = 'https://github.com/InvisibleCommerce/shipped-suite-ios-client-sdk'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
