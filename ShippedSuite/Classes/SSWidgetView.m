@@ -142,18 +142,13 @@ static NSString * const NA = @"N/A";
     
     [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
+    
+    [self hideToggleIfMandatory:self.isMandatory];
 }
 
 - (void)updateToggleLayoutConstraints:(SSOffers *)offers
 {
-    if (self.isMandatory) {
-        [self hideToggleIfMandatory:YES];
-        return;
-    }
-    
-    if (offers) {
-        [self hideToggleIfMandatory:offers.isMandatory];
-    }
+    [self hideToggleIfMandatory:offers.isMandatory || self.isMandatory];
 }
 
 - (void)setType:(ShippedSuiteType)type
@@ -183,9 +178,7 @@ static NSString * const NA = @"N/A";
 - (void)setIsMandatory:(BOOL)isMandatory
 {
     _isMandatory = isMandatory;
-    if (isMandatory) {
-        [self hideToggleIfMandatory:YES];
-    }
+    [self hideToggleIfMandatory:isMandatory];
 }
 
 - (void)hideToggleIfMandatory:(BOOL)isMandatory
