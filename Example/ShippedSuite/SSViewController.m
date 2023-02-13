@@ -23,6 +23,7 @@
     [super viewDidLoad];    
     _widgetView.type = ShippedSuiteTypeGreen;
     _widgetView.isMandatory = YES;
+    _widgetView.isInformational = YES;
     _widgetView.isRespectServer = YES;
     _widgetView.delegate = self;
 }

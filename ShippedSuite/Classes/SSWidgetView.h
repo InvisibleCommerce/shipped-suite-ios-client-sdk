@@ -51,6 +51,13 @@ IB_DESIGNABLE
 
 /**
  False is default.
+ When it’s false it means that the widget will show the fee label.
+ When it’s true it means that the widget will hide the fee label.
+ */
+@property (nonatomic) BOOL isInformational;
+
+/**
+ False is default.
  When it’s false it means that the widget will have to show green/shield/green+shield variants based on client configuration.
  When it's true, it means that the widget will ignore client config, and only respects the config that comes from the server.
  */

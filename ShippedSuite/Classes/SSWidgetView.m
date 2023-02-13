@@ -33,7 +33,8 @@ static NSString * const NA = @"N/A";
 @property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong, nullable) NSDecimalNumber *shieldFee;
 @property (nonatomic, strong, nullable) NSDecimalNumber *greenFee;
-@property (nonatomic, strong) NSLayoutConstraint *containerLeftConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *containerLeftConstraint, *learnMoreRightToLeftOfFeeConstraint, *learnMoreRightToEdgeOfContentConstraint;
+@property (nonatomic, strong) NSArray *learnMoreAlignLeftConstraints, *learnMoreAlignRightConstraints;
 
 @end
 
@@ -137,12 +138,16 @@ static NSString * const NA = @"N/A";
     [_imageView.heightAnchor constraintEqualToConstant:31].active = YES;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[containerView]|" options:0 metrics:metrics views:views]];
     
-    [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]-hSpace-[learnMoreButton]->=hSpace-[feeLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views]];
+    self.learnMoreAlignLeftConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]-hSpace-[learnMoreButton]->=hSpace-[feeLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
+    [self.containerView addConstraints:self.learnMoreAlignLeftConstraints];
+    self.learnMoreAlignRightConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]->=hSpace-[learnMoreButton]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
+    [self.containerView addConstraints:self.learnMoreAlignRightConstraints];
+
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
-    
     [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
     
+    self.isInformational = NO;
     [self hideToggleIfMandatory:self.isMandatory];
 }
 
@@ -192,6 +197,21 @@ static NSString * const NA = @"N/A";
         self.switchButton.hidden = NO;
         self.imageView.hidden = YES;
         self.containerLeftConstraint.constant = 63;
+    }
+    [self setNeedsUpdateConstraints];
+    [self layoutIfNeeded];
+}
+
+- (void)setIsInformational:(BOOL)isInformational
+{
+    if (isInformational) {
+        self.feeLabel.hidden = YES;
+        [NSLayoutConstraint deactivateConstraints:self.learnMoreAlignLeftConstraints];
+        [NSLayoutConstraint activateConstraints:self.learnMoreAlignRightConstraints];
+    } else {
+        self.feeLabel.hidden = NO;
+        [NSLayoutConstraint deactivateConstraints:self.learnMoreAlignRightConstraints];
+        [NSLayoutConstraint activateConstraints:self.learnMoreAlignLeftConstraints];
     }
     [self setNeedsUpdateConstraints];
     [self layoutIfNeeded];
