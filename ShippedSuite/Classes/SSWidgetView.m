@@ -204,6 +204,7 @@ static NSString * const NA = @"N/A";
 
 - (void)setIsInformational:(BOOL)isInformational
 {
+    _isInformational = isInformational;
     if (isInformational) {
         self.feeLabel.hidden = YES;
         [NSLayoutConstraint deactivateConstraints:self.learnMoreAlignLeftConstraints];
@@ -337,7 +338,7 @@ static NSString * const NA = @"N/A";
 
 - (void)displayLearnMoreModal
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:self.type];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:self.type isInformational:self.isInformational];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

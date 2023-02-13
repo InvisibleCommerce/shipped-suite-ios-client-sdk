@@ -22,6 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithType:(ShippedSuiteType)type;
 
+/**
+ Initialization method.
+ 
+ @param type The type of widget view.
+ @param isInformational Whether to show more details.
+ */
+- (instancetype)initWithType:(ShippedSuiteType)type isInformational:(BOOL)isInformational;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;

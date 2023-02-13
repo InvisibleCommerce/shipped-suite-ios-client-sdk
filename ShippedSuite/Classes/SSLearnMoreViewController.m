@@ -18,6 +18,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
 @property (nonatomic) ShippedSuiteType type;
+@property (nonatomic) BOOL isInformational;
 
 @end
 
@@ -27,6 +28,16 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.type = type;
+        self.isInformational = NO;
+    }
+    return self;
+}
+
+- (instancetype)initWithType:(ShippedSuiteType)type isInformational:(BOOL)isInformational
+{
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        self.type = type;
+        self.isInformational = isInformational;
     }
     return self;
 }
@@ -67,15 +78,26 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     UILabel *subtitleLabel = [UILabel new];
     subtitleLabel.text = self.subtitleText;
     subtitleLabel.textColor = [UIColor colorWithHex:0x000000];
-    subtitleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+    if (self.showTips) {
+        subtitleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+    } else {
+        subtitleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    }
     subtitleLabel.textAlignment = NSTextAlignmentCenter;
     subtitleLabel.numberOfLines = 0;
     subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:subtitleLabel];
     
-    UIView *tipsView = [self tipsView];
-    tipsView.translatesAutoresizingMaskIntoConstraints = NO;
-    [contentView addSubview:tipsView];
+    NSMutableDictionary *views = [NSMutableDictionary new];
+    if (self.showTips) {
+        UIView *tipsView = [self tipsView];
+        tipsView.translatesAutoresizingMaskIntoConstraints = NO;
+        [contentView addSubview:tipsView];
+        [views setValue:tipsView forKey:@"tipsView"];
+        
+        [tipsView.widthAnchor constraintEqualToAnchor:contentView.widthAnchor multiplier:327.0 / 375.0].active = YES;
+        [tipsView.centerXAnchor constraintEqualToAnchor:contentView.centerXAnchor].active = YES;
+    }
     
     UIView *bannerView = [self bannerView];
     bannerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -85,8 +107,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     actionView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:actionView];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(scrollView, contentView, headerView, titleLabel, subtitleLabel, tipsView, bannerView, actionView);
-    
+    [views addEntriesFromDictionary:NSDictionaryOfVariableBindings(scrollView, contentView, headerView, titleLabel, subtitleLabel, bannerView, actionView)];
     NSDictionary *metrics = @{@"topPadding": UIDevice.isIpad ? @56: @50,
                               @"margin": @16,
                               @"vSpace": @24,
@@ -102,17 +123,19 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     NSLayoutConstraint *heightConstraint = [contentView.heightAnchor constraintEqualToAnchor:scrollView.heightAnchor];
     heightConstraint.priority = UILayoutPriorityDefaultLow;
     heightConstraint.active = YES;
-    
-    [tipsView.widthAnchor constraintEqualToAnchor:contentView.widthAnchor multiplier:327.0 / 375.0].active = YES;
-    [tipsView.centerXAnchor constraintEqualToAnchor:contentView.centerXAnchor].active = YES;
-    
+
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[headerView]|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView(88)]-vSpace-[titleLabel]" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[titleLabel]-margin-|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel]-vSpace-[subtitleLabel]" options:NSLayoutFormatAlignAllLeft | NSLayoutFormatAlignAllRight metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bannerView]|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[actionView]|" options:0 metrics:metrics views:views]];
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[tipsView]-vSectionSpace-[bannerView]->=0-[actionView]|" options:0 metrics:metrics views:views]];
+    
+    if (self.showTips) {
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[tipsView]-vSectionSpace-[bannerView]->=0-[actionView]|" options:0 metrics:metrics views:views]];
+    } else {
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[bannerView]->=0-[actionView]|" options:0 metrics:metrics views:views]];
+    }
 }
 
 - (NSString *)logoName
@@ -143,12 +166,25 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 {
     switch (self.type) {
         case ShippedSuiteTypeGreen:
-            return NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
+            return self.isInformational ? NSLocalizedString(@"We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions created from delivering this order to you.", nil) : NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
         case ShippedSuiteTypeShield:
             return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
         case ShippedSuiteTypeGreenAndShield:
-            return NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
+            return self.isInformational ? NSLocalizedString(@"We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions from delivering this order to you. If you have an unexpected shipment issue, resolve hassle-free with complimentary Shipped Shield package assurance.", nil) : NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
     }
+}
+
+- (BOOL)showTips
+{
+    if (self.isInformational) {
+        switch (self.type) {
+            case ShippedSuiteTypeShield:
+                return YES;
+            default:
+                return NO;
+        }
+    }
+    return YES;
 }
 
 - (NSString *)tip0Text
@@ -187,7 +223,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
         case ShippedSuiteTypeGreen:
             return @"green_banner";
         case ShippedSuiteTypeGreenAndShield:
-            return @"green+shield_banner";
+            return self.isInformational ? @"green_banner" : @"green+shield_banner";
         default:
             return nil;
     }
@@ -235,7 +271,8 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     NSDictionary *metrics = @{@"hSpace": @8};
     
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tickLabel(15)]-hSpace-[titleLabel]|" options:NSLayoutFormatAlignAllTop metrics:metrics views:views]];
-    
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleLabel]|" options:0 metrics:metrics views:views]];
+
     return contentView;
 }
 
