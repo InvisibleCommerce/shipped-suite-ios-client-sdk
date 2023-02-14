@@ -284,7 +284,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
     bannerView.image = [UIImage imageNamed:[self bannerName] inBundle:resourceBundle compatibleWithTraitCollection:nil];
     
-    if (self.type == ShippedSuiteTypeGreen) {
+    if (self.type == ShippedSuiteTypeGreen || (self.type == ShippedSuiteTypeGreenAndShield && self.isInformational)) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewFullProjectStory:)];
         [bannerView addGestureRecognizer:tap];
         bannerView.userInteractionEnabled = YES;

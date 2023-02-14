@@ -50,6 +50,7 @@
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.type = ShippedSuiteTypeGreen;
     widgetView.isMandatory = YES;
+    widgetView.isInformational = NO;
     widgetView.isRespectServer = YES;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
 
@@ -122,6 +123,23 @@
     [self waitForExpectations:@[waitExpectation] timeout:8];
 }
 
+- (void)testIInformational
+{
+    XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
+
+    SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
+    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.isMandatory = YES;
+    widgetView.isInformational = YES;
+    [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
+
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        XCTAssertNotNil(widgetView);
+        [waitExpectation fulfill];
+    }];
+    [self waitForExpectations:@[waitExpectation] timeout:8];
+}
+
 - (void)testFailureOnWidgetView
 {
     [ShippedSuite setMode:ShippedSuiteModeProduction];
@@ -130,6 +148,7 @@
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.type = ShippedSuiteTypeGreenAndShield;
     widgetView.isMandatory = YES;
+    widgetView.isInformational = YES;
     widgetView.isRespectServer = YES;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
 

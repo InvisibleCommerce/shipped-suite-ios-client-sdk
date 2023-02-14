@@ -22,9 +22,9 @@
 {
     [super viewDidLoad];    
     _widgetView.type = ShippedSuiteTypeShield;
-    _widgetView.isMandatory = YES;
-    _widgetView.isInformational = YES;
-    _widgetView.isRespectServer = NO;
+    _widgetView.isMandatory = NO;
+    _widgetView.isInformational = NO;
+    _widgetView.isRespectServer = YES;
     _widgetView.delegate = self;
 }
 
