@@ -23,9 +23,9 @@
     [super viewDidLoad];
     SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
     configuration.type = ShippedSuiteTypeShield;
-    configuration.isInformational = NO;
-    configuration.isMandatory = YES;
-    configuration.isRespectServer = NO;
+    configuration.isInformational = YES;
+    configuration.isMandatory = NO;
+    configuration.isRespectServer = YES;
     _widgetView.configuration = configuration;
     _widgetView.delegate = self;
 }

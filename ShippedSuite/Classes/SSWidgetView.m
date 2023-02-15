@@ -36,8 +36,7 @@ static NSString * const NA = @"N/A";
 @property (nonatomic, strong) UIButton *learnMoreButton;
 @property (nonatomic, strong) UILabel *feeLabel;
 @property (nonatomic, strong) UILabel *descLabel;
-@property (nonatomic, strong, nullable) NSDecimalNumber *shieldFee;
-@property (nonatomic, strong, nullable) NSDecimalNumber *greenFee;
+@property (nonatomic, strong, nullable) SSOffers *offers;
 @property (nonatomic, strong) NSLayoutConstraint *containerLeftConstraint, *learnMoreRightToLeftOfFeeConstraint, *learnMoreRightToEdgeOfContentConstraint;
 @property (nonatomic, strong) NSArray *learnMoreAlignLeftConstraints, *learnMoreAlignRightConstraints;
 
@@ -116,7 +115,7 @@ static NSString * const NA = @"N/A";
     _descLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_containerView addSubview:_descLabel];
     
-    self.type = ShippedSuiteTypeShield;
+    [self updateTexts];
 }
 
 - (void)loadLayoutConstraints
@@ -152,13 +151,8 @@ static NSString * const NA = @"N/A";
     [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
     
-    self.isInformational = NO;
-    [self hideToggleIfMandatory:self.isMandatory];
-}
-
-- (void)updateToggleLayoutConstraints:(SSOffers *)offers
-{
-    [self hideToggleIfMandatory:offers.isMandatory || self.isMandatory];
+    [self hideFeeIfInformational:self.isInformational];
+    [self hideToggleIfMandatory:self.isInformational || self.isMandatory];
 }
 
 - (void)setConfiguration:(SSWidgetViewConfiguration *)configuration
@@ -173,9 +167,14 @@ static NSString * const NA = @"N/A";
 - (void)setType:(ShippedSuiteType)type
 {
     _type = type;
+    [self updateTexts];
+}
+
+- (void)updateTexts
+{
     NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
-    switch (type) {
+    switch (self.type) {
         case ShippedSuiteTypeGreen:
             _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment", nil);
@@ -194,10 +193,17 @@ static NSString * const NA = @"N/A";
     }
 }
 
+- (BOOL)isMandatory
+{
+    if (self.offers) {
+        return self.offers.isMandatory || self.configuration.isMandatory;
+    }
+    return self.configuration.isMandatory;
+}
+
 - (void)setIsMandatory:(BOOL)isMandatory
 {
-    _isMandatory = isMandatory;
-    [self hideToggleIfMandatory:isMandatory];
+    [self hideToggleIfMandatory:self.isInformational || isMandatory];
 }
 
 - (void)hideToggleIfMandatory:(BOOL)isMandatory
@@ -219,6 +225,12 @@ static NSString * const NA = @"N/A";
 - (void)setIsInformational:(BOOL)isInformational
 {
     _isInformational = isInformational;
+    [self hideFeeIfInformational:isInformational];
+    [self hideToggleIfMandatory:isInformational || self.isMandatory];
+}
+
+- (void)hideFeeIfInformational:(BOOL)isInformational
+{
     if (isInformational) {
         self.feeLabel.hidden = YES;
         [NSLayoutConstraint deactivateConstraints:self.learnMoreAlignLeftConstraints];
@@ -230,6 +242,13 @@ static NSString * const NA = @"N/A";
     }
     [self setNeedsUpdateConstraints];
     [self layoutIfNeeded];
+}
+
+- (void)setOffers:(SSOffers *)offers
+{
+    _offers = offers;
+    [self updateWidgetIfConfigsMismatch:offers];
+    [self hideToggleIfMandatory:self.isInformational || self.isMandatory];
 }
 
 - (void)widgetStateChanged:(id)sender
@@ -249,8 +268,7 @@ static NSString * const NA = @"N/A";
             return;
         }
         
-        [strongSelf updateWidgetIfConfigsMismatch:offers];
-        [strongSelf updateToggleLayoutConstraints:offers];
+        strongSelf.offers = offers;
     }];
 }
 
@@ -320,16 +338,12 @@ static NSString * const NA = @"N/A";
             break;
     }
     
-    self.shieldFee = offers.shieldFee;
-    self.greenFee = offers.greenFee;
     [self triggerWidgetChangeWithError:nil];
 }
 
 - (void)updateWidgetIfError:(NSError *)error
 {
     self.feeLabel.text = NA;
-    self.shieldFee = nil;
-    self.greenFee = nil;
     [self triggerWidgetChangeWithError:error];
 }
 
@@ -337,11 +351,11 @@ static NSString * const NA = @"N/A";
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
         NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
-        if ((self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield) && _shieldFee) {
-            values[SSWidgetViewShieldFeeKey] = _shieldFee;
+        if ((self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield) && self.offers.shieldFee) {
+            values[SSWidgetViewShieldFeeKey] = self.offers.shieldFee;
         }
-        if ((self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield) && _greenFee) {
-            values[SSWidgetViewGreenFeeKey] = _greenFee;
+        if ((self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield) && self.offers.greenFee) {
+            values[SSWidgetViewGreenFeeKey] = self.offers.greenFee;
         }
         if (error) {
             values[SSWidgetViewErrorKey] = error;
