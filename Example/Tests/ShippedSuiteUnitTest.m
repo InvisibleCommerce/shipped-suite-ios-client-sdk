@@ -123,7 +123,7 @@
     [self waitForExpectations:@[waitExpectation] timeout:8];
 }
 
-- (void)testIInformational
+- (void)testIsInformational
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
 
