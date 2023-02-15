@@ -8,6 +8,7 @@
 #ifndef ShippedSuite_h
 #define ShippedSuite_h
 
+#import "SSConfiguration.h"
 #import "SSNetworking.h"
 #import "SSOffersRequest.h"
 #import "SSOffersResponse.h"

@@ -24,6 +24,11 @@ static NSString * const NA = @"N/A";
 
 @interface SSWidgetView ()
 
+@property (nonatomic) ShippedSuiteType type;
+@property (nonatomic) BOOL isInformational;
+@property (nonatomic) BOOL isMandatory;
+@property (nonatomic) BOOL isRespectServer;
+
 @property (nonatomic, strong) UISwitch *switchButton;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIView *containerView;
@@ -154,6 +159,15 @@ static NSString * const NA = @"N/A";
 - (void)updateToggleLayoutConstraints:(SSOffers *)offers
 {
     [self hideToggleIfMandatory:offers.isMandatory || self.isMandatory];
+}
+
+- (void)setConfiguration:(SSWidgetViewConfiguration *)configuration
+{
+    _configuration = configuration;
+    self.type = configuration.type;
+    self.isInformational = configuration.isInformational;
+    self.isMandatory = configuration.isMandatory;
+    self.isRespectServer = configuration.isRespectServer;
 }
 
 - (void)setType:(ShippedSuiteType)type
@@ -338,7 +352,10 @@ static NSString * const NA = @"N/A";
 
 - (void)displayLearnMoreModal
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:self.type isInformational:self.isInformational];
+    SSConfiguration *configuration = [SSConfiguration new];
+    configuration.type = self.type;
+    configuration.isInformational = self.isInformational;
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:configuration];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

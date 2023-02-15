@@ -86,10 +86,14 @@ You can initialize it and put it where you want.
 
 ```objective-c
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
-widgetView.type = ShippedSuiteTypeGreenAndShield;
-widgetView.isMandatory = YES;
-widgetView.isInformational = YES;
-widgetView.isRespectServer = YES;
+
+SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+configuration.type = ShippedSuiteTypeShield;
+configuration.isInformational = NO;
+configuration.isMandatory = NO;
+configuration.isRespectServer = YES;
+widgetView.configuration = configuration;
+
 widgetView.delegate = self;
 ```
 
@@ -157,7 +161,11 @@ If you plan to implement the widget yourself to fit the app style, you can still
 - Display learn more modal
 
 ```objective-c
-SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:ShippedSuiteTypeGreen isInformational:YES];
+SSConfiguration *configuration = [SSConfiguration new];
+configuration.type = ShippedSuiteTypeGreen;
+configuration.isInformational = YES;
+SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:configuration];
+
 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     nav.modalPresentationStyle = UIModalPresentationFormSheet;

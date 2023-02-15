@@ -24,20 +24,11 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 @implementation SSLearnMoreViewController
 
-- (instancetype)initWithType:(ShippedSuiteType)type
+- (instancetype)initWithConfiguration:(SSConfiguration *)configuration
 {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        self.type = type;
-        self.isInformational = NO;
-    }
-    return self;
-}
-
-- (instancetype)initWithType:(ShippedSuiteType)type isInformational:(BOOL)isInformational
-{
-    if (self = [super initWithNibName:nil bundle:nil]) {
-        self.type = type;
-        self.isInformational = isInformational;
+        self.type = configuration.type;
+        self.isInformational = configuration.isInformational;
     }
     return self;
 }
