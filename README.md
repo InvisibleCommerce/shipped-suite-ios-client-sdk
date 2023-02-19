@@ -92,8 +92,8 @@ configuration.type = ShippedSuiteTypeShield;
 configuration.isInformational = NO;
 configuration.isMandatory = NO;
 configuration.isRespectServer = YES;
-widgetView.configuration = configuration;
 
+widgetView.configuration = configuration;
 widgetView.delegate = self;
 ```
 

@@ -46,14 +46,17 @@
 - (void)testGreen
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeGreen;
+    configuration.isInformational = NO;
+    configuration.isMandatory = NO;
+    configuration.isRespectServer = NO;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeGreen;
-    widgetView.isMandatory = YES;
-    widgetView.isInformational = NO;
-    widgetView.isRespectServer = YES;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
@@ -64,11 +67,17 @@
 - (void)testShield
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeShield;
+    configuration.isInformational = NO;
+    configuration.isMandatory = NO;
+    configuration.isRespectServer = NO;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeShield;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
@@ -79,11 +88,17 @@
 - (void)testGreenAndShield
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeGreenAndShield;
+    configuration.isInformational = NO;
+    configuration.isMandatory = NO;
+    configuration.isRespectServer = NO;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeGreenAndShield;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
@@ -94,12 +109,17 @@
 - (void)testIsRespectServer
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeShield;
+    configuration.isInformational = NO;
+    configuration.isMandatory = NO;
+    configuration.isRespectServer = YES;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeGreenAndShield;
-    widgetView.isRespectServer = YES;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
@@ -110,12 +130,17 @@
 - (void)testIsMandatory
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeShield;
+    configuration.isInformational = NO;
+    configuration.isMandatory = YES;
+    configuration.isRespectServer = NO;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeGreenAndShield;
-    widgetView.isMandatory = YES;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
@@ -126,13 +151,17 @@
 - (void)testIsInformational
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeShield;
+    configuration.isInformational = YES;
+    configuration.isMandatory = YES;
+    configuration.isRespectServer = NO;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeGreenAndShield;
-    widgetView.isMandatory = YES;
-    widgetView.isInformational = YES;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
@@ -144,14 +173,17 @@
 {
     [ShippedSuite setMode:ShippedSuiteModeProduction];
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
-
+    
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeShield;
+    configuration.isInformational = YES;
+    configuration.isMandatory = YES;
+    configuration.isRespectServer = YES;
+    
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
-    widgetView.type = ShippedSuiteTypeGreenAndShield;
-    widgetView.isMandatory = YES;
-    widgetView.isInformational = YES;
-    widgetView.isRespectServer = YES;
+    widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
-
+    
     [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
         XCTAssertNotNil(widgetView);
         [waitExpectation fulfill];
