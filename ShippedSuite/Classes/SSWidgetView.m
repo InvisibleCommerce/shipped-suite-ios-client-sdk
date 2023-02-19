@@ -152,7 +152,7 @@ static NSString * const NA = @"N/A";
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
     
     [self hideFeeIfInformational:self.isInformational];
-    [self hideToggleIfMandatory:self.isInformational || self.isMandatory];
+    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
 }
 
 - (void)setConfiguration:(SSWidgetViewConfiguration *)configuration
@@ -203,20 +203,22 @@ static NSString * const NA = @"N/A";
 
 - (void)setIsMandatory:(BOOL)isMandatory
 {
-    [self hideToggleIfMandatory:self.isInformational || isMandatory];
+    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
 }
 
-- (void)hideToggleIfMandatory:(BOOL)isMandatory
+- (void)hideToggleIfMandatory:(BOOL)isMandatory isInformational:(BOOL)isInformational
 {
-    if (isMandatory) {
+    if (isMandatory || isInformational) {
         self.switchButton.hidden = YES;
-        self.switchButton.on = YES;
         self.imageView.hidden = NO;
         self.containerLeftConstraint.constant = 43;
     } else {
         self.switchButton.hidden = NO;
         self.imageView.hidden = YES;
         self.containerLeftConstraint.constant = 63;
+    }
+    if (isMandatory) {
+        self.switchButton.on = YES;
     }
     [self setNeedsUpdateConstraints];
     [self layoutIfNeeded];
@@ -226,7 +228,7 @@ static NSString * const NA = @"N/A";
 {
     _isInformational = isInformational;
     [self hideFeeIfInformational:isInformational];
-    [self hideToggleIfMandatory:isInformational || self.isMandatory];
+    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
 }
 
 - (void)hideFeeIfInformational:(BOOL)isInformational
@@ -248,7 +250,7 @@ static NSString * const NA = @"N/A";
 {
     _offers = offers;
     [self updateWidgetIfConfigsMismatch:offers];
-    [self hideToggleIfMandatory:self.isInformational || self.isMandatory];
+    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
 }
 
 - (void)widgetStateChanged:(id)sender
