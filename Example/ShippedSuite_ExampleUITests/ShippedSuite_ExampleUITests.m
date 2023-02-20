@@ -56,6 +56,36 @@
     XCTAssertTrue(doneElement.exists);
     [doneElement tap];
     
+    XCUIElement *viewTerms = self.app.buttons[@"Terms of Service"];
+    [self waitForElement:viewTerms duration:10];
+    XCTAssertTrue(viewTerms.exists);
+    [viewTerms tap];
+
+    doneElement = self.app.buttons[@"Done"];
+    [self waitForElement:doneElement duration:10];
+    XCTAssertTrue(doneElement.exists);
+    [doneElement tap];
+    
+    XCUIElement *viewPrivacy = self.app.buttons[@"Privacy Policy"];
+    [self waitForElement:viewPrivacy duration:10];
+    XCTAssertTrue(viewPrivacy.exists);
+    [viewPrivacy tap];
+
+    doneElement = self.app.buttons[@"Done"];
+    [self waitForElement:doneElement duration:10];
+    XCTAssertTrue(doneElement.exists);
+    [doneElement tap];
+    
+    XCUIElement *viewDownload = self.app.buttons[@"Download Shipped"];
+    [self waitForElement:viewDownload duration:10];
+    XCTAssertTrue(viewDownload.exists);
+    [viewDownload tap];
+
+    doneElement = self.app.buttons[@"Done"];
+    [self waitForElement:doneElement duration:10];
+    XCTAssertTrue(doneElement.exists);
+    [doneElement tap];
+    
     doneElement = self.app.buttons[@"Close Learn More Modal"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);
