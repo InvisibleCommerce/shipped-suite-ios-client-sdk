@@ -177,7 +177,7 @@ static NSString * const NA = @"N/A";
     switch (self.type) {
         case ShippedSuiteTypeGreen:
             _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
-            _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment", nil);
+            _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment for the Earth", nil);
             _imageView.image = [UIImage imageNamed:@"green_logo" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             break;
         case ShippedSuiteTypeShield:

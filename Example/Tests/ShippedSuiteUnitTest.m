@@ -43,6 +43,20 @@
     XCTAssertEqualObjects([ShippedSuite defaultBaseURL], [NSURL URLWithString:@"https://api-staging.shippedsuite.com/"]);
 }
 
+- (void)testConfiguration
+{
+    SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
+    configuration.type = ShippedSuiteTypeGreen;
+    configuration.isInformational = YES;
+    configuration.isMandatory = YES;
+    configuration.isRespectServer = YES;
+    
+    XCTAssertEqual(configuration.type, ShippedSuiteTypeGreen);
+    XCTAssertEqual(configuration.isInformational, YES);
+    XCTAssertEqual(configuration.isMandatory, YES);
+    XCTAssertEqual(configuration.isRespectServer, YES);
+}
+
 - (void)testGreen
 {
     XCTestExpectation *waitExpectation = [[XCTestExpectation alloc] initWithDescription:@"Waiting"];
