@@ -25,7 +25,7 @@
     configuration.type = ShippedSuiteTypeShield;
     configuration.isInformational = YES;
     configuration.isMandatory = NO;
-    configuration.isRespectServer = YES;
+    configuration.isRespectServer = NO;
     _widgetView.configuration = configuration;
     _widgetView.delegate = self;
 }
@@ -93,7 +93,7 @@
 {
     SSConfiguration *configuration = [SSConfiguration new];
     configuration.type = ShippedSuiteTypeGreen;
-    configuration.isInformational = YES;
+    configuration.isInformational = NO;
     SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:configuration];    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
