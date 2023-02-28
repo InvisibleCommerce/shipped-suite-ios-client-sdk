@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SSConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,11 +35,6 @@ FOUNDATION_EXPORT NSString *const SSWidgetViewErrorKey;
  */
 IB_DESIGNABLE
 @interface SSWidgetView : UIView
-
-/**
- Includes some basic settings.
- */
-@property (nonatomic, strong) SSWidgetViewConfiguration *configuration;
 
 /**
  A delegate which handles the widget callback.

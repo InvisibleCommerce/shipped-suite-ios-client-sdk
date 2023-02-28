@@ -6,6 +6,7 @@
 //
 
 #import "SSWidgetView.h"
+#import "ShippedSuite+Configuration.h"
 #import "SSUtils.h"
 #import "ShippedSuite+API.h"
 #import "SSLearnMoreViewController.h"
@@ -50,6 +51,7 @@ static NSString * const NA = @"N/A";
     if (self) {
         [self loadViews];
         [self loadLayoutConstraints];
+        [self loadConfiguration];
     }
     return self;
 }
@@ -59,6 +61,7 @@ static NSString * const NA = @"N/A";
     if ([super initWithCoder:coder]) {
         [self loadViews];
         [self loadLayoutConstraints];
+        [self loadConfiguration];
     }
     return self;
 }
@@ -146,7 +149,7 @@ static NSString * const NA = @"N/A";
     [self.containerView addConstraints:self.learnMoreAlignLeftConstraints];
     self.learnMoreAlignRightConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]->=hSpace-[learnMoreButton]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
     [self.containerView addConstraints:self.learnMoreAlignRightConstraints];
-
+    
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
     [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
@@ -155,13 +158,12 @@ static NSString * const NA = @"N/A";
     [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
 }
 
-- (void)setConfiguration:(SSWidgetViewConfiguration *)configuration
+- (void)loadConfiguration
 {
-    _configuration = configuration;
-    self.type = configuration.type;
-    self.isInformational = configuration.isInformational;
-    self.isMandatory = configuration.isMandatory;
-    self.isRespectServer = configuration.isRespectServer;
+    self.type = ShippedSuite.type;
+    self.isInformational = ShippedSuite.isInformational;
+    self.isMandatory = ShippedSuite.isMandatory;
+    self.isRespectServer = ShippedSuite.isRespectServer;
 }
 
 - (void)setType:(ShippedSuiteType)type
@@ -196,9 +198,9 @@ static NSString * const NA = @"N/A";
 - (BOOL)isMandatory
 {
     if (self.offers) {
-        return self.offers.isMandatory || self.configuration.isMandatory;
+        return self.offers.isMandatory || ShippedSuite.isMandatory;
     }
-    return self.configuration.isMandatory;
+    return ShippedSuite.isMandatory;
 }
 
 - (void)setIsMandatory:(BOOL)isMandatory
@@ -318,6 +320,7 @@ static NSString * const NA = @"N/A";
         } else {
             self.type = ShippedSuiteTypeShield;
         }
+        ShippedSuite.type = self.type;
     }
     
     self.feeLabel.text = NA;
@@ -368,10 +371,7 @@ static NSString * const NA = @"N/A";
 
 - (void)displayLearnMoreModal
 {
-    SSConfiguration *configuration = [SSConfiguration new];
-    configuration.type = self.type;
-    configuration.isInformational = self.isInformational;
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:configuration];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

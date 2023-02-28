@@ -27,7 +27,7 @@
 - (void)testExample {
     XCUIElement *switchElement = self.app.switches[@"Switch"];
     XCUIElement *logoElement = self.app.images[@"Logo"];
-
+    
     XCTAssertTrue(switchElement.exists || logoElement.exists);
     if (switchElement.exists) {
         [switchElement tap];
@@ -50,7 +50,7 @@
     [self waitForElement:viewFullElement duration:10];
     XCTAssertTrue(viewFullElement.exists);
     [viewFullElement tap];
-
+    
     doneElement = self.app.buttons[@"Done"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);
@@ -60,7 +60,7 @@
     [self waitForElement:viewTerms duration:10];
     XCTAssertTrue(viewTerms.exists);
     [viewTerms tap];
-
+    
     doneElement = self.app.buttons[@"Done"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);
@@ -70,7 +70,7 @@
     [self waitForElement:viewPrivacy duration:10];
     XCTAssertTrue(viewPrivacy.exists);
     [viewPrivacy tap];
-
+    
     doneElement = self.app.buttons[@"Done"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);
@@ -80,7 +80,7 @@
     [self waitForElement:viewDownload duration:10];
     XCTAssertTrue(viewDownload.exists);
     [viewDownload tap];
-
+    
     doneElement = self.app.buttons[@"Done"];
     [self waitForElement:doneElement duration:10];
     XCTAssertTrue(doneElement.exists);

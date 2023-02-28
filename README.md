@@ -80,20 +80,20 @@ If you want to test on different endpoint, you can customize mode. The default i
 [ShippedSuite setMode:ShippedSuiteProductionMode];
 ```
 
+You can also customize WidgetView's styles.
+```objective-c
+[ShippedSuite setType:ShippedSuiteTypeShield];
+[ShippedSuite setIsRespectServer:YES];
+[ShippedSuite setIsMandatory:NO];
+[ShippedSuite setIsInformational:NO];
+```
+
 ### Create a Widget view with offers
 
 You can initialize it and put it where you want.
 
 ```objective-c
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
-
-SSWidgetViewConfiguration *configuration = [SSWidgetViewConfiguration new];
-configuration.type = ShippedSuiteTypeShield;
-configuration.isInformational = NO;
-configuration.isMandatory = NO;
-configuration.isRespectServer = YES;
-
-widgetView.configuration = configuration;
 widgetView.delegate = self;
 ```
 
@@ -161,11 +161,7 @@ If you plan to implement the widget yourself to fit the app style, you can still
 - Display learn more modal
 
 ```objective-c
-SSConfiguration *configuration = [SSConfiguration new];
-configuration.type = ShippedSuiteTypeGreen;
-configuration.isInformational = YES;
-SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:configuration];
-
+SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithNibName:nil bundle:nil];
 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     nav.modalPresentationStyle = UIModalPresentationFormSheet;

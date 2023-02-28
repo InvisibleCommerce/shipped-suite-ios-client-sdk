@@ -7,6 +7,7 @@
 
 #import "SSLearnMoreViewController.h"
 #import <SafariServices/SafariServices.h>
+#import "ShippedSuite+Configuration.h"
 #import "SSUtils.h"
 
 static NSString * const SSDownloadShippedURL = @"https://www.shippedapp.co";
@@ -23,15 +24,6 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 @end
 
 @implementation SSLearnMoreViewController
-
-- (instancetype)initWithConfiguration:(SSConfiguration *)configuration
-{
-    if (self = [super initWithNibName:nil bundle:nil]) {
-        self.type = configuration.type;
-        self.isInformational = configuration.isInformational;
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -114,7 +106,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     NSLayoutConstraint *heightConstraint = [contentView.heightAnchor constraintEqualToAnchor:scrollView.heightAnchor];
     heightConstraint.priority = UILayoutPriorityDefaultLow;
     heightConstraint.active = YES;
-
+    
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[headerView]|" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView(88)]-vSpace-[titleLabel]" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[titleLabel]-margin-|" options:0 metrics:metrics views:views]];
@@ -127,6 +119,16 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     } else {
         [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[bannerView]->=0-[actionView]|" options:0 metrics:metrics views:views]];
     }
+}
+
+- (ShippedSuiteType)type
+{
+    return ShippedSuite.type;
+}
+
+- (BOOL)isInformational
+{
+    return ShippedSuite.isInformational;
 }
 
 - (NSString *)logoName
@@ -263,7 +265,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tickLabel(15)]-hSpace-[titleLabel]|" options:NSLayoutFormatAlignAllTop metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleLabel]|" options:0 metrics:metrics views:views]];
-
+    
     return contentView;
 }
 

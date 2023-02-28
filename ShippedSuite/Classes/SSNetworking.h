@@ -9,16 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum : NSUInteger {
-    ShippedSuiteTypeShield,
-    ShippedSuiteTypeGreen,
-    ShippedSuiteTypeGreenAndShield
-} ShippedSuiteType;
-
-typedef enum : NSUInteger {
-    ShippedSuiteModeDevelopment,
-    ShippedSuiteModeProduction
-} ShippedSuiteMode;
+typedef NS_ENUM(NSInteger, SSHTTPMethod) {
+    SSHTTPMethodGET,
+    SSHTTPMethodPOST
+};
 
 /**
  `ShippedSuite` contains the base configuration the SDK needs.
@@ -29,41 +23,7 @@ typedef enum : NSUInteger {
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)allocWithZone:(struct _NSZone *)zone NS_UNAVAILABLE;
 
-/**
- Set base URL.
- 
- @param baseURL A baseURL required.
- */
-+ (void)setDefaultBaseURL:(NSURL *)baseURL;
-
-/**
- Get base URL.
- */
-+ (NSURL *)defaultBaseURL;
-
-/**
- Set sdk mode.
- 
- @param mode A mode required.
- */
-+ (void)setMode:(ShippedSuiteMode)mode;
-
-/**
- Get sdk mode. Development mode as default.
- */
-+ (ShippedSuiteMode)mode;
-
-/**
- Configure public key.
- */
-+ (void)configurePublicKey:(NSString *)publicKey;
-
 @end
-
-typedef NS_ENUM(NSInteger, SSHTTPMethod) {
-    SSHTTPMethodGET,
-    SSHTTPMethodPOST
-};
 
 /**
  Http request

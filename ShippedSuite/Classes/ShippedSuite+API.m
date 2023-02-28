@@ -6,9 +6,6 @@
 //
 
 #import "ShippedSuite+API.h"
-#import "SSNetworking.h"
-#import "SSOffersRequest.h"
-#import "SSOffersResponse.h"
 
 @implementation ShippedSuite (API)
 
