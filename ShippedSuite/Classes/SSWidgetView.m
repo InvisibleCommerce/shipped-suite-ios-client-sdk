@@ -13,8 +13,7 @@
 
 // Callback Keys
 NSString * const SSWidgetViewIsSelectedKey = @"isSelected";
-NSString * const SSWidgetViewShieldFeeKey = @"shieldFee";
-NSString * const SSWidgetViewGreenFeeKey = @"greenFee";
+NSString * const SSWidgetViewTotalFeeKey = @"totalFee";
 NSString * const SSWidgetViewErrorKey = @"error";
 
 // UserDefaults Keys
@@ -328,17 +327,17 @@ static NSString * const NA = @"N/A";
     switch (self.type) {
         case ShippedSuiteTypeGreen:
             if (offers.greenFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
+                self.feeLabel.text = offers.greenFeeWithCurrency.formatted;
             }
             break;
         case ShippedSuiteTypeShield:
             if (offers.shieldFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.shieldFee.stringValue];
+                self.feeLabel.text = offers.shieldFeeWithCurrency.formatted;
             }
             break;
         case ShippedSuiteTypeGreenAndShield:
             if (offers.greenFee && offers.shieldFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
+                self.feeLabel.text = [NSString stringWithFormat:@"%@%@", offers.shieldFeeWithCurrency.currency.symbol, [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
             }
             break;
     }
@@ -356,11 +355,14 @@ static NSString * const NA = @"N/A";
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
         NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
-        if ((self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield) && self.offers.shieldFee) {
-            values[SSWidgetViewShieldFeeKey] = self.offers.shieldFee;
+        if (self.type == ShippedSuiteTypeShield && self.offers.shieldFee) {
+            values[SSWidgetViewTotalFeeKey] = self.offers.shieldFee;
         }
-        if ((self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield) && self.offers.greenFee) {
-            values[SSWidgetViewGreenFeeKey] = self.offers.greenFee;
+        if (self.type == ShippedSuiteTypeGreen && self.offers.greenFee) {
+            values[SSWidgetViewTotalFeeKey] = self.offers.greenFee;
+        }
+        if (self.type == ShippedSuiteTypeGreenAndShield && self.offers.shieldFee && self.offers.greenFee) {
+            values[SSWidgetViewTotalFeeKey] = [self.offers.shieldFee decimalNumberByAdding:self.offers.greenFee];
         }
         if (error) {
             values[SSWidgetViewErrorKey] = error;

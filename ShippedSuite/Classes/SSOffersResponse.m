@@ -8,6 +8,48 @@
 #import "SSOffersResponse.h"
 #import "SSUtils.h"
 
+@implementation SSCurrency
+
++ (id)decodeFromJSON:(NSDictionary *)json
+{
+    SSCurrency *currency = [SSCurrency new];
+    currency.decimalMark = json[@"decimal_mark"];
+    currency.symbol = json[@"symbol"];
+    NSNumber *symbolFirst = json[@"symbol_first"];
+    if (symbolFirst) {
+        currency.symbolFirst = [symbolFirst boolValue];
+    }
+    currency.thousandsSeparator = json[@"thousands_separator"];
+    NSNumber *subunitToUnit = json[@"subunit_to_unit"];
+    if (subunitToUnit && [subunitToUnit isKindOfClass:[NSNumber class]]) {
+        currency.subunitToUnit = [NSDecimalNumber decimalNumberWithDecimal:[subunitToUnit decimalValue]];
+    }
+    currency.isoCode = json[@"iso_code"];
+    currency.name = json[@"name"];
+    return currency;
+}
+
+@end
+
+@implementation SSFeeWithCurrency
+
++ (id)decodeFromJSON:(NSDictionary *)json
+{
+    SSFeeWithCurrency *feeWithCurrency = [SSFeeWithCurrency new];
+    NSDictionary *currencyJson = json[@"currency"];
+    if (currencyJson && [currencyJson isKindOfClass:[NSDictionary class]]) {
+        feeWithCurrency.currency = [SSCurrency decodeFromJSON:currencyJson];
+    }
+    NSNumber *subunits = json[@"subunits"];
+    if (subunits && [subunits isKindOfClass:[NSNumber class]]) {
+        feeWithCurrency.subunits = [NSDecimalNumber decimalNumberWithDecimal:[subunits decimalValue]];
+    }
+    feeWithCurrency.formatted = json[@"formatted"];
+    return feeWithCurrency;
+}
+
+@end
+
 @implementation SSOffers
 
 + (id)decodeFromJSON:(NSDictionary *)json
@@ -22,9 +64,17 @@
     if (shieldFee && [shieldFee isKindOfClass:[NSString class]]) {
         offers.shieldFee = [NSDecimalNumber decimalNumberWithString:shieldFee];
     }
+    NSDictionary *shieldFeeWithCurrency = json[@"shield_fee_with_currency"];
+    if (shieldFeeWithCurrency && [shieldFeeWithCurrency isKindOfClass:[NSDictionary class]]) {
+        offers.shieldFeeWithCurrency = [SSFeeWithCurrency decodeFromJSON:shieldFeeWithCurrency];
+    }
     NSString *greenFee = json[@"green_fee"];
     if (greenFee && [greenFee isKindOfClass:[NSString class]]) {
         offers.greenFee = [NSDecimalNumber decimalNumberWithString:greenFee];
+    }
+    NSDictionary *greenFeeWithCurrency = json[@"green_fee_with_currency"];
+    if (greenFeeWithCurrency && [greenFeeWithCurrency isKindOfClass:[NSDictionary class]]) {
+        offers.greenFeeWithCurrency = [SSFeeWithCurrency decodeFromJSON:greenFeeWithCurrency];
     }
     NSNumber *mandatory = json[@"mandatory"];
     if (mandatory) {

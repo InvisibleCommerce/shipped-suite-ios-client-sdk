@@ -42,14 +42,9 @@
     BOOL isSelected = [values[SSWidgetViewIsSelectedKey] boolValue];
     NSLog(@"Widget state: %@", isSelected ? @"YES" : @"NO");
     
-    NSDecimalNumber *shieldFee = values[SSWidgetViewShieldFeeKey];
-    if (shieldFee) {
-        NSLog(@"Shield fee: %@", shieldFee.stringValue);
-    }
-    
-    NSDecimalNumber *greenFee = values[SSWidgetViewGreenFeeKey];
-    if (greenFee) {
-        NSLog(@"Green fee: %@", greenFee.stringValue);
+    NSDecimalNumber *totalFee = values[SSWidgetViewTotalFeeKey];
+    if (totalFee) {
+        NSLog(@"Total fee: %@", totalFee.stringValue);
     }
     
     NSError *error = values[SSWidgetViewErrorKey];
