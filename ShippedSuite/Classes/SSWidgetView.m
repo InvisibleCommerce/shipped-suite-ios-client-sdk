@@ -24,11 +24,6 @@ static NSString * const NA = @"N/A";
 
 @interface SSWidgetView ()
 
-@property (nonatomic) ShippedSuiteType type;
-@property (nonatomic) BOOL isInformational;
-@property (nonatomic) BOOL isMandatory;
-@property (nonatomic) BOOL isRespectServer;
-
 @property (nonatomic, strong) UISwitch *switchButton;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIView *containerView;
@@ -50,7 +45,6 @@ static NSString * const NA = @"N/A";
     if (self) {
         [self loadViews];
         [self loadLayoutConstraints];
-        [self loadConfiguration];
     }
     return self;
 }
@@ -60,7 +54,6 @@ static NSString * const NA = @"N/A";
     if ([super initWithCoder:coder]) {
         [self loadViews];
         [self loadLayoutConstraints];
-        [self loadConfiguration];
     }
     return self;
 }
@@ -153,29 +146,23 @@ static NSString * const NA = @"N/A";
     [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
     
-    [self hideFeeIfInformational:self.isInformational];
-    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
+    [self hideFeeIfInformational:NO];
+    [self hideToggleIfMandatory:NO isInformational:NO];
 }
 
-- (void)loadConfiguration
+- (void)setConfiguration:(ShippedSuiteConfiguration *)configuration
 {
-    self.type = ShippedSuite.type;
-    self.isInformational = ShippedSuite.isInformational;
-    self.isMandatory = ShippedSuite.isMandatory;
-    self.isRespectServer = ShippedSuite.isRespectServer;
-}
-
-- (void)setType:(ShippedSuiteType)type
-{
-    _type = type;
+    _configuration = configuration;
     [self updateTexts];
+    [self hideToggleIfMandatory:configuration.isMandatory isInformational:configuration.isInformational];
+    [self hideFeeIfInformational:configuration.isInformational];
 }
 
 - (void)updateTexts
 {
     NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
             _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment for the Earth", nil);
@@ -192,19 +179,6 @@ static NSString * const NA = @"N/A";
             _imageView.image = [UIImage imageNamed:@"green+shield_logo" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             break;
     }
-}
-
-- (BOOL)isMandatory
-{
-    if (self.offers) {
-        return self.offers.isMandatory || ShippedSuite.isMandatory;
-    }
-    return ShippedSuite.isMandatory;
-}
-
-- (void)setIsMandatory:(BOOL)isMandatory
-{
-    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
 }
 
 - (void)hideToggleIfMandatory:(BOOL)isMandatory isInformational:(BOOL)isInformational
@@ -225,13 +199,6 @@ static NSString * const NA = @"N/A";
     [self layoutIfNeeded];
 }
 
-- (void)setIsInformational:(BOOL)isInformational
-{
-    _isInformational = isInformational;
-    [self hideFeeIfInformational:isInformational];
-    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
-}
-
 - (void)hideFeeIfInformational:(BOOL)isInformational
 {
     if (isInformational) {
@@ -250,8 +217,9 @@ static NSString * const NA = @"N/A";
 - (void)setOffers:(SSOffers *)offers
 {
     _offers = offers;
+    self.configuration.isMandatory = offers.isMandatory || self.configuration.isMandatory;
     [self updateWidgetIfConfigsMismatch:offers];
-    [self hideToggleIfMandatory:self.isMandatory isInformational:self.isInformational];
+    [self hideToggleIfMandatory:self.configuration.isMandatory isInformational:self.configuration.isInformational];
 }
 
 - (void)widgetStateChanged:(id)sender
@@ -278,13 +246,13 @@ static NSString * const NA = @"N/A";
 - (void)updateWidgetIfConfigsMismatch:(SSOffers *)offers
 {
     BOOL shouldUpdate = NO;
-    BOOL isShield = self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield;
-    BOOL isGreen = self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield;
+    BOOL isShield = self.configuration.type == ShippedSuiteTypeShield || self.configuration.type == ShippedSuiteTypeGreenAndShield;
+    BOOL isGreen = self.configuration.type == ShippedSuiteTypeGreen || self.configuration.type == ShippedSuiteTypeGreenAndShield;
     
     if (isShield && !offers.isShieldAvailable) {
         isShield = NO;
         shouldUpdate = YES;
-    } else if (!isShield && offers.isShieldAvailable && self.isRespectServer) {
+    } else if (!isShield && offers.isShieldAvailable && self.configuration.isRespectServer) {
         isShield = YES;
         shouldUpdate = YES;
     }
@@ -292,7 +260,7 @@ static NSString * const NA = @"N/A";
     if (isGreen && !offers.isGreenAvailable) {
         isGreen = NO;
         shouldUpdate = YES;
-    } else if (!isGreen && offers.isGreenAvailable && self.isRespectServer) {
+    } else if (!isGreen && offers.isGreenAvailable && self.configuration.isRespectServer) {
         isGreen = YES;
         shouldUpdate = YES;
     }
@@ -311,20 +279,20 @@ static NSString * const NA = @"N/A";
     
     if (shouldUpdate) {
         if (isShield && !isGreen) {
-            self.type = ShippedSuiteTypeShield;
+            self.configuration.type = ShippedSuiteTypeShield;
         } else if (!isShield && isGreen) {
-            self.type = ShippedSuiteTypeGreen;
+            self.configuration.type = ShippedSuiteTypeGreen;
         } else if (isShield && isGreen) {
-            self.type = ShippedSuiteTypeGreenAndShield;
+            self.configuration.type = ShippedSuiteTypeGreenAndShield;
         } else {
-            self.type = ShippedSuiteTypeShield;
+            self.configuration.type = ShippedSuiteTypeShield;
         }
-        ShippedSuite.type = self.type;
+        [self updateTexts];
     }
     
     self.feeLabel.text = NA;
     
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             if (offers.greenFee) {
                 self.feeLabel.text = offers.greenFeeWithCurrency.formatted;
@@ -355,13 +323,13 @@ static NSString * const NA = @"N/A";
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
         NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
-        if (self.type == ShippedSuiteTypeShield && self.offers.shieldFee) {
+        if (self.configuration.type == ShippedSuiteTypeShield && self.offers.shieldFee) {
             values[SSWidgetViewTotalFeeKey] = self.offers.shieldFee;
         }
-        if (self.type == ShippedSuiteTypeGreen && self.offers.greenFee) {
+        if (self.configuration.type == ShippedSuiteTypeGreen && self.offers.greenFee) {
             values[SSWidgetViewTotalFeeKey] = self.offers.greenFee;
         }
-        if (self.type == ShippedSuiteTypeGreenAndShield && self.offers.shieldFee && self.offers.greenFee) {
+        if (self.configuration.type == ShippedSuiteTypeGreenAndShield && self.offers.shieldFee && self.offers.greenFee) {
             values[SSWidgetViewTotalFeeKey] = [self.offers.shieldFee decimalNumberByAdding:self.offers.greenFee];
         }
         if (error) {
@@ -373,7 +341,7 @@ static NSString * const NA = @"N/A";
 
 - (void)displayLearnMoreModal
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithNibName:nil bundle:nil];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:self.configuration];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

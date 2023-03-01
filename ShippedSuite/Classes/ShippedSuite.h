@@ -15,5 +15,6 @@
 #import "SSOffersResponse.h"
 #import "SSWidgetView.h"
 #import "SSLearnMoreViewController.h"
+#import "ShippedSuiteConfiguration.h"
 
 #endif /* ShippedSuite_h */

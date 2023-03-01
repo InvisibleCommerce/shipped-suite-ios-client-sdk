@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShippedSuiteConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,6 +40,11 @@ IB_DESIGNABLE
  A delegate which handles the widget callback.
  */
 @property (weak, nonatomic) IBOutlet id <SSWidgetViewDelegate> delegate;
+
+/**
+ Includes some basic settings.
+ */
+@property (strong, nonatomic) ShippedSuiteConfiguration *configuration;
 
 /**
  This method is called to get the latest fee.

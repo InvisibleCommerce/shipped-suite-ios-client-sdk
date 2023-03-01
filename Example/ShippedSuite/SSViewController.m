@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet SSWidgetView *widgetView;
+@property (strong, nonatomic) ShippedSuiteConfiguration *configuration;
 
 @end
 
@@ -21,7 +22,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    ShippedSuiteConfiguration *configuration = [ShippedSuiteConfiguration new];
+    configuration.type = ShippedSuiteTypeGreen;
+    configuration.isInformational = YES;
+    configuration.isMandatory = NO;
+    configuration.isRespectServer = NO;
+    self.configuration = configuration;
+    
     _widgetView.delegate = self;
+    _widgetView.configuration = configuration;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,8 +89,8 @@
 #pragma mark - Customization
 
 - (IBAction)displayLearnMoreModal:(id)sender
-{
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithNibName:nil bundle:nil];
+{    
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:self.configuration];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;

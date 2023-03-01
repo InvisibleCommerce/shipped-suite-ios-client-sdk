@@ -13,6 +13,7 @@
 #import "ShippedSuite+API.h"
 #import "ShippedSuite+Configuration.h"
 #import "ShippedSuite.h"
+#import "ShippedSuiteConfiguration.h"
 #import "SSLearnMoreViewController.h"
 #import "SSLogger.h"
 #import "SSNetworking.h"

@@ -18,12 +18,19 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
-@property (nonatomic) ShippedSuiteType type;
-@property (nonatomic) BOOL isInformational;
+@property (nonatomic, strong) ShippedSuiteConfiguration *configuration;
 
 @end
 
 @implementation SSLearnMoreViewController
+
+- (instancetype)initWithConfiguration:(ShippedSuiteConfiguration *)configuration
+{
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        self.configuration = configuration;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -121,19 +128,9 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     }
 }
 
-- (ShippedSuiteType)type
-{
-    return ShippedSuite.type;
-}
-
-- (BOOL)isInformational
-{
-    return ShippedSuite.isInformational;
-}
-
 - (NSString *)logoName
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             return @"green_logo";
         case ShippedSuiteTypeShield:
@@ -145,7 +142,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 - (NSString *)titleText
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Shipped Green Carbon Neutral Shipment", nil);
         case ShippedSuiteTypeShield:
@@ -157,20 +154,20 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 - (NSString *)subtitleText
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
-            return self.isInformational ? NSLocalizedString(@"We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions created from delivering this order to you.", nil) : NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
+            return self.configuration.isInformational ? NSLocalizedString(@"We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions created from delivering this order to you.", nil) : NSLocalizedString(@"Fight climate change while supporting sustainable shopping", nil);
         case ShippedSuiteTypeShield:
             return NSLocalizedString(@"Have peace of mind and instantly resolve unexpected issues hassle-free", nil);
         case ShippedSuiteTypeGreenAndShield:
-            return self.isInformational ? NSLocalizedString(@"We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions from delivering this order to you. If you have an unexpected shipment issue, resolve hassle-free with complimentary Shipped Shield package assurance.", nil) : NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
+            return self.configuration.isInformational ? NSLocalizedString(@"We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions from delivering this order to you. If you have an unexpected shipment issue, resolve hassle-free with complimentary Shipped Shield package assurance.", nil) : NSLocalizedString(@"Protect your order with premium package assurance and carbon neutral shipment", nil);
     }
 }
 
 - (BOOL)showTips
 {
-    if (self.isInformational) {
-        switch (self.type) {
+    if (self.configuration.isInformational) {
+        switch (self.configuration.type) {
             case ShippedSuiteTypeShield:
                 return YES;
             default:
@@ -182,7 +179,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 - (NSString *)tip0Text
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Neutralize the carbon emissions from delivering this order.", nil);
         default:
@@ -192,7 +189,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 - (NSString *)tip1Text
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Get certified carbon credits recorded at the project carbon registry.", nil);
         default:
@@ -202,7 +199,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 - (NSString *)tip2Text
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             return NSLocalizedString(@"Track your certificates and see your personal climate impact.", nil);
         default:
@@ -212,11 +209,11 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 
 - (nullable NSString *)bannerName
 {
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             return @"green_banner";
         case ShippedSuiteTypeGreenAndShield:
-            return self.isInformational ? @"green_banner" : @"green+shield_banner";
+            return self.configuration.isInformational ? @"green_banner" : @"green+shield_banner";
         default:
             return nil;
     }
@@ -277,7 +274,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
     bannerView.image = [UIImage imageNamed:[self bannerName] inBundle:resourceBundle compatibleWithTraitCollection:nil];
     
-    if (self.type == ShippedSuiteTypeGreen || (self.type == ShippedSuiteTypeGreenAndShield && self.isInformational)) {
+    if (self.configuration.type == ShippedSuiteTypeGreen || (self.configuration.type == ShippedSuiteTypeGreenAndShield && self.configuration.isInformational)) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewFullProjectStory:)];
         [bannerView addGestureRecognizer:tap];
         bannerView.userInteractionEnabled = YES;
@@ -342,7 +339,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     hStackView.distribution = UIStackViewDistributionEqualSpacing;
     hStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    if (self.type == ShippedSuiteTypeGreen) {
+    if (self.configuration.type == ShippedSuiteTypeGreen) {
         UIButton *download = [self linkButtonWithText:NSLocalizedString(@"Download Shipped", nil) selector:@selector(downloadPressed:)];
         [hStackView addArrangedSubview:download];
     } else {
@@ -387,7 +384,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 - (UIView *)actionView
 {
     UIView *actionView = [UIView new];
-    if (self.type == ShippedSuiteTypeShield) {
+    if (self.configuration.type == ShippedSuiteTypeShield) {
         actionView.backgroundColor = [UIColor colorWithHex:0xF4F4F5];
     }
     

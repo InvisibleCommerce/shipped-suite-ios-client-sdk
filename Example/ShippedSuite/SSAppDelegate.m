@@ -19,12 +19,6 @@
     // Optional, the default mode is development mode
     [ShippedSuite setMode:ShippedSuiteModeDevelopment];
     
-    // Widget & Learn more modal settings
-    [ShippedSuite setType:ShippedSuiteTypeGreen];
-    [ShippedSuite setIsRespectServer:NO];
-    [ShippedSuite setIsMandatory:NO];
-    [ShippedSuite setIsInformational:YES];
-    
     return YES;
 }
 

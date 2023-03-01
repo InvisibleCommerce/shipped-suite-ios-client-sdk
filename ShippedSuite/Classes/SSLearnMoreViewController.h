@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShippedSuiteConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,8 +15,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SSLearnMoreViewController : UIViewController
 
+/**
+ Initialization method.
+ 
+ @param configuration Includes some basic settings.
+ */
+- (instancetype)initWithConfiguration:(ShippedSuiteConfiguration *)configuration;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil
+                         bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 
 @end
 
