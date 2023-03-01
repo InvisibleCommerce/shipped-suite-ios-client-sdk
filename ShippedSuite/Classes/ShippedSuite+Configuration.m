@@ -18,14 +18,6 @@ static ShippedSuiteMode _mode = ShippedSuiteModeDevelopment;
 
 static NSString *_publicKey = nil;
 
-static ShippedSuiteType _type = ShippedSuiteTypeShield;
-
-static BOOL _isInformational = NO;
-
-static BOOL _isMandatory = NO;
-
-static BOOL _isRespectServer = NO;
-
 + (void)setDefaultBaseURL:(NSURL *)baseURL
 {
     _defaultBaseURL = [baseURL URLByAppendingPathComponent:@""];
@@ -63,46 +55,6 @@ static BOOL _isRespectServer = NO;
 + (NSString *)publicKey
 {
     return _publicKey;
-}
-
-+ (void)setType:(ShippedSuiteType)type
-{
-    _type = type;
-}
-
-+ (ShippedSuiteType)type
-{
-    return _type;
-}
-
-+ (void)setIsInformational:(BOOL)isInformational
-{
-    _isInformational = isInformational;
-}
-
-+ (BOOL)isInformational
-{
-    return _isInformational;
-}
-
-+ (void)setIsMandatory:(BOOL)isMandatory
-{
-    _isMandatory = isMandatory;
-}
-
-+ (BOOL)isMandatory
-{
-    return _isMandatory;
-}
-
-+ (void)setIsRespectServer:(BOOL)isRespectServer
-{
-    _isRespectServer = isRespectServer;
-}
-
-+ (BOOL)isRespectServer
-{
-    return _isRespectServer;
 }
 
 @end
