@@ -5,7 +5,9 @@
 //  Created by Victor Zhu on 2022/4/14.
 //
 
-#import "ShippedSuite.h"
+#import "SSNetworking.h"
+#import "SSOffersRequest.h"
+#import "SSOffersResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

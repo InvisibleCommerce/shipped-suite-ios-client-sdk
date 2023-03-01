@@ -8,9 +8,7 @@
 #import "SSNetworking.h"
 #import "SSLogger.h"
 #import "SSUtils.h"
-
-static NSString * const SSAPIStagingBaseURL = @"https://api-staging.shippedsuite.com/";
-static NSString * const SSAPIProductionBaseURL = @"https://api.shippedsuite.com/";
+#import "ShippedSuite+Configuration.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
@@ -23,46 +21,6 @@ NSString *const SSSDKErrorDomain = @"com.invisiblecommerce.ShippedSuite.error";
 #endif
 
 @implementation ShippedSuite
-
-static NSURL *_defaultBaseURL;
-
-static ShippedSuiteMode _mode = ShippedSuiteModeDevelopment;
-
-static NSString *_publicKey = nil;
-
-+ (void)setDefaultBaseURL:(NSURL *)baseURL
-{
-    _defaultBaseURL = [baseURL URLByAppendingPathComponent:@""];
-}
-
-+ (NSURL *)defaultBaseURL
-{
-    if (_defaultBaseURL) {
-        return _defaultBaseURL;
-    }
-    
-    switch (_mode) {
-        case ShippedSuiteModeDevelopment:
-            return [NSURL URLWithString:SSAPIStagingBaseURL];
-        case ShippedSuiteModeProduction:
-            return [NSURL URLWithString:SSAPIProductionBaseURL];
-    }
-}
-
-+ (void)setMode:(ShippedSuiteMode)mode
-{
-    _mode = mode;
-}
-
-+ (ShippedSuiteMode)mode
-{
-    return _mode;
-}
-
-+ (void)configurePublicKey:(NSString *)publicKey
-{
-    _publicKey = publicKey;
-}
 
 @end
 
@@ -173,8 +131,8 @@ static NSString *_publicKey = nil;
     for (NSString *key in headers) {
         [urlRequest setValue:headers[key] forHTTPHeaderField:key];
     }
-    if (_publicKey) {
-        [urlRequest setValue:[NSString stringWithFormat:@"Bearer %@", _publicKey] forHTTPHeaderField:@"Authorization"];
+    if (ShippedSuite.publicKey) {
+        [urlRequest setValue:[NSString stringWithFormat:@"Bearer %@", ShippedSuite.publicKey] forHTTPHeaderField:@"Authorization"];
     } else {
         NSLog(@"You must configure the SDK instance with a 'publicKey' property");
     }

@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SSNetworking.h"
+#import "ShippedSuiteConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,28 +38,14 @@ IB_DESIGNABLE
 @interface SSWidgetView : UIView
 
 /**
- Support green | shield offers. Default is ShippedSuiteTypeShield.
- */
-@property (nonatomic) ShippedSuiteType type;
-
-/**
- False is default.
- When it’s false it means that the widget will respect the config that comes from the server.
- When it’s true it means that the widget will hide the widget toggle and ignore the config that comes from the server.
- */
-@property (nonatomic) BOOL isMandatory;
-
-/**
- False is default.
- When it’s false it means that the widget will have to show green/shield/green+shield variants based on client configuration.
- When it's true, it means that the widget will ignore client config, and only respects the config that comes from the server.
- */
-@property (nonatomic) BOOL isRespectServer;
-
-/**
  A delegate which handles the widget callback.
  */
 @property (weak, nonatomic) IBOutlet id <SSWidgetViewDelegate> delegate;
+
+/**
+ Includes some basic settings.
+ */
+@property (strong, nonatomic) ShippedSuiteConfiguration *configuration;
 
 /**
  This method is called to get the latest fee.

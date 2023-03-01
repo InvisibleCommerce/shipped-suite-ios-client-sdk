@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SSNetworking.h"
+#import "ShippedSuiteConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initialization method.
  
- @param type The type of widget view.
+ @param configuration Includes some basic settings.
  */
-- (instancetype)initWithType:(ShippedSuiteType)type;
+- (instancetype)initWithConfiguration:(ShippedSuiteConfiguration *)configuration;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

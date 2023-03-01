@@ -85,10 +85,14 @@ If you want to test on different endpoint, you can customize mode. The default i
 You can initialize it and put it where you want.
 
 ```objective-c
+ShippedSuiteConfiguration *configuration = [ShippedSuiteConfiguration new];
+configuration.type = ShippedSuiteTypeGreen;
+configuration.isInformational = YES;
+configuration.isMandatory = NO;
+configuration.isRespectServer = NO;
+    
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
-widgetView.type = ShippedSuiteTypeGreenAndShield;
-widgetView.isMandatory = YES;
-widgetView.isRespectServer = YES;
+widgetView.configuration = configuration;
 widgetView.delegate = self;
 ```
 
@@ -156,7 +160,7 @@ If you plan to implement the widget yourself to fit the app style, you can still
 - Display learn more modal
 
 ```objective-c
-SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:ShippedSuiteTypeGreen];
+SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:self.configuration];
 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     nav.modalPresentationStyle = UIModalPresentationFormSheet;

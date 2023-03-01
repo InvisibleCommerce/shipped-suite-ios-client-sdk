@@ -6,6 +6,7 @@
 //
 
 #import "SSWidgetView.h"
+#import "ShippedSuite+Configuration.h"
 #import "SSUtils.h"
 #import "ShippedSuite+API.h"
 #import "SSLearnMoreViewController.h"
@@ -31,9 +32,9 @@ static NSString * const NA = @"N/A";
 @property (nonatomic, strong) UIButton *learnMoreButton;
 @property (nonatomic, strong) UILabel *feeLabel;
 @property (nonatomic, strong) UILabel *descLabel;
-@property (nonatomic, strong, nullable) NSDecimalNumber *shieldFee;
-@property (nonatomic, strong, nullable) NSDecimalNumber *greenFee;
-@property (nonatomic, strong) NSLayoutConstraint *containerLeftConstraint;
+@property (nonatomic, strong, nullable) SSOffers *offers;
+@property (nonatomic, strong) NSLayoutConstraint *containerLeftConstraint, *learnMoreRightToLeftOfFeeConstraint, *learnMoreRightToEdgeOfContentConstraint;
+@property (nonatomic, strong) NSArray *learnMoreAlignLeftConstraints, *learnMoreAlignRightConstraints;
 
 @end
 
@@ -110,7 +111,7 @@ static NSString * const NA = @"N/A";
     _descLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_containerView addSubview:_descLabel];
     
-    self.type = ShippedSuiteTypeShield;
+    [self updateTexts];
 }
 
 - (void)loadLayoutConstraints
@@ -137,29 +138,35 @@ static NSString * const NA = @"N/A";
     [_imageView.heightAnchor constraintEqualToConstant:31].active = YES;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[containerView]|" options:0 metrics:metrics views:views]];
     
-    [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]-hSpace-[learnMoreButton]->=hSpace-[feeLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views]];
-    [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
+    self.learnMoreAlignLeftConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]-hSpace-[learnMoreButton]->=hSpace-[feeLabel]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
+    [self.containerView addConstraints:self.learnMoreAlignLeftConstraints];
+    self.learnMoreAlignRightConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleLabel]->=hSpace-[learnMoreButton]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
+    [self.containerView addConstraints:self.learnMoreAlignRightConstraints];
     
+    [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
     [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
     [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
     
-    [self hideToggleIfMandatory:self.isMandatory];
+    [self hideFeeIfInformational:NO];
+    [self hideToggleIfMandatory:NO isInformational:NO];
 }
 
-- (void)updateToggleLayoutConstraints:(SSOffers *)offers
+- (void)setConfiguration:(ShippedSuiteConfiguration *)configuration
 {
-    [self hideToggleIfMandatory:offers.isMandatory || self.isMandatory];
+    _configuration = configuration;
+    [self updateTexts];
+    [self hideToggleIfMandatory:configuration.isMandatory isInformational:configuration.isInformational];
+    [self hideFeeIfInformational:configuration.isInformational];
 }
 
-- (void)setType:(ShippedSuiteType)type
+- (void)updateTexts
 {
-    _type = type;
     NSBundle *sdkBundle = [NSBundle bundleForClass:self.class];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:[sdkBundle pathForResource:@"ShippedSuite_ShippedSuite" ofType:@"bundle"]];
-    switch (type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             _titleLabel.text = NSLocalizedString(@"Shipped Green", nil);
-            _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment", nil);
+            _descLabel.text = NSLocalizedString(@"Carbon Neutral Shipment for the Earth", nil);
             _imageView.image = [UIImage imageNamed:@"green_logo" inBundle:resourceBundle compatibleWithTraitCollection:nil];
             break;
         case ShippedSuiteTypeShield:
@@ -175,17 +182,10 @@ static NSString * const NA = @"N/A";
     }
 }
 
-- (void)setIsMandatory:(BOOL)isMandatory
+- (void)hideToggleIfMandatory:(BOOL)isMandatory isInformational:(BOOL)isInformational
 {
-    _isMandatory = isMandatory;
-    [self hideToggleIfMandatory:isMandatory];
-}
-
-- (void)hideToggleIfMandatory:(BOOL)isMandatory
-{
-    if (isMandatory) {
+    if (isMandatory || isInformational) {
         self.switchButton.hidden = YES;
-        self.switchButton.on = YES;
         self.imageView.hidden = NO;
         self.containerLeftConstraint.constant = 43;
     } else {
@@ -193,8 +193,34 @@ static NSString * const NA = @"N/A";
         self.imageView.hidden = YES;
         self.containerLeftConstraint.constant = 63;
     }
+    if (isMandatory) {
+        self.switchButton.on = YES;
+    }
     [self setNeedsUpdateConstraints];
     [self layoutIfNeeded];
+}
+
+- (void)hideFeeIfInformational:(BOOL)isInformational
+{
+    if (isInformational) {
+        self.feeLabel.hidden = YES;
+        [NSLayoutConstraint deactivateConstraints:self.learnMoreAlignLeftConstraints];
+        [NSLayoutConstraint activateConstraints:self.learnMoreAlignRightConstraints];
+    } else {
+        self.feeLabel.hidden = NO;
+        [NSLayoutConstraint deactivateConstraints:self.learnMoreAlignRightConstraints];
+        [NSLayoutConstraint activateConstraints:self.learnMoreAlignLeftConstraints];
+    }
+    [self setNeedsUpdateConstraints];
+    [self layoutIfNeeded];
+}
+
+- (void)setOffers:(SSOffers *)offers
+{
+    _offers = offers;
+    self.configuration.isMandatory = offers.isMandatory || self.configuration.isMandatory;
+    [self updateWidgetIfConfigsMismatch:offers];
+    [self hideToggleIfMandatory:self.configuration.isMandatory isInformational:self.configuration.isInformational];
 }
 
 - (void)widgetStateChanged:(id)sender
@@ -214,21 +240,20 @@ static NSString * const NA = @"N/A";
             return;
         }
         
-        [strongSelf updateWidgetIfConfigsMismatch:offers];
-        [strongSelf updateToggleLayoutConstraints:offers];
+        strongSelf.offers = offers;
     }];
 }
 
 - (void)updateWidgetIfConfigsMismatch:(SSOffers *)offers
 {
     BOOL shouldUpdate = NO;
-    BOOL isShield = self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield;
-    BOOL isGreen = self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield;
+    BOOL isShield = self.configuration.type == ShippedSuiteTypeShield || self.configuration.type == ShippedSuiteTypeGreenAndShield;
+    BOOL isGreen = self.configuration.type == ShippedSuiteTypeGreen || self.configuration.type == ShippedSuiteTypeGreenAndShield;
     
     if (isShield && !offers.isShieldAvailable) {
         isShield = NO;
         shouldUpdate = YES;
-    } else if (!isShield && offers.isShieldAvailable && self.isRespectServer) {
+    } else if (!isShield && offers.isShieldAvailable && self.configuration.isRespectServer) {
         isShield = YES;
         shouldUpdate = YES;
     }
@@ -236,7 +261,7 @@ static NSString * const NA = @"N/A";
     if (isGreen && !offers.isGreenAvailable) {
         isGreen = NO;
         shouldUpdate = YES;
-    } else if (!isGreen && offers.isGreenAvailable && self.isRespectServer) {
+    } else if (!isGreen && offers.isGreenAvailable && self.configuration.isRespectServer) {
         isGreen = YES;
         shouldUpdate = YES;
     }
@@ -255,19 +280,20 @@ static NSString * const NA = @"N/A";
     
     if (shouldUpdate) {
         if (isShield && !isGreen) {
-            self.type = ShippedSuiteTypeShield;
+            self.configuration.type = ShippedSuiteTypeShield;
         } else if (!isShield && isGreen) {
-            self.type = ShippedSuiteTypeGreen;
+            self.configuration.type = ShippedSuiteTypeGreen;
         } else if (isShield && isGreen) {
-            self.type = ShippedSuiteTypeGreenAndShield;
+            self.configuration.type = ShippedSuiteTypeGreenAndShield;
         } else {
-            self.type = ShippedSuiteTypeShield;
+            self.configuration.type = ShippedSuiteTypeShield;
         }
+        [self updateTexts];
     }
     
     self.feeLabel.text = NA;
     
-    switch (self.type) {
+    switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             if (offers.greenFee) {
                 self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
@@ -285,16 +311,12 @@ static NSString * const NA = @"N/A";
             break;
     }
     
-    self.shieldFee = offers.shieldFee;
-    self.greenFee = offers.greenFee;
     [self triggerWidgetChangeWithError:nil];
 }
 
 - (void)updateWidgetIfError:(NSError *)error
 {
     self.feeLabel.text = NA;
-    self.shieldFee = nil;
-    self.greenFee = nil;
     [self triggerWidgetChangeWithError:error];
 }
 
@@ -302,11 +324,11 @@ static NSString * const NA = @"N/A";
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
         NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
-        if ((self.type == ShippedSuiteTypeShield || self.type == ShippedSuiteTypeGreenAndShield) && _shieldFee) {
-            values[SSWidgetViewShieldFeeKey] = _shieldFee;
+        if ((self.configuration.type == ShippedSuiteTypeShield || self.configuration.type == ShippedSuiteTypeGreenAndShield) && self.offers.shieldFee) {
+            values[SSWidgetViewShieldFeeKey] = self.offers.shieldFee;
         }
-        if ((self.type == ShippedSuiteTypeGreen || self.type == ShippedSuiteTypeGreenAndShield) && _greenFee) {
-            values[SSWidgetViewGreenFeeKey] = _greenFee;
+        if ((self.configuration.type == ShippedSuiteTypeGreen || self.configuration.type == ShippedSuiteTypeGreenAndShield) && self.offers.greenFee) {
+            values[SSWidgetViewGreenFeeKey] = self.offers.greenFee;
         }
         if (error) {
             values[SSWidgetViewErrorKey] = error;
@@ -317,7 +339,7 @@ static NSString * const NA = @"N/A";
 
 - (void)displayLearnMoreModal
 {
-    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithType:self.type];
+    SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:self.configuration];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if ([UIDevice isIpad]) {
         nav.modalPresentationStyle = UIModalPresentationFormSheet;
