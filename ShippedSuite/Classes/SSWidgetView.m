@@ -305,7 +305,18 @@ static NSString * const NA = @"N/A";
             break;
         case ShippedSuiteTypeGreenAndShield:
             if (offers.greenFee && offers.shieldFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"%@%@", offers.shieldFeeWithCurrency.currency.symbol, [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
+                SSCurrency *currency = offers.shieldFeeWithCurrency.currency;
+                NSString *space = currency.symbol.length > 2 ? @" " : @"";
+                NSInteger fractionDigits = round(log(currency.subunitToUnit.doubleValue) / log(10));
+                NSDecimalNumber *totalFee = [offers.shieldFee decimalNumberByAdding:offers.greenFee];
+                self.feeLabel.text = [totalFee currencyStringWithSymbol:currency.symbol
+                                                                   code:currency.isoCode
+                                                                  space:space
+                                                       decimalSeparator:currency.decimalMark
+                                                  usesGroupingSeparator:currency.thousandsSeparator != nil
+                                                      groupingSeparator:currency.thousandsSeparator
+                                                         fractionDigits:fractionDigits
+                                                            symbolFirst:currency.symbolFirst];
             }
             break;
     }
