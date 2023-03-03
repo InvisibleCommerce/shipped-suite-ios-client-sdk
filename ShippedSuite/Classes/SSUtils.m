@@ -80,9 +80,9 @@
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     formatter.currencySymbol = symbol;
     formatter.currencyCode = code;
-    formatter.decimalSeparator = decimalSeparator;
+    formatter.currencyDecimalSeparator = decimalSeparator;
     formatter.usesGroupingSeparator = usesGroupingSeparator;
-    formatter.groupingSeparator = groupingSeparator;
+    formatter.currencyGroupingSeparator = groupingSeparator;
     formatter.minimumFractionDigits = fractionDigits;
     formatter.maximumFractionDigits = fractionDigits;
     
