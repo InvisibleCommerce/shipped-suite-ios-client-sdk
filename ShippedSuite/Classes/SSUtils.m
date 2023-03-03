@@ -64,3 +64,40 @@
 }
 
 @end
+
+@implementation NSDecimalNumber (Utils)
+
+- (NSString *)currencyStringWithSymbol:(NSString *)symbol
+                                  code:(NSString *)code
+                                 space:(NSString *)space
+                      decimalSeparator:(NSString *)decimalSeparator
+                 usesGroupingSeparator:(BOOL)usesGroupingSeparator
+                     groupingSeparator:(NSString *)groupingSeparator
+                        fractionDigits:(NSUInteger)fractionDigits
+                           symbolFirst:(BOOL)symbolFirst
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterCurrencyStyle;
+    formatter.currencySymbol = symbol;
+    formatter.currencyCode = code;
+    formatter.decimalSeparator = decimalSeparator;
+    formatter.usesGroupingSeparator = usesGroupingSeparator;
+    formatter.groupingSeparator = groupingSeparator;
+    formatter.minimumFractionDigits = fractionDigits;
+    formatter.maximumFractionDigits = fractionDigits;
+    
+    if (symbolFirst) {
+        formatter.positivePrefix = [NSString stringWithFormat:@"%@%@", formatter.currencySymbol, space];
+        formatter.positiveSuffix = @"";
+        formatter.negativePrefix = [NSString stringWithFormat:@"%@%@-", formatter.currencySymbol, space];
+        formatter.negativeSuffix = @"";
+    } else {
+        formatter.positivePrefix = @"";
+        formatter.positiveSuffix = [NSString stringWithFormat:@"%@%@", space, formatter.currencySymbol];
+        formatter.negativePrefix = @"-";
+        formatter.negativeSuffix = [NSString stringWithFormat:@"%@%@", space, formatter.currencySymbol];
+    }
+    return [formatter stringFromNumber:self];
+}
+
+@end

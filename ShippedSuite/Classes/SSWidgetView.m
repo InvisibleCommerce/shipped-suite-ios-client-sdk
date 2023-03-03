@@ -13,8 +13,7 @@
 
 // Callback Keys
 NSString * const SSWidgetViewIsSelectedKey = @"isSelected";
-NSString * const SSWidgetViewShieldFeeKey = @"shieldFee";
-NSString * const SSWidgetViewGreenFeeKey = @"greenFee";
+NSString * const SSWidgetViewTotalFeeKey = @"totalFee";
 NSString * const SSWidgetViewErrorKey = @"error";
 
 // UserDefaults Keys
@@ -296,17 +295,28 @@ static NSString * const NA = @"N/A";
     switch (self.configuration.type) {
         case ShippedSuiteTypeGreen:
             if (offers.greenFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.greenFee.stringValue];
+                self.feeLabel.text = offers.greenFeeWithCurrency.formatted;
             }
             break;
         case ShippedSuiteTypeShield:
             if (offers.shieldFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"$%@", offers.shieldFee.stringValue];
+                self.feeLabel.text = offers.shieldFeeWithCurrency.formatted;
             }
             break;
         case ShippedSuiteTypeGreenAndShield:
             if (offers.greenFee && offers.shieldFee) {
-                self.feeLabel.text = [NSString stringWithFormat:@"$%@", [offers.shieldFee decimalNumberByAdding:offers.greenFee].stringValue];
+                SSCurrency *currency = offers.shieldFeeWithCurrency.currency;
+                NSString *space = currency.symbol.length > 2 ? @" " : @"";
+                NSInteger fractionDigits = round(log(currency.subunitToUnit.doubleValue) / log(10));
+                NSDecimalNumber *totalFee = [offers.shieldFee decimalNumberByAdding:offers.greenFee];
+                self.feeLabel.text = [totalFee currencyStringWithSymbol:currency.symbol
+                                                                   code:currency.isoCode
+                                                                  space:space
+                                                       decimalSeparator:currency.decimalMark
+                                                  usesGroupingSeparator:currency.thousandsSeparator != nil
+                                                      groupingSeparator:currency.thousandsSeparator
+                                                         fractionDigits:fractionDigits
+                                                            symbolFirst:currency.symbolFirst];
             }
             break;
     }
@@ -324,11 +334,14 @@ static NSString * const NA = @"N/A";
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(widgetView:onChange:)]) {
         NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObject:@(_switchButton.isOn) forKey:SSWidgetViewIsSelectedKey];
-        if ((self.configuration.type == ShippedSuiteTypeShield || self.configuration.type == ShippedSuiteTypeGreenAndShield) && self.offers.shieldFee) {
-            values[SSWidgetViewShieldFeeKey] = self.offers.shieldFee;
+        if (self.configuration.type == ShippedSuiteTypeShield && self.offers.shieldFee) {
+            values[SSWidgetViewTotalFeeKey] = self.offers.shieldFee;
         }
-        if ((self.configuration.type == ShippedSuiteTypeGreen || self.configuration.type == ShippedSuiteTypeGreenAndShield) && self.offers.greenFee) {
-            values[SSWidgetViewGreenFeeKey] = self.offers.greenFee;
+        if (self.configuration.type == ShippedSuiteTypeGreen && self.offers.greenFee) {
+            values[SSWidgetViewTotalFeeKey] = self.offers.greenFee;
+        }
+        if (self.configuration.type == ShippedSuiteTypeGreenAndShield && self.offers.shieldFee && self.offers.greenFee) {
+            values[SSWidgetViewTotalFeeKey] = [self.offers.shieldFee decimalNumberByAdding:self.offers.greenFee];
         }
         if (error) {
             values[SSWidgetViewErrorKey] = error;

@@ -40,4 +40,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface NSDecimalNumber (Utils)
+
+- (NSString *)currencyStringWithSymbol:(NSString *)symbol
+                                  code:(NSString *)code
+                                 space:(NSString *)space
+                      decimalSeparator:(NSString *)decimalSeparator
+                 usesGroupingSeparator:(BOOL)usesGroupingSeparator
+                     groupingSeparator:(NSString *)groupingSeparator
+                        fractionDigits:(NSUInteger)fractionDigits
+                           symbolFirst:(BOOL)symbolFirst;
+
+@end
+
 NS_ASSUME_NONNULL_END
