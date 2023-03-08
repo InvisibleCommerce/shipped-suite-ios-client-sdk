@@ -99,8 +99,11 @@ static NSString * const NA = @"N/A";
     
     _feeLabel = [UILabel new];
     _feeLabel.text = NA;
+    _feeLabel.textAlignment = NSTextAlignmentNatural;
     _feeLabel.textColor = [UIColor colorWithHex:0x1A1A1A];
     _feeLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
+    _feeLabel.adjustsFontSizeToFitWidth = YES;
+    _feeLabel.minimumScaleFactor = 0.6;
     _feeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_containerView addSubview:_feeLabel];
     
