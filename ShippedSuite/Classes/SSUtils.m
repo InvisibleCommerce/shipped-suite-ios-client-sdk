@@ -80,24 +80,25 @@
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     formatter.currencySymbol = symbol;
     formatter.currencyCode = code;
-    formatter.decimalSeparator = decimalSeparator;
+    formatter.currencyDecimalSeparator = decimalSeparator;
     formatter.usesGroupingSeparator = usesGroupingSeparator;
-    formatter.groupingSeparator = groupingSeparator;
+    formatter.currencyGroupingSeparator = groupingSeparator;
     formatter.minimumFractionDigits = fractionDigits;
     formatter.maximumFractionDigits = fractionDigits;
     
     if (symbolFirst) {
-        formatter.positivePrefix = [NSString stringWithFormat:@"%@%@", formatter.currencySymbol, space];
+        formatter.positivePrefix = [NSString stringWithFormat:@"%@%@", symbol, space];
         formatter.positiveSuffix = @"";
-        formatter.negativePrefix = [NSString stringWithFormat:@"%@%@-", formatter.currencySymbol, space];
+        formatter.negativePrefix = [NSString stringWithFormat:@"%@%@-", symbol, space];
         formatter.negativeSuffix = @"";
     } else {
         formatter.positivePrefix = @"";
-        formatter.positiveSuffix = [NSString stringWithFormat:@"%@%@", space, formatter.currencySymbol];
+        formatter.positiveSuffix = [NSString stringWithFormat:@"%@%@", space, symbol];
         formatter.negativePrefix = @"-";
-        formatter.negativeSuffix = [NSString stringWithFormat:@"%@%@", space, formatter.currencySymbol];
+        formatter.negativeSuffix = [NSString stringWithFormat:@"%@%@", space, symbol];
     }
-    return [formatter stringFromNumber:self];
+    NSString *formattedString = [formatter stringFromNumber:self];
+    return [NSString stringWithFormat:@"\u202A%@\u202C", formattedString];
 }
 
 @end
