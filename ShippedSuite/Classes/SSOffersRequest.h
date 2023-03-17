@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSDecimalNumber *orderValue;
 
+/**
+ A currency code.
+ */
+@property (nonatomic, copy) NSString *currency;
+
 @end
 
 NS_ASSUME_NONNULL_END

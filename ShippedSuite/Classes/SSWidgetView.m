@@ -235,7 +235,7 @@ static NSString * const NA = @"N/A";
 - (void)updateOrderValue:(NSDecimalNumber *)orderValue
 {
     __weak __typeof(self)weakSelf = self;
-    [ShippedSuite getOffersFee:orderValue completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
+    [ShippedSuite getOffersFee:orderValue currency:self.configuration.currency completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error) {
             [strongSelf updateWidgetIfError:error];

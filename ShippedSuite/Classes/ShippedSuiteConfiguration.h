@@ -43,6 +43,12 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic) BOOL isRespectServer;
 
+/**
+ 'USD' is default.
+ A currency code.
+ */
+@property (nonatomic, copy, nullable) NSString *currency;
+
 @end
 
 NS_ASSUME_NONNULL_END

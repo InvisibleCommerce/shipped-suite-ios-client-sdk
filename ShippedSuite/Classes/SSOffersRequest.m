@@ -22,7 +22,12 @@
 
 - (nullable NSDictionary *)parameters
 {
-    return @{@"order_value": self.orderValue.stringValue};
+    NSMutableDictionary *_parameters = [NSMutableDictionary dictionary];
+    _parameters[@"order_value"] = self.orderValue.stringValue;
+    if (self.currency) {
+        _parameters[@"currency"] = self.currency;
+    }
+    return _parameters;
 }
 
 - (Class)responseClass
