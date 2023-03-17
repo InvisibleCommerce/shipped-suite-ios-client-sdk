@@ -104,7 +104,7 @@
 - (IBAction)sendOffersFeeRequest:(id)sender
 {
     NSLog(@"Request offers fee");
-    [ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] currency:@"EUR" completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
+    [ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Failed to get offers fee: %@", error.localizedDescription);
             return;
