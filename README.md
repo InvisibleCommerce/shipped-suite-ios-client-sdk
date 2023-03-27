@@ -90,6 +90,7 @@ configuration.type = ShippedSuiteTypeGreen;
 configuration.isInformational = YES;
 configuration.isMandatory = NO;
 configuration.isRespectServer = NO;
+configuration.currency = @"EUR";
     
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
 widgetView.configuration = configuration;
@@ -141,7 +142,7 @@ If you plan to implement the widget yourself to fit the app style, you can still
 - Request the Offers Fee
 
 ```objective-c
-[ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
+[ShippedSuite getOffersFee:[[NSDecimalNumber alloc] initWithString:_textField.text] currency:@"EUR" completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
     if (error) {
         NSLog(@"Failed to get offers fee: %@", error.localizedDescription);
         return;

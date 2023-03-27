@@ -24,10 +24,11 @@
     [super viewDidLoad];
     
     ShippedSuiteConfiguration *configuration = [ShippedSuiteConfiguration new];
-    configuration.type = ShippedSuiteTypeGreen;
-    configuration.isInformational = YES;
+    configuration.type = ShippedSuiteTypeShield;
+    configuration.isInformational = NO;
     configuration.isMandatory = NO;
-    configuration.isRespectServer = NO;
+    configuration.isRespectServer = YES;
+    configuration.currency = @"EUR";
     self.configuration = configuration;
     
     _widgetView.delegate = self;
@@ -89,7 +90,8 @@
 #pragma mark - Customization
 
 - (IBAction)displayLearnMoreModal:(id)sender
-{    
+{
+    self.configuration.type = ShippedSuiteTypeGreen;
     SSLearnMoreViewController *controller = [[SSLearnMoreViewController alloc] initWithConfiguration:self.configuration];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
