@@ -140,7 +140,7 @@ static NSString * const NA = @"N/A";
     [_containerView.rightAnchor constraintEqualToAnchor:self.rightAnchor].active = YES;
     self.containerLeftConstraint.active = YES;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[switchButton(51)]" options:0 metrics:metrics views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[switchButton]|" options:0 metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-4-[switchButton]-4-|" options:0 metrics:metrics views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[imageView(31)]" options:0 metrics:metrics views:views]];
     [_imageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
     [_imageView.heightAnchor constraintEqualToConstant:31].active = YES;
@@ -152,8 +152,8 @@ static NSString * const NA = @"N/A";
     [self.containerView addConstraints:self.learnMoreAlignRightConstraints];
     
     [_containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[descLabel]|" options:0 metrics:metrics views:views]];
-    [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:-2.5].active = YES;
-    [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:3].active = YES;
+    [_titleLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:3].active = YES;
+    [_descLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:-3].active = YES;
     
     [self hideFeeIfInformational:NO];
     [self hideToggleIfMandatory:NO isInformational:NO];
