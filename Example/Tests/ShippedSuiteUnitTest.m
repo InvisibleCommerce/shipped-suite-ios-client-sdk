@@ -50,7 +50,8 @@
     configuration.isInformational = YES;
     configuration.isMandatory = YES;
     configuration.isRespectServer = YES;
-    
+    configuration.appearance = ShippedSuiteAppearanceAuto;
+
     XCTAssertEqual(configuration.type, ShippedSuiteTypeGreen);
     XCTAssertEqual(configuration.isInformational, YES);
     XCTAssertEqual(configuration.isMandatory, YES);
@@ -66,7 +67,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -87,7 +89,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -108,7 +111,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -129,7 +133,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = YES;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -150,7 +155,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = YES;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceLight;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -171,7 +177,8 @@
     configuration.isInformational = YES;
     configuration.isMandatory = YES;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceLight;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -193,7 +200,8 @@
     configuration.isInformational = YES;
     configuration.isMandatory = YES;
     configuration.isRespectServer = YES;
-    
+    configuration.appearance = ShippedSuiteAppearanceLight;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];

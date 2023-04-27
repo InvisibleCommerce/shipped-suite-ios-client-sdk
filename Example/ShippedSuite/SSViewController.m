@@ -29,6 +29,7 @@
     configuration.isMandatory = NO;
     configuration.isRespectServer = YES;
     configuration.currency = @"EUR";
+    configuration.appearance = ShippedSuiteAppearanceLight;
     self.configuration = configuration;
     
     _widgetView.delegate = self;

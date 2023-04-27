@@ -90,8 +90,9 @@ configuration.type = ShippedSuiteTypeGreen;
 configuration.isInformational = YES;
 configuration.isMandatory = NO;
 configuration.isRespectServer = NO;
-configuration.currency = @"EUR";
-    
+configuration.currency = @"USD";
+configuration.appearance = ShippedSuiteAppearanceAuto;
+
 SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectMake(x, y, width, height)];
 widgetView.configuration = configuration;
 widgetView.delegate = self;

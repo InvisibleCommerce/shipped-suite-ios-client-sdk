@@ -28,6 +28,56 @@
     return [UIColor colorWithRed: red green:green blue:blue alpha:alpha];
 }
 
++ (UIColor *)widgetViewBackgroundColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x292929];
+        }
+    }
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)titleColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xE6E6E6];
+        }
+    }
+    return [UIColor colorWithHex:0x1A1A1A];
+}
+
++ (UIColor *)learnMoreColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xB2B2B2];
+        }
+    }
+    return [UIColor colorWithHex:0x4D4D4D];
+}
+
++ (UIColor *)feeColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xE6E6E6];
+        }
+    }
+    return [UIColor colorWithHex:0x1A1A1A];
+}
+
++ (UIColor *)descColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xCCCCCC];
+        }
+    }
+    return [UIColor colorWithHex:0x4D4D4D];
+}
+
 @end
 
 @implementation NSDictionary (Utils)

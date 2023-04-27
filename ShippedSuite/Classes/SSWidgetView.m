@@ -82,7 +82,6 @@ static NSString * const NA = @"N/A";
     [self addSubview:_containerView];
     
     _titleLabel = [UILabel new];
-    _titleLabel.textColor = [UIColor colorWithHex:0x1A1A1A];
     _titleLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightSemibold];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_containerView addSubview:_titleLabel];
@@ -91,7 +90,6 @@ static NSString * const NA = @"N/A";
     
     _learnMoreButton = [UIButton new];
     [_learnMoreButton setAttributedTitle:learnMore forState:UIControlStateNormal];
-    [_learnMoreButton setTitleColor:[UIColor colorWithHex:0x4D4D4D] forState:UIControlStateNormal];
     _learnMoreButton.titleLabel.font = [UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
     [_learnMoreButton addTarget:self action:@selector(displayLearnMoreModal) forControlEvents:UIControlEventTouchUpInside];
     _learnMoreButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -100,7 +98,6 @@ static NSString * const NA = @"N/A";
     _feeLabel = [UILabel new];
     _feeLabel.text = NA;
     _feeLabel.textAlignment = NSTextAlignmentNatural;
-    _feeLabel.textColor = [UIColor colorWithHex:0x1A1A1A];
     _feeLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
     _feeLabel.adjustsFontSizeToFitWidth = YES;
     _feeLabel.minimumScaleFactor = 0.6;
@@ -108,12 +105,21 @@ static NSString * const NA = @"N/A";
     [_containerView addSubview:_feeLabel];
     
     _descLabel = [UILabel new];
-    _descLabel.textColor = [UIColor colorWithHex:0x4D4D4D];
     _descLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
     _descLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_containerView addSubview:_descLabel];
     
     [self updateTexts];
+    [self updateAppearance];
+}
+
+- (void)updateAppearance
+{
+    self.backgroundColor = [UIColor widgetViewBackgroundColorFor:self.configuration.appearance];
+    _titleLabel.textColor = [UIColor titleColorFor:self.configuration.appearance];
+    [_learnMoreButton setTitleColor:[UIColor learnMoreColorFor:self.configuration.appearance] forState:UIControlStateNormal];
+    _feeLabel.textColor = [UIColor feeColorFor:self.configuration.appearance];
+    _descLabel.textColor = [UIColor descColorFor:self.configuration.appearance];
 }
 
 - (void)loadLayoutConstraints
@@ -157,6 +163,7 @@ static NSString * const NA = @"N/A";
 {
     _configuration = configuration;
     [self updateTexts];
+    [self updateAppearance];
     [self hideToggleIfMandatory:configuration.isMandatory isInformational:configuration.isInformational];
     [self hideFeeIfInformational:configuration.isInformational];
 }
@@ -369,6 +376,11 @@ static NSString * const NA = @"N/A";
     } else {
         NSLog(@"Can't find the rootViewController.");
     }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [self updateAppearance];
 }
 
 @end

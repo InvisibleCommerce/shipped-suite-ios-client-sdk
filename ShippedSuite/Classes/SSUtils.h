@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "ShippedSuiteConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIColor (Utils)
 
 + (UIColor *)colorWithHex:(NSUInteger)hex;
+
++ (UIColor *)widgetViewBackgroundColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)titleColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)learnMoreColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)feeColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)descColorFor:(ShippedSuiteAppearance)appearance;
 
 @end
 
