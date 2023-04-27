@@ -31,6 +31,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIColor *)descColorFor:(ShippedSuiteAppearance)appearance;
 
++ (UIColor *)modalBackgroundColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalHeaderColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalTitleColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalActionViewColorFor:(ShippedSuiteAppearance)appearance type:(ShippedSuiteType)type;
+
++ (UIColor *)modalActionTextColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalActionLineColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalActionLinkColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalCTABackgroundColorFor:(ShippedSuiteAppearance)appearance;
+
++ (UIColor *)modalCTATextColorFor:(ShippedSuiteAppearance)appearance;
+
 @end
 
 @interface NSDictionary (Utils)

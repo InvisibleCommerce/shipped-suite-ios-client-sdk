@@ -380,6 +380,7 @@ static NSString * const NA = @"N/A";
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
+    [super traitCollectionDidChange:previousTraitCollection];
     [self updateAppearance];
 }
 

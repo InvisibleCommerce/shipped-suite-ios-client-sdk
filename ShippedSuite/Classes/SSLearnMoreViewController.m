@@ -19,6 +19,11 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 @interface SSLearnMoreViewController () <UITextViewDelegate>
 
 @property (nonatomic, strong) ShippedSuiteConfiguration *configuration;
+@property (nonatomic, strong) UIView *modalHeaderView, *modalActionView, *modalLineView;
+@property (nonatomic, strong) UILabel *modalTitleLabel, *modalSubtitleLabel;
+@property (nonatomic, strong) UITextView *modalDescView;
+@property (nonatomic, strong) UIButton *modalCTAButton;
+@property (nonatomic, strong) NSMutableArray *tipLabels, *linkButtons;
 
 @end
 
@@ -39,9 +44,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
     doneItem.accessibilityLabel = @"Close Learn More Modal";
     self.navigationItem.rightBarButtonItem = doneItem;
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    
+        
     UIScrollView *scrollView = [UIScrollView new];
     scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -52,22 +55,21 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     [scrollView addSubview:contentView];
     
     UIView *headerView = [self headerView];
-    headerView.backgroundColor = [UIColor colorWithHex:0x000000];
     headerView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:headerView];
+    self.modalHeaderView = headerView;
     
     UILabel *titleLabel = [UILabel new];
     titleLabel.text = self.titleText;
-    titleLabel.textColor = [UIColor colorWithHex:0x000000];
     titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightBold];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.numberOfLines = 0;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:titleLabel];
+    self.modalTitleLabel = titleLabel;
     
     UILabel *subtitleLabel = [UILabel new];
     subtitleLabel.text = self.subtitleText;
-    subtitleLabel.textColor = [UIColor colorWithHex:0x000000];
     if (self.showTips) {
         subtitleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     } else {
@@ -77,8 +79,10 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     subtitleLabel.numberOfLines = 0;
     subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:subtitleLabel];
+    self.modalSubtitleLabel = subtitleLabel;
     
     NSMutableDictionary *views = [NSMutableDictionary new];
+    self.tipLabels = [NSMutableArray array];
     if (self.showTips) {
         UIView *tipsView = [self tipsView];
         tipsView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -93,10 +97,12 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     bannerView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:bannerView];
     
+    self.linkButtons = [NSMutableArray array];
     UIView *actionView = [self actionView];
     actionView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:actionView];
-    
+    self.modalActionView = actionView;
+
     [views addEntriesFromDictionary:NSDictionaryOfVariableBindings(scrollView, contentView, headerView, titleLabel, subtitleLabel, bannerView, actionView)];
     NSDictionary *metrics = @{@"topPadding": UIDevice.isIpad ? @56: @50,
                               @"margin": @16,
@@ -126,6 +132,8 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     } else {
         [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subtitleLabel]-vSectionSpace-[bannerView]->=0-[actionView]|" options:0 metrics:metrics views:views]];
     }
+    
+    [self updateAppearance];
 }
 
 - (NSString *)logoName
@@ -250,11 +258,11 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     
     UILabel *titleLabel = [UILabel new];
     titleLabel.text = text;
-    titleLabel.textColor = [UIColor colorWithHex:0x000000];
     titleLabel.font = [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
     titleLabel.numberOfLines = 0;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:titleLabel];
+    [self.tipLabels addObject:titleLabel];
     
     NSDictionary *views = NSDictionaryOfVariableBindings(tickLabel, titleLabel);
     
@@ -315,10 +323,10 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:text forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:10 weight:UIFontWeightRegular];
-    [button setTitleColor:[UIColor colorWithHex:0x888888] forState:UIControlStateNormal];
     if (selector) {
         [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     }
+    [self.linkButtons addObject:button];
     return button;
 }
 
@@ -328,7 +336,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     separator.translatesAutoresizingMaskIntoConstraints = NO;
     [separator.widthAnchor constraintEqualToConstant:0.5].active = YES;
     [separator.heightAnchor constraintEqualToConstant:14].active = YES;
-    separator.backgroundColor = [UIColor colorWithHex:0x888888];
+    separator.backgroundColor = [UIColor modalActionLinkColorFor:self.configuration.appearance];
     return separator;
 }
 
@@ -381,17 +389,8 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     return hStackView;
 }
 
-- (UIView *)actionView
+- (NSAttributedString *)descAttributedString
 {
-    UIView *actionView = [UIView new];
-    if (self.configuration.type == ShippedSuiteTypeShield) {
-        actionView.backgroundColor = [UIColor colorWithHex:0xF4F4F5];
-    }
-    
-    UIView *containerView = [UIView new];
-    containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [actionView addSubview:containerView];
-    
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.minimumLineHeight = 16;
@@ -399,10 +398,20 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     
     NSMutableDictionary *attributes = [@{
         NSFontAttributeName: [UIFont systemFontOfSize:12 weight:UIFontWeightRegular],
-        NSForegroundColorAttributeName: [UIColor colorWithHex:0x8A8A8D],
+        NSForegroundColorAttributeName: [UIColor modalActionTextColorFor:self.configuration.appearance],
         NSParagraphStyleAttributeName: paragraphStyle
     } mutableCopy];
     NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment. Invisible Commerce Limited, or it’s licensed producer entity Shipped Insurance Services LLC, may receive compensation for its services and for your usage of Shipped Shield.", nil) attributes:attributes];
+    return desc;
+}
+
+- (UIView *)actionView
+{
+    UIView *actionView = [UIView new];
+
+    UIView *containerView = [UIView new];
+    containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [actionView addSubview:containerView];
     
     UITextView *descView = [UITextView new];
     descView.delegate = self;
@@ -410,16 +419,17 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     descView.backgroundColor = [UIColor clearColor];
     descView.contentInset = UIEdgeInsetsZero;
     descView.textContainerInset = UIEdgeInsetsZero;
-    descView.attributedText = desc;
+    descView.attributedText = self.descAttributedString;
     descView.editable = NO;
     descView.scrollEnabled = NO;
     descView.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:descView];
+    self.modalDescView = descView;
     
     UIView *line = [UIView new];
-    line.backgroundColor = [UIColor colorWithHex:0xC1C1C1];
     line.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:line];
+    self.modalLineView = line;
     
     UIView *termsView = [self termsView];
     [containerView addSubview:termsView];
@@ -430,13 +440,12 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     UIButton *closeButton = [UIButton new];
     closeButton.layer.cornerRadius = 10;
     closeButton.layer.masksToBounds = YES;
-    closeButton.backgroundColor = [UIColor colorWithHex:0xFFC933];
     [closeButton setTitle:NSLocalizedString(@"Got it!", nil) forState:UIControlStateNormal];
-    [closeButton setTitleColor:[UIColor colorWithHex:0x000000] forState:UIControlStateNormal];
     closeButton.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
     [closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:closeButton];
+    self.modalCTAButton = closeButton;
     
     NSDictionary *views = NSDictionaryOfVariableBindings(containerView, descView, line, termsView, copyrightView, closeButton);
     
@@ -457,6 +466,25 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[descView]-16-[line(0.5)]-16-[termsView(14)][copyrightView(14)]-16-[closeButton(50)]|" options:0 metrics:metrics views:views]];
     
     return actionView;
+}
+
+- (void)updateAppearance
+{
+    self.view.backgroundColor = [UIColor modalBackgroundColorFor:self.configuration.appearance];
+    self.modalHeaderView.backgroundColor = [UIColor modalHeaderColorFor:self.configuration.appearance];
+    self.modalTitleLabel.textColor = [UIColor modalTitleColorFor:self.configuration.appearance];
+    self.modalSubtitleLabel.textColor = [UIColor modalTitleColorFor:self.configuration.appearance];
+    for (UILabel *label in self.tipLabels) {
+        label.textColor = [UIColor modalTitleColorFor:self.configuration.appearance];
+    }
+    for (UIButton *button in self.linkButtons) {
+        [button setTitleColor:[UIColor modalActionLinkColorFor:self.configuration.appearance] forState:UIControlStateNormal];
+    }
+    self.modalActionView.backgroundColor = [UIColor modalActionViewColorFor:self.configuration.appearance type:self.configuration.type];
+    self.modalDescView.attributedText = self.descAttributedString;
+    self.modalLineView.backgroundColor = [UIColor modalActionLineColorFor:self.configuration.appearance];
+    self.modalCTAButton.backgroundColor = [UIColor modalCTABackgroundColorFor:self.configuration.appearance];
+    [self.modalCTAButton setTitleColor:[UIColor modalCTATextColorFor:self.configuration.appearance] forState:UIControlStateNormal];
 }
 
 - (void)presentSafariModal:(NSURL *)URL
@@ -499,6 +527,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
     [super traitCollectionDidChange:previousTraitCollection];
+    [self updateAppearance];
 }
 
 @end

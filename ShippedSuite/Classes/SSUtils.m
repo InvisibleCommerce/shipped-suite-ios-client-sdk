@@ -78,6 +78,106 @@
     return [UIColor colorWithHex:0x4D4D4D];
 }
 
++ (UIColor *)modalBackgroundColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x1C1C1E];
+        }
+    }
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)modalHeaderColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x000000];
+        }
+    }
+    return [UIColor colorWithHex:0x000000];
+}
+
++ (UIColor *)modalTitleColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xFFFFFF];
+        }
+    }
+    return [UIColor colorWithHex:0x000000];
+}
+
++ (UIColor *)modalSubtitleColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xFFFFFF];
+        }
+    }
+    return [UIColor colorWithHex:0x000000];
+}
+
++ (UIColor *)modalActionViewColorFor:(ShippedSuiteAppearance)appearance type:(ShippedSuiteType)type
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x19ffffff];
+        }
+    }
+    return type == ShippedSuiteTypeShield ? [UIColor colorWithHex:0x13747480] : [UIColor colorWithHex:0xFFFFFF];
+}
+
++ (UIColor *)modalActionTextColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x7fffffff];
+        }
+    }
+    return [UIColor colorWithHex:0x993c3c43];
+}
+
++ (UIColor *)modalActionLineColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xC1C1C1];
+        }
+    }
+    return [UIColor colorWithHex:0xC1C1C1];
+}
+
++ (UIColor *)modalActionLinkColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x888888];
+        }
+    }
+    return [UIColor colorWithHex:0x888888];
+}
+
++ (UIColor *)modalCTABackgroundColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0xFFCF4D];
+        }
+    }
+    return [UIColor colorWithHex:0xFFC933];
+}
+
++ (UIColor *)modalCTATextColorFor:(ShippedSuiteAppearance)appearance
+{
+    if (@available(iOS 13.0, *)) {
+        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
+            return [UIColor colorWithHex:0x000000];
+        }
+    }
+    return [UIColor colorWithHex:0x000000];
+}
+
 @end
 
 @implementation NSDictionary (Utils)
