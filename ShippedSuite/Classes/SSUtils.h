@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIColor *)modalTitleColorFor:(ShippedSuiteAppearance)appearance;
 
++ (UIColor *)modalSubtitleColorFor:(ShippedSuiteAppearance)appearance;
+
 + (UIColor *)modalActionViewColorFor:(ShippedSuiteAppearance)appearance type:(ShippedSuiteType)type;
 
 + (UIColor *)modalActionTextColorFor:(ShippedSuiteAppearance)appearance;

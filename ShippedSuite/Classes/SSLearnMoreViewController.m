@@ -473,7 +473,7 @@ static NSString * const SSShippedGreenURL = @"https://www.shippedapp.co/green";
     self.view.backgroundColor = [UIColor modalBackgroundColorFor:self.configuration.appearance];
     self.modalHeaderView.backgroundColor = [UIColor modalHeaderColorFor:self.configuration.appearance];
     self.modalTitleLabel.textColor = [UIColor modalTitleColorFor:self.configuration.appearance];
-    self.modalSubtitleLabel.textColor = [UIColor modalTitleColorFor:self.configuration.appearance];
+    self.modalSubtitleLabel.textColor = [UIColor modalSubtitleColorFor:self.configuration.appearance];
     for (UILabel *label in self.tipLabels) {
         label.textColor = [UIColor modalTitleColorFor:self.configuration.appearance];
     }
