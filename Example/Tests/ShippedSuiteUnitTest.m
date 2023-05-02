@@ -50,7 +50,8 @@
     configuration.isInformational = YES;
     configuration.isMandatory = YES;
     configuration.isRespectServer = YES;
-    
+    configuration.appearance = ShippedSuiteAppearanceAuto;
+
     XCTAssertEqual(configuration.type, ShippedSuiteTypeGreen);
     XCTAssertEqual(configuration.isInformational, YES);
     XCTAssertEqual(configuration.isMandatory, YES);
@@ -66,7 +67,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -87,7 +89,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -108,7 +111,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -129,7 +133,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = NO;
     configuration.isRespectServer = YES;
-    
+    configuration.appearance = ShippedSuiteAppearanceDark;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -150,7 +155,8 @@
     configuration.isInformational = NO;
     configuration.isMandatory = YES;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceLight;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -171,7 +177,8 @@
     configuration.isInformational = YES;
     configuration.isMandatory = YES;
     configuration.isRespectServer = NO;
-    
+    configuration.appearance = ShippedSuiteAppearanceLight;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -193,7 +200,8 @@
     configuration.isInformational = YES;
     configuration.isMandatory = YES;
     configuration.isRespectServer = YES;
-    
+    configuration.appearance = ShippedSuiteAppearanceLight;
+
     SSWidgetView *widgetView = [[SSWidgetView alloc] initWithFrame:CGRectZero];
     widgetView.configuration = configuration;
     [widgetView updateOrderValue:[NSDecimalNumber decimalNumberWithString:@"129.99"]];
@@ -287,6 +295,162 @@
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
+}
+
+- (void)testWidgetViewBackgroundColor
+{
+    UIColor *color0 = [UIColor widgetViewBackgroundColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor widgetViewBackgroundColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor widgetViewBackgroundColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testTitleColor
+{
+    UIColor *color0 = [UIColor titleColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor titleColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor titleColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testLearnMoreColor
+{
+    UIColor *color0 = [UIColor learnMoreColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor learnMoreColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor learnMoreColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testFeeColor
+{
+    UIColor *color0 = [UIColor feeColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor feeColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor feeColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testDescColor
+{
+    UIColor *color0 = [UIColor descColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor descColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor descColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalBackgroundColor
+{
+    UIColor *color0 = [UIColor modalBackgroundColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalBackgroundColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalBackgroundColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalHeaderColor
+{
+    UIColor *color0 = [UIColor modalHeaderColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalHeaderColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalHeaderColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalTitleColor
+{
+    UIColor *color0 = [UIColor modalTitleColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalTitleColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalTitleColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalSubtitleColor
+{
+    UIColor *color0 = [UIColor modalSubtitleColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalSubtitleColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalSubtitleColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalActionViewColor
+{
+    UIColor *color0 = [UIColor modalActionViewColorFor:ShippedSuiteAppearanceAuto type:ShippedSuiteTypeShield];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalActionViewColorFor:ShippedSuiteAppearanceLight type:ShippedSuiteTypeGreen];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalActionViewColorFor:ShippedSuiteAppearanceDark type:ShippedSuiteTypeGreenAndShield];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalActionTextColor
+{
+    UIColor *color0 = [UIColor modalActionTextColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalActionTextColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalActionTextColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalActionLineColor
+{
+    UIColor *color0 = [UIColor modalActionLineColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalActionLineColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalActionLineColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalActionLinkColor
+{
+    UIColor *color0 = [UIColor modalActionLinkColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalActionLinkColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalActionLinkColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalCTABackgroundColor
+{
+    UIColor *color0 = [UIColor modalCTABackgroundColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalCTABackgroundColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalCTABackgroundColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testModalCTATextColor
+{
+    UIColor *color0 = [UIColor modalCTATextColorFor:ShippedSuiteAppearanceAuto];
+    XCTAssertNotNil(color0);
+    UIColor *color1 = [UIColor modalCTATextColorFor:ShippedSuiteAppearanceLight];
+    XCTAssertNotNil(color1);
+    UIColor *color2 = [UIColor modalCTATextColorFor:ShippedSuiteAppearanceDark];
+    XCTAssertNotNil(color2);
+}
+
+- (void)testCurrencyFormattedString
+{
+    NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:@"299.99"];
+    XCTAssertNotNil([amount currencyStringWithSymbol:@"$" code:@"USD" space:@" " decimalSeparator:@"." usesGroupingSeparator:YES groupingSeparator:@"," fractionDigits:2 symbolFirst:NO]);
 }
 
 @end

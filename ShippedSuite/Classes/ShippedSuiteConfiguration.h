@@ -15,6 +15,12 @@ typedef enum : NSUInteger {
     ShippedSuiteTypeGreenAndShield
 } ShippedSuiteType;
 
+typedef enum : NSUInteger {
+    ShippedSuiteAppearanceAuto,
+    ShippedSuiteAppearanceLight,
+    ShippedSuiteAppearanceDark
+} ShippedSuiteAppearance;
+
 @interface ShippedSuiteConfiguration : NSObject
 
 /**
@@ -48,6 +54,12 @@ typedef enum : NSUInteger {
  A currency code.
  */
 @property (nonatomic, copy, nullable) NSString *currency;
+
+/**
+ ShippedSuiteAppearanceAuto is default.
+ Appearance
+ */
+@property (nonatomic) ShippedSuiteAppearance appearance;
 
 @end
 
