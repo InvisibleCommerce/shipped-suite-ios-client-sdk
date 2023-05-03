@@ -21,8 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIColor *)colorWithHex:(NSUInteger)hex;
 
-+ (UIColor *)widgetViewBackgroundColorFor:(ShippedSuiteAppearance)appearance;
-
 + (UIColor *)titleColorFor:(ShippedSuiteAppearance)appearance;
 
 + (UIColor *)learnMoreColorFor:(ShippedSuiteAppearance)appearance;

@@ -115,7 +115,7 @@ static NSString * const NA = @"N/A";
 
 - (void)updateAppearance
 {
-    self.backgroundColor = [UIColor widgetViewBackgroundColorFor:self.configuration.appearance];
+    self.backgroundColor = [UIColor clearColor];
     _titleLabel.textColor = [UIColor titleColorFor:self.configuration.appearance];
     [_learnMoreButton setTitleColor:[UIColor learnMoreColorFor:self.configuration.appearance] forState:UIControlStateNormal];
     _feeLabel.textColor = [UIColor feeColorFor:self.configuration.appearance];
