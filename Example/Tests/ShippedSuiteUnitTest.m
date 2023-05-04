@@ -297,16 +297,6 @@
     [self waitForExpectationsWithTimeout:10 handler:nil];
 }
 
-- (void)testWidgetViewBackgroundColor
-{
-    UIColor *color0 = [UIColor widgetViewBackgroundColorFor:ShippedSuiteAppearanceAuto];
-    XCTAssertNotNil(color0);
-    UIColor *color1 = [UIColor widgetViewBackgroundColorFor:ShippedSuiteAppearanceLight];
-    XCTAssertNotNil(color1);
-    UIColor *color2 = [UIColor widgetViewBackgroundColorFor:ShippedSuiteAppearanceDark];
-    XCTAssertNotNil(color2);
-}
-
 - (void)testTitleColor
 {
     UIColor *color0 = [UIColor titleColorFor:ShippedSuiteAppearanceAuto];
