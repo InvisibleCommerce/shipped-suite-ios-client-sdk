@@ -28,16 +28,6 @@
     return [UIColor colorWithRed: red green:green blue:blue alpha:alpha];
 }
 
-+ (UIColor *)widgetViewBackgroundColorFor:(ShippedSuiteAppearance)appearance
-{
-    if (@available(iOS 13.0, *)) {
-        if ((UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && appearance == ShippedSuiteAppearanceAuto) || appearance == ShippedSuiteAppearanceDark) {
-            return [UIColor colorWithHex:0x292929];
-        }
-    }
-    return [UIColor whiteColor];
-}
-
 + (UIColor *)titleColorFor:(ShippedSuiteAppearance)appearance
 {
     if (@available(iOS 13.0, *)) {
