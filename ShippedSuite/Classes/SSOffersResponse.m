@@ -77,7 +77,7 @@
         offers.greenFeeWithCurrency = [SSFeeWithCurrency decodeFromJSON:greenFeeWithCurrency];
     }
     NSNumber *mandatory = json[@"mandatory"];
-    if (mandatory) {
+    if (mandatory && ![mandatory isEqual:[NSNull null]]) {
         offers.isMandatory = [mandatory boolValue];
     }
     NSString *offeredAt = json[@"offered_at"];
