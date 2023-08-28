@@ -620,6 +620,23 @@
 			};
 			name = Debug;
 		};
+		3353A534FFD967B1A428C79C7963940F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 16193F3E2DE2736ADFFCD8A712D11B90 /* ShippedSuite.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/ShippedSuite";
+				IBSC_MODULE = ShippedSuite;
+				INFOPLIST_FILE = "Target Support Files/ShippedSuite/ResourceBundle-ShippedSuite_ShippedSuite-ShippedSuite-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = ShippedSuite_ShippedSuite;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		38676F0DE9B6E8A4B234D90742220DCD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 99158C56401B9AB39EE102013A605E4D /* Pods-ShippedSuite_Example.debug.xcconfig */;
@@ -784,10 +801,11 @@
 			};
 			name = Release;
 		};
-		A95530759153B6DF1CB83C9E8EBC4640 /* Debug */ = {
+		AA49319E00D5EECADC3BFCF29BE7D431 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 16193F3E2DE2736ADFFCD8A712D11B90 /* ShippedSuite.debug.xcconfig */;
+			baseConfigurationReference = 502A6A947F587D4BD8F5F3DC0ABABE68 /* ShippedSuite.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/ShippedSuite";
 				IBSC_MODULE = ShippedSuite;
 				INFOPLIST_FILE = "Target Support Files/ShippedSuite/ResourceBundle-ShippedSuite_ShippedSuite-ShippedSuite-Info.plist";
@@ -798,7 +816,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Debug;
+			name = Release;
 		};
 		AFAA040DBA5CBF2A71EFA7E0AF3C0302 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -833,22 +851,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		B11B5A76F29BC4DFC44ACAC1741169DF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 502A6A947F587D4BD8F5F3DC0ABABE68 /* ShippedSuite.release.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/ShippedSuite";
-				IBSC_MODULE = ShippedSuite;
-				INFOPLIST_FILE = "Target Support Files/ShippedSuite/ResourceBundle-ShippedSuite_ShippedSuite-ShippedSuite-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_NAME = ShippedSuite_ShippedSuite;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
 		};
 		B4EFE046ACF8F37157F6E322C7FCFC28 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -922,8 +924,8 @@
 		1C3B8620783DD303DF9B448279D9ADFF /* Build configuration list for PBXNativeTarget "ShippedSuite-ShippedSuite_ShippedSuite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A95530759153B6DF1CB83C9E8EBC4640 /* Debug */,
-				B11B5A76F29BC4DFC44ACAC1741169DF /* Release */,
+				3353A534FFD967B1A428C79C7963940F /* Debug */,
+				AA49319E00D5EECADC3BFCF29BE7D431 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
