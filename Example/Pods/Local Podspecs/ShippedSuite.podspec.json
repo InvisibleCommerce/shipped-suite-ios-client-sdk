@@ -1,6 +1,6 @@
 {
   "name": "ShippedSuite",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "summary": "Integrate ShippedSuite into your iOS app.",
   "homepage": "https://github.com/InvisibleCommerce/shipped-suite-ios-client-sdk",
   "license": {
@@ -10,7 +10,7 @@
   "authors": "Invisible Commerce",
   "source": {
     "git": "https://github.com/InvisibleCommerce/shipped-suite-ios-client-sdk.git",
-    "tag": "1.0.1"
+    "tag": "1.0.2"
   },
   "platforms": {
     "ios": "11.0"
