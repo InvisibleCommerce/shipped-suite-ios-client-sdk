@@ -249,7 +249,7 @@
     [ShippedSuite getOffersFee:orderValue currency:@"EUR" completion:^(SSOffers * _Nullable offers, NSError * _Nullable error) {
         XCTAssertNil(error);
         XCTAssertEqualObjects(offers.orderValue, orderValue);
-        XCTAssertEqualObjects(offers.shieldFee.stringValue, @"2.27");
+        XCTAssertEqualObjects(offers.shieldFee.stringValue, @"1.82");
         XCTAssertEqualObjects(offers.greenFee.stringValue, @"0.39");
         [expectation fulfill];
     }];
